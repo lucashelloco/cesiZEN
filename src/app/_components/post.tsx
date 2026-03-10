@@ -1,7 +1,10 @@
 "use client";
 
+/*
 import { useState } from "react";
+*/
 
+/*
 import { api } from "@/trpc/react";
 
 export function LatestPost() {
@@ -58,4 +61,9 @@ export function LatestPost() {
       </div>
     </div>
   );
+}
+*/
+
+export function LatestPost() {
+  return null;
 }
