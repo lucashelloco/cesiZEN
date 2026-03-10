@@ -93,6 +93,7 @@ model Contenu {
   id          String      @id @default(cuid())
   titre       String
   corps       String      @db.Text
+  videoUrl    String?
   type        TypeContenu
   isPublished Boolean     @default(false)
   auteurId    String

@@ -5889,6 +5889,7 @@ export namespace Prisma {
     id: string | null
     titre: string | null
     corps: string | null
+    videoUrl: string | null
     type: $Enums.TypeContenu | null
     isPublished: boolean | null
     auteurId: string | null
@@ -5900,6 +5901,7 @@ export namespace Prisma {
     id: string | null
     titre: string | null
     corps: string | null
+    videoUrl: string | null
     type: $Enums.TypeContenu | null
     isPublished: boolean | null
     auteurId: string | null
@@ -5911,6 +5913,7 @@ export namespace Prisma {
     id: number
     titre: number
     corps: number
+    videoUrl: number
     type: number
     isPublished: number
     auteurId: number
@@ -5924,6 +5927,7 @@ export namespace Prisma {
     id?: true
     titre?: true
     corps?: true
+    videoUrl?: true
     type?: true
     isPublished?: true
     auteurId?: true
@@ -5935,6 +5939,7 @@ export namespace Prisma {
     id?: true
     titre?: true
     corps?: true
+    videoUrl?: true
     type?: true
     isPublished?: true
     auteurId?: true
@@ -5946,6 +5951,7 @@ export namespace Prisma {
     id?: true
     titre?: true
     corps?: true
+    videoUrl?: true
     type?: true
     isPublished?: true
     auteurId?: true
@@ -6030,6 +6036,7 @@ export namespace Prisma {
     id: string
     titre: string
     corps: string
+    videoUrl: string | null
     type: $Enums.TypeContenu
     isPublished: boolean
     auteurId: string
@@ -6058,6 +6065,7 @@ export namespace Prisma {
     id?: boolean
     titre?: boolean
     corps?: boolean
+    videoUrl?: boolean
     type?: boolean
     isPublished?: boolean
     auteurId?: boolean
@@ -6070,6 +6078,7 @@ export namespace Prisma {
     id?: boolean
     titre?: boolean
     corps?: boolean
+    videoUrl?: boolean
     type?: boolean
     isPublished?: boolean
     auteurId?: boolean
@@ -6082,6 +6091,7 @@ export namespace Prisma {
     id?: boolean
     titre?: boolean
     corps?: boolean
+    videoUrl?: boolean
     type?: boolean
     isPublished?: boolean
     auteurId?: boolean
@@ -6094,6 +6104,7 @@ export namespace Prisma {
     id?: boolean
     titre?: boolean
     corps?: boolean
+    videoUrl?: boolean
     type?: boolean
     isPublished?: boolean
     auteurId?: boolean
@@ -6101,7 +6112,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ContenuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titre" | "corps" | "type" | "isPublished" | "auteurId" | "createdAt" | "updatedAt", ExtArgs["result"]["contenu"]>
+  export type ContenuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titre" | "corps" | "videoUrl" | "type" | "isPublished" | "auteurId" | "createdAt" | "updatedAt", ExtArgs["result"]["contenu"]>
   export type ContenuInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     auteur?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -6121,6 +6132,7 @@ export namespace Prisma {
       id: string
       titre: string
       corps: string
+      videoUrl: string | null
       type: $Enums.TypeContenu
       isPublished: boolean
       auteurId: string
@@ -6553,6 +6565,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Contenu", 'String'>
     readonly titre: FieldRef<"Contenu", 'String'>
     readonly corps: FieldRef<"Contenu", 'String'>
+    readonly videoUrl: FieldRef<"Contenu", 'String'>
     readonly type: FieldRef<"Contenu", 'TypeContenu'>
     readonly isPublished: FieldRef<"Contenu", 'Boolean'>
     readonly auteurId: FieldRef<"Contenu", 'String'>
@@ -8238,6 +8251,7 @@ export namespace Prisma {
     id: 'id',
     titre: 'titre',
     corps: 'corps',
+    videoUrl: 'videoUrl',
     type: 'type',
     isPublished: 'isPublished',
     auteurId: 'auteurId',
@@ -8700,6 +8714,7 @@ export namespace Prisma {
     id?: StringFilter<"Contenu"> | string
     titre?: StringFilter<"Contenu"> | string
     corps?: StringFilter<"Contenu"> | string
+    videoUrl?: StringNullableFilter<"Contenu"> | string | null
     type?: EnumTypeContenuFilter<"Contenu"> | $Enums.TypeContenu
     isPublished?: BoolFilter<"Contenu"> | boolean
     auteurId?: StringFilter<"Contenu"> | string
@@ -8712,6 +8727,7 @@ export namespace Prisma {
     id?: SortOrder
     titre?: SortOrder
     corps?: SortOrder
+    videoUrl?: SortOrderInput | SortOrder
     type?: SortOrder
     isPublished?: SortOrder
     auteurId?: SortOrder
@@ -8727,6 +8743,7 @@ export namespace Prisma {
     NOT?: ContenuWhereInput | ContenuWhereInput[]
     titre?: StringFilter<"Contenu"> | string
     corps?: StringFilter<"Contenu"> | string
+    videoUrl?: StringNullableFilter<"Contenu"> | string | null
     type?: EnumTypeContenuFilter<"Contenu"> | $Enums.TypeContenu
     isPublished?: BoolFilter<"Contenu"> | boolean
     auteurId?: StringFilter<"Contenu"> | string
@@ -8739,6 +8756,7 @@ export namespace Prisma {
     id?: SortOrder
     titre?: SortOrder
     corps?: SortOrder
+    videoUrl?: SortOrderInput | SortOrder
     type?: SortOrder
     isPublished?: SortOrder
     auteurId?: SortOrder
@@ -8756,6 +8774,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Contenu"> | string
     titre?: StringWithAggregatesFilter<"Contenu"> | string
     corps?: StringWithAggregatesFilter<"Contenu"> | string
+    videoUrl?: StringNullableWithAggregatesFilter<"Contenu"> | string | null
     type?: EnumTypeContenuWithAggregatesFilter<"Contenu"> | $Enums.TypeContenu
     isPublished?: BoolWithAggregatesFilter<"Contenu"> | boolean
     auteurId?: StringWithAggregatesFilter<"Contenu"> | string
@@ -9200,6 +9219,7 @@ export namespace Prisma {
     id?: string
     titre: string
     corps: string
+    videoUrl?: string | null
     type: $Enums.TypeContenu
     isPublished?: boolean
     createdAt?: Date | string
@@ -9211,6 +9231,7 @@ export namespace Prisma {
     id?: string
     titre: string
     corps: string
+    videoUrl?: string | null
     type: $Enums.TypeContenu
     isPublished?: boolean
     auteurId: string
@@ -9222,6 +9243,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titre?: StringFieldUpdateOperationsInput | string
     corps?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumTypeContenuFieldUpdateOperationsInput | $Enums.TypeContenu
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9233,6 +9255,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titre?: StringFieldUpdateOperationsInput | string
     corps?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumTypeContenuFieldUpdateOperationsInput | $Enums.TypeContenu
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     auteurId?: StringFieldUpdateOperationsInput | string
@@ -9244,6 +9267,7 @@ export namespace Prisma {
     id?: string
     titre: string
     corps: string
+    videoUrl?: string | null
     type: $Enums.TypeContenu
     isPublished?: boolean
     auteurId: string
@@ -9255,6 +9279,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titre?: StringFieldUpdateOperationsInput | string
     corps?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumTypeContenuFieldUpdateOperationsInput | $Enums.TypeContenu
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9265,6 +9290,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titre?: StringFieldUpdateOperationsInput | string
     corps?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumTypeContenuFieldUpdateOperationsInput | $Enums.TypeContenu
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     auteurId?: StringFieldUpdateOperationsInput | string
@@ -9713,6 +9739,7 @@ export namespace Prisma {
     id?: SortOrder
     titre?: SortOrder
     corps?: SortOrder
+    videoUrl?: SortOrder
     type?: SortOrder
     isPublished?: SortOrder
     auteurId?: SortOrder
@@ -9724,6 +9751,7 @@ export namespace Prisma {
     id?: SortOrder
     titre?: SortOrder
     corps?: SortOrder
+    videoUrl?: SortOrder
     type?: SortOrder
     isPublished?: SortOrder
     auteurId?: SortOrder
@@ -9735,6 +9763,7 @@ export namespace Prisma {
     id?: SortOrder
     titre?: SortOrder
     corps?: SortOrder
+    videoUrl?: SortOrder
     type?: SortOrder
     isPublished?: SortOrder
     auteurId?: SortOrder
@@ -10386,6 +10415,7 @@ export namespace Prisma {
     id?: string
     titre: string
     corps: string
+    videoUrl?: string | null
     type: $Enums.TypeContenu
     isPublished?: boolean
     createdAt?: Date | string
@@ -10396,6 +10426,7 @@ export namespace Prisma {
     id?: string
     titre: string
     corps: string
+    videoUrl?: string | null
     type: $Enums.TypeContenu
     isPublished?: boolean
     createdAt?: Date | string
@@ -10534,6 +10565,7 @@ export namespace Prisma {
     id?: StringFilter<"Contenu"> | string
     titre?: StringFilter<"Contenu"> | string
     corps?: StringFilter<"Contenu"> | string
+    videoUrl?: StringNullableFilter<"Contenu"> | string | null
     type?: EnumTypeContenuFilter<"Contenu"> | $Enums.TypeContenu
     isPublished?: BoolFilter<"Contenu"> | boolean
     auteurId?: StringFilter<"Contenu"> | string
@@ -10906,6 +10938,7 @@ export namespace Prisma {
     id?: string
     titre: string
     corps: string
+    videoUrl?: string | null
     type: $Enums.TypeContenu
     isPublished?: boolean
     createdAt?: Date | string
@@ -11003,6 +11036,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titre?: StringFieldUpdateOperationsInput | string
     corps?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumTypeContenuFieldUpdateOperationsInput | $Enums.TypeContenu
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11013,6 +11047,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titre?: StringFieldUpdateOperationsInput | string
     corps?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumTypeContenuFieldUpdateOperationsInput | $Enums.TypeContenu
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11023,6 +11058,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titre?: StringFieldUpdateOperationsInput | string
     corps?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumTypeContenuFieldUpdateOperationsInput | $Enums.TypeContenu
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
