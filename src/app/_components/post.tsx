@@ -17,34 +17,45 @@ export function LatestPost() {
   });
 
   return (
-    <div className="w-full max-w-xs">
-      {latestPost ? (
-        <p className="truncate">Your most recent post: {latestPost.name}</p>
-      ) : (
-        <p>You have no posts yet.</p>
-      )}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          createPost.mutate({ name });
-        }}
-        className="flex flex-col gap-2"
-      >
-        <input
-          type="text"
-          placeholder="Title"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full rounded-full bg-white/10 px-4 py-2 text-white"
-        />
-        <button
-          type="submit"
-          className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
-          disabled={createPost.isPending}
-        >
-          {createPost.isPending ? "Submitting..." : "Submit"}
-        </button>
-      </form>
+    <div className="w-full max-w-md">
+      <div className="card bg-white dark:bg-base-100 shadow-lg border-2 border-primary">
+        <div className="card-body">
+          {latestPost ? (
+            <p className="card-title text-primary">Votre dernier post: {latestPost.name}</p>
+          ) : (
+            <p className="text-gray-600 dark:text-base-content/70">Vous n&apos;avez pas encore de posts.</p>
+          )}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              createPost.mutate({ name });
+            }}
+            className="flex flex-col gap-4 mt-4"
+          >
+            <input
+              type="text"
+              placeholder="Titre du post"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="input input-bordered input-lg w-full text-gray-900 dark:text-base-content"
+            />
+            <button
+              type="submit"
+              className="btn btn-primary btn-lg"
+              disabled={createPost.isPending}
+            >
+              {createPost.isPending ? (
+                <>
+                  <span className="loading loading-spinner loading-sm"></span>
+                  Envoi...
+                </>
+              ) : (
+                "Publier"
+              )}
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
