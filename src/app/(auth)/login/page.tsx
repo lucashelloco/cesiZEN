@@ -55,7 +55,7 @@ export default function LoginPage() {
             <div className="relative">
               <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary to-accent opacity-20 blur-lg"></div>
               <Image
-                src="/logo.jpg"
+                src="/logo.png"
                 alt="CesiZen"
                 width={60}
                 height={60}

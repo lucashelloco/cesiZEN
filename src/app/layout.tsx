@@ -1,7 +1,6 @@
 import "@/styles/globals.css";
 
 import { type Metadata } from "next";
-import { Geist } from "next/font/google";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { CookieBanner } from "@/app/_components/cookie-banner";
@@ -11,26 +10,21 @@ export const metadata: Metadata = {
   title: "CesiZen",
   description: "L'application de votre santé mentale",
   icons: [
-    { rel: "icon", url: "/logo.jpg" },
-    { rel: "apple-touch-icon", url: "/logo.jpg" },
+    { rel: "icon", url: "/logo.png" },
+    { rel: "apple-touch-icon", url: "/logo.png" },
   ],
   openGraph: {
     title: "CesiZen",
     description: "L'application de votre santé mentale",
-    images: [{ url: "/logo.jpg" }],
+    images: [{ url: "/logo.png" }],
   },
 };
-
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" className={`${geist.variable}`} suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <body>
         <ThemeProvider>
           <TRPCReactProvider>{children}</TRPCReactProvider>

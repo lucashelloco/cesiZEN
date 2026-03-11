@@ -46,7 +46,7 @@ export function AdminSidebar({ userName }: { userName: string }) {
     <>
       {/* Mobile: top bar */}
       <div className="flex items-center justify-between border-b bg-white px-4 py-3 dark:border-gray-800 dark:bg-gray-900 md:hidden">
-        <Image src="/logo.jpg" alt="CesiZen" width={32} height={32} className="rounded" />
+        <Image src="/logo.png" alt="CesiZen" width={32} height={32} className="rounded" />
         <button
           onClick={() => setOpen((o) => !o)}
           className="flex flex-col gap-1.5 p-1"
@@ -77,7 +77,7 @@ export function AdminSidebar({ userName }: { userName: string }) {
       <aside className="hidden w-60 shrink-0 flex-col border-r bg-gray-50 px-4 py-6 dark:border-gray-800 dark:bg-gray-900 md:flex">
         <div className="mb-6">
           <div className="mb-3 flex items-center gap-3">
-            <Image src="/logo.jpg" alt="CesiZen" width={36} height={36} className="rounded" />
+            <Image src="/logo.png" alt="CesiZen" width={36} height={36} className="rounded" />
             <div>
               <p className="text-lg font-extrabold leading-none tracking-tight">
                 <span style={{ color: "var(--brand-green)" }}>CESI</span>

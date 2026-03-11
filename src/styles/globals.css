@@ -5,6 +5,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ── Arc progression exercice ───────────────────────────────────────────────── */
+@keyframes arc-fill {
+  from { stroke-dashoffset: 754; }
+  to { stroke-dashoffset: 0; }
+}
+
 /* ── Animations modernes ────────────────────────────────────────────────────── */
 @keyframes fadeInUp {
   from {
@@ -128,8 +134,7 @@
 }
 
 @theme {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: Helvetica, Arial, sans-serif;
 }
 
 :root {
@@ -147,8 +152,10 @@
   --card-foreground: oklch(0.195 0.025 260);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.195 0.025 260);
-  --primary: oklch(0.615 0.132 143);
+  --primary: oklch(0.62 0.16 162);
   --primary-foreground: oklch(1 0 0);
+  --color-primary: oklch(0.62 0.16 162);
+  --color-primary-content: oklch(1 0 0);
   --secondary: oklch(0.829 0.153 87);
   --secondary-foreground: oklch(0.195 0.025 260);
   --accent: oklch(0.655 0.135 183);
@@ -186,8 +193,10 @@
   --card-foreground: oklch(0.96 0.006 150);
   --popover: oklch(0.252 0.022 265);
   --popover-foreground: oklch(0.96 0.006 150);
-  --primary: oklch(0.68 0.14 143);
-  --primary-foreground: oklch(0.15 0.02 265);
+  --primary: oklch(0.45 0.085 168);
+  --primary-foreground: oklch(1 0 0);
+  --color-primary: oklch(0.45 0.085 168);
+  --color-primary-content: oklch(1 0 0);
   --secondary: oklch(0.855 0.15 87);
   --secondary-foreground: oklch(0.15 0.02 265);
   --accent: oklch(0.705 0.135 183);
@@ -259,8 +268,16 @@
   * {
     @apply border-border outline-ring/50;
   }
+  .btn {
+    border-radius: 9999px !important;
+  }
+  .btn-primary:hover {
+    background-color: oklch(0.54 0.16 162) !important;
+    border-color: oklch(0.54 0.16 162) !important;
+  }
   body {
     @apply bg-background text-foreground;
+    font-family: Helvetica, Arial, sans-serif;
   }
   html {
     @apply font-sans;
