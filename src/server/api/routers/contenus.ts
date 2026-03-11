@@ -5,13 +5,12 @@ export const contenusRouter = createTRPCRouter({
   list: publicProcedure
     .input(z.object({
       search: z.string().optional(),
-      page: z.number().min(1).default(1),
-      limit: z.number().min(1).max(50).default(12),
+      offset: z.number().min(0).default(0),
+      limit: z.number().min(1).max(90).default(90),
       sortBy: z.enum(["date-asc", "date-desc"]).default("date-desc"),
     }))
     .query(async ({ ctx, input }) => {
-      const { search, page, limit, sortBy } = input;
-      const skip = (page - 1) * limit;
+      const { search, offset, limit, sortBy } = input;
 
       const where = {
         isPublished: true,
@@ -33,24 +32,14 @@ export const contenusRouter = createTRPCRouter({
             createdAt: true,
             auteur: { select: { name: true } },
           },
-          orderBy: {
-            createdAt: sortBy === "date-asc" ? "asc" : "desc",
-          },
-          skip,
+          orderBy: { createdAt: sortBy === "date-asc" ? "asc" : "desc" },
+          skip: offset,
           take: limit,
         }),
         ctx.db.contenu.count({ where }),
       ]);
 
-      return {
-        contenus,
-        pagination: {
-          page,
-          limit,
-          total,
-          totalPages: Math.ceil(total / limit),
-        },
-      };
+      return { contenus, total };
     }),
 
   byId: publicProcedure

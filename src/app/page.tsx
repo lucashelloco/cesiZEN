@@ -22,7 +22,6 @@ export default async function Home() {
   const userCount = await db.user.count();
   const exerciceCount = await db.exerciceCardiaque.count({ where: { isPreset: true } });
   const contenuCount = await db.contenu.count({ where: { isPublished: true } });
-
   return (
     <div className="flex min-h-screen flex-col" suppressHydrationWarning>
       <Header />
@@ -36,7 +35,15 @@ export default async function Home() {
           </div>
 
           <div className="relative mx-auto max-w-5xl px-4">
+            {session && (
+              <div className="mb-8 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 shadow animate-fade-in-up delay-300 text-center">
+                <p className="text-4xl font-medium text-gray-900 dark:text-white">
+                  Bienvenue, <span className="text-primary font-bold">{session.user.name}</span> ! 👋
+                </p>
+              </div>
+            )}
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+
               {/* Contenu texte */}
               <div className="space-y-8">
                 <div className="space-y-4 animate-fade-in-up">
@@ -74,7 +81,7 @@ export default async function Home() {
                 {/* Stats */}
                 <div className="grid grid-cols-3 gap-6 border-t border-base-300 pt-8 animate-fade-in-up delay-300 dark:border-base-content/10">
                   <div>
-                    <p className="text-2xl font-bold text-primary">{userCount.toLocaleString('fr-FR')}</p>
+                    <p className="text-2xl font-bold" style={{ color: '#00a86b' }}>{userCount.toLocaleString('fr-FR')}</p>
                     <p className="text-sm text-base-content/60">Utilisateurs actifs</p>
                   </div>
                   <div>
@@ -82,33 +89,21 @@ export default async function Home() {
                     <p className="text-sm text-base-content/60">Exercices disponibles</p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-secondary">24/7</p>
-                    <p className="text-sm text-base-content/60">Disponibilité</p>
+                    <p className="text-2xl font-bold text-secondary">{contenuCount.toLocaleString('fr-FR')}</p>
+                    <p className="text-sm text-base-content/60">Contenus disponibles</p>
                   </div>
                 </div>
-
-                {session && (
-                  <div className="rounded-lg bg-base-100 p-4 shadow animate-fade-in-up delay-300">
-                    <p className="text-sm font-medium">
-                      Bienvenue, <span className="text-primary font-bold">{session.user.name}</span> ! 👋
-                    </p>
-                  </div>
-                )}
               </div>
 
               {/* Image */}
               <div className="flex justify-center animate-float">
-                <div className="relative">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary to-accent opacity-20 blur-2xl"></div>
-                  <Image
-                    src="/logo.jpg"
-                    alt="CesiZen"
-                    width={280}
-                    height={280}
-                    className="relative rounded-2xl shadow-2xl"
-                    priority
-                  />
-                </div>
+                <Image
+                  src="/logo.png"
+                  alt="CesiZen"
+                  width={350}
+                  height={350}
+                  priority
+                />
               </div>
             </div>
           </div>

@@ -20,8 +20,8 @@ export async function Header() {
   return (
     <header className="navbar bg-white dark:bg-base-100 shadow-sm border-b border-gray-200 dark:border-base-300">
       <div className="navbar-start">
-        <Link href="/" className="btn btn-ghost">
-          <Image src="/logo.jpg" alt="CesiZen" width={40} height={40} className="rounded" />
+        <Link href="/" className="btn btn-ghost hover:bg-white border-transparent hover:border-gray-200 dark:hover:bg-white/10 dark:hover:border-transparent" >
+          <Image src="/logo.png" alt="CesiZen" width={35} height={35} className="rounded" />
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
