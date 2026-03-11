@@ -90,7 +90,7 @@ export function ContenuForm({ contenu }: { contenu?: Contenu }) {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Type</Label>
-              <Select value={type} onValueChange={(v) => setType(v as "ARTICLE" | "DOCUMENT")}>
+              <Select value={type} onValueChange={(v) => { if (v === "ARTICLE" || v === "DOCUMENT") setType(v); }}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>

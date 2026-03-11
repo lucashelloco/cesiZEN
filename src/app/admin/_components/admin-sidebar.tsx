@@ -39,7 +39,7 @@ function NavLinks({ onClose }: { onClose?: () => void }) {
   );
 }
 
-export function AdminSidebar({ userName }: { userName: string }) {
+export function AdminSidebar({ userName: _userName }: { userName: string }) {
   const [open, setOpen] = useState(false);
 
   return (

@@ -101,7 +101,6 @@ export function ContenusProvider({
     setItems(apiData.contenus);
     setTotal(apiData.total);
     setDisplayPage(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiData]);
 
   // Écriture cache séparée (les params sont cohérents avec la réponse)

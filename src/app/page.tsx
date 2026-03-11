@@ -36,12 +36,14 @@ export default async function Home() {
 
           <div className="relative mx-auto max-w-5xl px-4">
             {session && (
-              <div className="mb-8 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 shadow animate-fade-in-up delay-300 text-center">
+              <div className="mb-8 rounded-lg animate-fade-in-up delay-300 text-center">
                 <p className="text-4xl font-medium text-gray-900 dark:text-white">
                   Bienvenue, <span className="text-primary font-bold">{session.user.name}</span> ! 👋
                 </p>
               </div>
             )}
+            <br />
+            br
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
 
               {/* Contenu texte */}
