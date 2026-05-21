@@ -21,9 +21,7 @@ test.describe("Espace Admin — interface (utilisateur admin connecté)", () => 
     await expect(page.getByRole("link", { name: /utilisateurs/i })).toBeVisible();
   });
 
-  test("le dashboard admin reste en fond blanc quelle que soit la préférence thème", async ({ page }) => {
-    const wrapper = page.locator(".force-light").first();
-    await expect(wrapper).toBeVisible();
-    await expect(wrapper).toHaveCSS("color-scheme", "light");
+  test("le toggle de thème est présent dans la sidebar admin", async ({ page }) => {
+    await expect(page.getByRole("button", { name: /basculer le thème/i })).toBeVisible();
   });
 });

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { authClient } from "@/server/better-auth/client";
+import { ThemeToggle } from "@/app/_components/theme-toggle";
 
 const navItems = [
   { href: "/admin", label: "Dashboard" },
@@ -28,7 +29,7 @@ function NavLinks({ onClose }: { onClose?: () => void }) {
             className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
               active
                 ? "text-white"
-                : "text-gray-600 hover:bg-primary/10 hover:text-gray-900"
+                : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"
             }`}
             style={active ? { backgroundColor: "var(--brand-green)" } : {}}
           >
@@ -46,27 +47,30 @@ export function AdminSidebar({ userName: _userName }: { userName: string }) {
   return (
     <>
       {/* Mobile: top bar */}
-      <div className="flex items-center justify-between border-b border-gray-200 bg-white px-4 py-3 md:hidden">
+      <div className="flex items-center justify-between border-b border-border bg-card px-4 py-3 md:hidden">
         <Image src="/logo.png" alt="CesiZen" width={32} height={32} className="rounded" />
-        <button
-          onClick={() => setOpen((o) => !o)}
-          className="flex flex-col gap-1.5 p-1 text-gray-700"
-          aria-label="Menu admin"
-        >
-          <span className={`block h-0.5 w-5 bg-gray-700 transition-all ${open ? "translate-y-2 rotate-45" : ""}`} />
-          <span className={`block h-0.5 w-5 bg-gray-700 transition-all ${open ? "opacity-0" : ""}`} />
-          <span className={`block h-0.5 w-5 bg-gray-700 transition-all ${open ? "-translate-y-2 -rotate-45" : ""}`} />
-        </button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            onClick={() => setOpen((o) => !o)}
+            className="flex flex-col gap-1.5 p-1 text-foreground"
+            aria-label="Menu admin"
+          >
+            <span className={`block h-0.5 w-5 bg-foreground transition-all ${open ? "translate-y-2 rotate-45" : ""}`} />
+            <span className={`block h-0.5 w-5 bg-foreground transition-all ${open ? "opacity-0" : ""}`} />
+            <span className={`block h-0.5 w-5 bg-foreground transition-all ${open ? "-translate-y-2 -rotate-45" : ""}`} />
+          </button>
+        </div>
       </div>
 
       {/* Mobile: drawer */}
       {open && (
-        <div className="border-b border-gray-200 bg-white px-4 py-4 md:hidden">
+        <div className="border-b border-border bg-card px-4 py-4 md:hidden">
           <NavLinks onClose={() => setOpen(false)} />
-          <div className="mt-4 border-t border-gray-200 pt-4">
+          <div className="mt-4 border-t border-border pt-4">
             <button
               onClick={async () => { await authClient.signOut(); window.location.href = "/login"; }}
-              className="text-sm font-medium text-red-600 hover:text-red-800"
+              className="text-sm font-medium text-destructive hover:text-destructive/80"
             >
               Se déconnecter
             </button>
@@ -75,7 +79,7 @@ export function AdminSidebar({ userName: _userName }: { userName: string }) {
       )}
 
       {/* Desktop: sidebar */}
-      <aside className="hidden w-60 shrink-0 flex-col border-r border-gray-200 bg-white px-4 py-6 md:flex">
+      <aside className="hidden w-60 shrink-0 flex-col border-r border-border bg-card px-4 py-6 md:flex">
         <div className="mb-6">
           <div className="mb-3 flex items-center gap-3">
             <Image src="/logo.png" alt="CesiZen" width={36} height={36} className="rounded" />
@@ -84,17 +88,18 @@ export function AdminSidebar({ userName: _userName }: { userName: string }) {
                 <span style={{ color: "var(--brand-green)" }}>CESI</span>
                 <span style={{ color: "var(--brand-yellow)" }}>ZEN</span>
               </p>
-              <p className="text-xs font-semibold uppercase tracking-widest text-base-content/40">Back Office</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">Back Office</p>
             </div>
           </div>
         </div>
 
         <NavLinks />
 
-        <div className="mt-auto border-t border-gray-200 pt-4">
+        <div className="mt-auto space-y-3 border-t border-border pt-4">
+          <ThemeToggle />
           <button
             onClick={async () => { await authClient.signOut(); window.location.href = "/login"; }}
-            className="text-sm font-medium text-red-600 hover:text-red-800"
+            className="text-sm font-medium text-destructive hover:text-destructive/80"
           >
             Se déconnecter
           </button>

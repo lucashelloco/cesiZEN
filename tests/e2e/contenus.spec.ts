@@ -25,8 +25,8 @@ test.describe("Contenus", () => {
 
   test("navigation vers le détail d'un contenu", async ({ page }) => {
     await page.goto("/contenus");
-    const firstLink = page.getByRole("link").filter({ hasText: /lire|voir|article/i }).first();
-    if (await firstLink.isVisible()) {
+    const firstLink = page.locator('a[href*="/contenus/"]').first();
+    if (await firstLink.isVisible({ timeout: 3000 }).catch(() => false)) {
       await firstLink.click();
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       await expect(page).toHaveURL(/\/contenus\/.+/);
@@ -35,8 +35,8 @@ test.describe("Contenus", () => {
 
   test("le bouton Lire à voix haute est présent sur une page de détail", async ({ page }) => {
     await page.goto("/contenus");
-    const firstLink = page.getByRole("link").filter({ hasText: /lire|voir|article/i }).first();
-    if (await firstLink.isVisible()) {
+    const firstLink = page.locator('a[href*="/contenus/"]').first();
+    if (await firstLink.isVisible({ timeout: 3000 }).catch(() => false)) {
       await firstLink.click();
       const readAloud = page.getByRole("button", { name: /lire.*voix haute/i });
       await expect(readAloud).toBeVisible({ timeout: 5000 });
