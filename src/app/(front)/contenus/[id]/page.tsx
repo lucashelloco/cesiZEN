@@ -2,23 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { api } from "@/trpc/server";
 import { Badge } from "@/components/ui/badge";
-
-function getYoutubeEmbedUrl(url: string): string | null {
-  try {
-    const parsed = new URL(url);
-    let videoId: string | null = null;
-
-    if (parsed.hostname === "youtu.be") {
-      videoId = parsed.pathname.slice(1);
-    } else if (parsed.hostname.includes("youtube.com")) {
-      videoId = parsed.searchParams.get("v");
-    }
-
-    return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
-  } catch {
-    return null;
-  }
-}
+import { ReadAloud } from "@/components/read-aloud";
+import { getYoutubeEmbedUrl } from "@/lib/youtube";
 
 export default async function ContenuDetailPage({
   params,
@@ -42,8 +27,8 @@ export default async function ContenuDetailPage({
         ← Retour aux contenus
       </Link>
 
-      <article className="rounded-lg border bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-        <div className="mb-4 flex items-center gap-3">
+      <article className="rounded-lg border bg-white px-4 py-6 sm:p-8 shadow-sm dark:border-gray-700 dark:bg-base-100">
+        <div className="mb-4 flex flex-wrap items-center gap-3">
           <Badge variant="outline">{contenu.type}</Badge>
           <span className="text-sm text-gray-400 dark:text-gray-500">
             {new Date(contenu.createdAt).toLocaleDateString("fr-FR", {
@@ -53,6 +38,7 @@ export default async function ContenuDetailPage({
             })}
           </span>
           <span className="text-sm text-gray-400 dark:text-gray-500">· Par {contenu.auteur.name}</span>
+          <ReadAloud text={`${contenu.titre}. ${contenu.corps}`} />
         </div>
 
         <h1 className="mb-6 text-3xl font-bold text-gray-900 dark:text-white">{contenu.titre}</h1>

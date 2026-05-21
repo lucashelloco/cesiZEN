@@ -26,7 +26,7 @@ export function MobileMenu({ isAuthenticated, isAdmin, userName }: Props) {
       </button>
 
       {open && (
-        <div className="absolute left-0 right-0 top-full z-50 border-b bg-white shadow-md dark:border-gray-800 dark:bg-gray-900">
+        <div className="absolute left-0 right-0 top-full z-50 border-b bg-white shadow-md dark:bg-base-100">
           <nav className="flex flex-col gap-1 px-4 py-3">
             <Link href="/contenus" onClick={() => setOpen(false)} className="py-2 text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-300">Contenus</Link>
             <Link href="/exercice" onClick={() => setOpen(false)} className="py-2 text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-300">Exercice</Link>

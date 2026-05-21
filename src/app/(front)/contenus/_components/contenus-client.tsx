@@ -43,7 +43,7 @@ export function ContenusClient() {
               placeholder="Rechercher dans les contenus..."
               value={searchInput}
               onChange={(e) => search(e.target.value)}
-              className="w-full rounded-full border border-gray-300 px-4 py-2 pl-10 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              className="w-full rounded-full border border-gray-300 px-4 py-2 pl-10 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-gray-700 dark:bg-base-100 dark:text-white"
             />
             <svg
               className="absolute left-3 top-2.5 h-4 w-4 text-gray-400"
@@ -58,7 +58,7 @@ export function ContenusClient() {
           </div>
         </div>
 
-        <div className="flex items-center gap-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full p-1">
+        <div className="flex items-center gap-1 bg-white dark:bg-base-100 border border-gray-300 dark:border-gray-700 rounded-full p-1">
           <button
             onClick={() => sort("date-desc")}
             className={`btn btn-ghost btn-sm rounded-full gap-1 ${sortBy === "date-desc" ? "bg-primary text-white" : ""}`}
@@ -105,7 +105,7 @@ export function ContenusClient() {
               <Link
                 key={contenu.id}
                 href={`/contenus/${contenu.id}`}
-                className="rounded-lg border bg-white p-5 shadow-sm transition hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
+                className="rounded-lg border bg-white p-5 shadow-sm transition hover:shadow-md dark:border-gray-700 dark:bg-base-100"
               >
                 <div className="mb-2 flex items-center justify-between">
                   <Badge variant="outline" className="flex items-center gap-1">
@@ -178,7 +178,7 @@ export function ContenusClient() {
               <button
                 onClick={() => loadBatch(batchOffset - BATCH_SIZE)}
                 disabled={!hasPrevBatch}
-                className="btn btn-outline btn-sm rounded-full"
+                className="btn btn-ghost btn-sm rounded-full text-gray-600 hover:bg-primary/5 hover:text-primary dark:text-base-content dark:hover:bg-primary/15"
               >
                 ← Lot précédent
               </button>
@@ -188,7 +188,7 @@ export function ContenusClient() {
               <button
                 onClick={() => loadBatch(batchOffset + BATCH_SIZE)}
                 disabled={!hasNextBatch}
-                className="btn btn-outline btn-sm rounded-full"
+                className="btn btn-ghost btn-sm rounded-full text-gray-600 hover:bg-primary/5 hover:text-primary dark:text-base-content dark:hover:bg-primary/15"
               >
                 Lot suivant →
               </button>

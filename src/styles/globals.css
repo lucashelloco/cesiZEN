@@ -268,13 +268,6 @@
   * {
     @apply border-border outline-ring/50;
   }
-  .btn {
-    border-radius: 9999px !important;
-  }
-  .btn-primary:hover {
-    background-color: oklch(0.54 0.16 162) !important;
-    border-color: oklch(0.54 0.16 162) !important;
-  }
   body {
     @apply bg-background text-foreground;
     font-family: Helvetica, Arial, sans-serif;
@@ -282,4 +275,45 @@
   html {
     @apply font-sans;
   }
+}
+
+/* ── Accessibilité RGAA ─────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Hors @layer — priorité supérieure à DaisyUI (@layer components) */
+.btn {
+  border-radius: 9999px !important;
+}
+.btn-primary:hover {
+  background-color: oklch(0.54 0.16 162) !important;
+  border-color: oklch(0.54 0.16 162) !important;
+}
+
+/* Force l'admin en mode clair quelle que soit la préférence du thème */
+.force-light {
+  color-scheme: light;
+  --background: oklch(0.978 0.009 148);
+  --foreground: oklch(0.195 0.025 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.195 0.025 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.195 0.025 260);
+  --primary: oklch(0.62 0.16 162);
+  --primary-foreground: oklch(1 0 0);
+  --color-primary: oklch(0.62 0.16 162);
+  --color-primary-content: oklch(1 0 0);
+  --secondary: oklch(0.829 0.153 87);
+  --secondary-foreground: oklch(0.195 0.025 260);
+  --accent: oklch(0.655 0.135 183);
+  --accent-foreground: oklch(1 0 0);
+  --muted: oklch(0.952 0.012 148);
+  --muted-foreground: oklch(0.50 0.025 260);
+  --destructive: oklch(0.58 0.22 27);
+  --border: oklch(0.905 0.015 143);
+  --input: oklch(0.905 0.015 143);
+  --ring: oklch(0.615 0.132 143);
 }

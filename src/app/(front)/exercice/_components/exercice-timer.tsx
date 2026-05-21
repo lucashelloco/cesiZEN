@@ -31,6 +31,15 @@ const PHASE_COLORS: Record<Phase, { bg: string; border: string; text: string }> 
 
 const CIRCUMFERENCE = 2 * Math.PI * 120;
 
+function speak(text: string) {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "fr-FR";
+  u.rate = 0.9;
+  window.speechSynthesis.speak(u);
+}
+
 export function ExerciceTimer({ config, onStop }: Props) {
   const { nombreCycles, tempsInspiration, tempsApnee, tempsExpiration } = config;
 
@@ -45,9 +54,31 @@ export function ExerciceTimer({ config, onStop }: Props) {
   const [finished, setFinished] = useState(false);
   const [countdown, setCountdown] = useState(3);
   const [exerciseStarted, setExerciseStarted] = useState(false);
+  const [audioEnabled, setAudioEnabled] = useState(false);
 
   const circleRef = useRef<SVGCircleElement>(null);
   const bubbleRef = useRef<HTMLDivElement>(null);
+
+  // Guidage vocal — nettoyage
+  useEffect(() => () => { window.speechSynthesis?.cancel(); }, []);
+
+  // Guidage vocal — compte à rebours
+  useEffect(() => {
+    if (!audioEnabled || exerciseStarted) return;
+    speak(String(countdown));
+  }, [countdown, audioEnabled, exerciseStarted]);
+
+  // Guidage vocal — changement de phase
+  useEffect(() => {
+    if (!audioEnabled || !exerciseStarted || finished) return;
+    speak(PHASE_LABELS[phase]);
+  }, [phase, audioEnabled, exerciseStarted, finished]);
+
+  // Guidage vocal — fin d'exercice
+  useEffect(() => {
+    if (!audioEnabled || !finished) return;
+    speak("Exercice terminé. Bravo !");
+  }, [finished, audioEnabled]);
 
   // Countdown
   useEffect(() => {
@@ -171,7 +202,22 @@ export function ExerciceTimer({ config, onStop }: Props) {
               {countdown === 2 && "Préparez votre respiration..."}
               {countdown === 1 && "C'est parti ! 🚀"}
             </p>
-            <button onClick={onStop} className="btn btn-outline btn-sm gap-2">✕ Annuler</button>
+            <div className="flex flex-col items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setAudioEnabled((a) => !a)}
+                aria-pressed={audioEnabled}
+                className={`btn btn-sm gap-2 ${audioEnabled ? "btn-primary" : "btn-ghost text-gray-500 hover:bg-primary/5 hover:text-primary"}`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                </svg>
+                Guidage vocal {audioEnabled ? "ON" : "OFF"}
+              </button>
+              <button onClick={onStop} className="btn btn-ghost btn-sm gap-2 text-gray-600 hover:bg-primary/5 hover:text-primary dark:text-base-content dark:hover:bg-primary/15">✕ Annuler</button>
+            </div>
           </div>
         </div>
       </div>
@@ -190,7 +236,7 @@ export function ExerciceTimer({ config, onStop }: Props) {
           </p>
           <div className="flex gap-3 flex-col sm:flex-row">
             <button onClick={onStop} className="btn btn-primary gap-2 order-2 sm:order-1">↻ Recommencer</button>
-            <button onClick={onStop} className="btn btn-outline gap-2 order-1 sm:order-2">← Retour</button>
+            <button onClick={onStop} className="btn btn-ghost gap-2 order-1 sm:order-2 text-gray-600 hover:bg-primary/5 hover:text-primary dark:text-base-content dark:hover:bg-primary/15">← Retour</button>
           </div>
         </div>
       </div>
@@ -206,16 +252,10 @@ export function ExerciceTimer({ config, onStop }: Props) {
           Cycle <span className="font-semibold text-primary">{cycle}</span> / <span className="font-semibold">{nombreCycles}</span>
         </div>
 
-        <div className="relative flex items-center justify-center mb-8">
-          <svg width="280" height="280">
+        <div className="relative flex items-center justify-center mb-8 w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72">
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 280 280">
             <g transform="rotate(-90 140 140)">
-              {/* Track gris de fond */}
               <circle cx="140" cy="140" r="120" fill="none" stroke="#e5e7eb" strokeWidth="10" opacity="0.3" />
-              {/*
-                Un seul cercle progressif — va de 0 % à 100 % sur la durée totale du cycle.
-                La couleur change entre phases via React state (style.stroke).
-                Le strokeDashoffset est piloté à 60 fps par le RAF via circleRef.
-              */}
               <circle
                 ref={circleRef}
                 cx="140" cy="140" r="120"
@@ -232,22 +272,37 @@ export function ExerciceTimer({ config, onStop }: Props) {
             ref={bubbleRef}
             className="absolute flex flex-col items-center justify-center rounded-full border-8"
             style={{
-              width: 160,
-              height: 160,
+              width: "57%",
+              height: "57%",
               backgroundColor: PHASE_COLORS[phase].bg,
               borderColor: PHASE_COLORS[phase].border,
               transition: "background-color 0.3s, border-color 0.3s",
             }}
           >
-            <span className="text-sm font-bold mb-1" style={{ color: PHASE_COLORS[phase].text }}>
+            <span className="text-xs sm:text-sm font-bold mb-1" style={{ color: PHASE_COLORS[phase].text }}>
               {PHASE_LABELS[phase]}
             </span>
-            <span className="text-5xl font-bold" style={{ color: PHASE_COLORS[phase].text }}>{timeLeft}</span>
+            <span className="text-3xl sm:text-4xl md:text-5xl font-bold" style={{ color: PHASE_COLORS[phase].text }}>{timeLeft}</span>
             <span className="text-xs font-semibold mt-1" style={{ color: PHASE_COLORS[phase].text }}>sec</span>
           </div>
         </div>
 
-        <button onClick={onStop} className="btn btn-error gap-2">✕ Arrêter</button>
+        <div className="flex flex-col items-center gap-3">
+          <button onClick={onStop} className="btn btn-error gap-2">✕ Arrêter</button>
+          <button
+            type="button"
+            onClick={() => setAudioEnabled((a) => !a)}
+            aria-pressed={audioEnabled}
+            className={`btn btn-sm gap-2 ${audioEnabled ? "btn-primary" : "btn-ghost text-gray-500 hover:bg-primary/5 hover:text-primary"}`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+            </svg>
+            Guidage vocal {audioEnabled ? "ON" : "OFF"}
+          </button>
+        </div>
       </div>
     </div>
   );

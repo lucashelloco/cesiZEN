@@ -21,9 +21,9 @@ export default async function AdminLayout({
   if (user?.role !== "ADMIN") redirect("/");
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50 dark:bg-gray-950 md:flex-row">
+    <div className="force-light flex min-h-screen flex-col bg-white md:flex-row">
       <AdminSidebar userName={user.name} />
-      <main className="flex-1 p-4 md:p-8">{children}</main>
+      <main id="main-content" className="flex-1 p-4 md:p-8">{children}</main>
     </div>
   );
 }

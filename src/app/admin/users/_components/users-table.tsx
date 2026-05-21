@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { api } from "@/trpc/react";
+import { useAnnounce } from "@/components/announcer-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,31 +27,34 @@ type User = {
 export function UsersTable({ users: initialUsers }: { users: User[] }) {
   const [users, setUsers] = useState(initialUsers);
   const utils = api.useUtils();
+  const announce = useAnnounce();
 
   const setRole = api.adminUsers.setRole.useMutation({
-    onSuccess: async () => {
+    onSuccess: async (_, variables) => {
       const updated = await utils.adminUsers.list.fetch();
       setUsers(updated);
+      announce(`Rôle mis à jour : ${variables.role}`);
     },
   });
 
   const toggleActive = api.adminUsers.toggleActive.useMutation({
-    onSuccess: async () => {
+    onSuccess: async (_, variables) => {
       const updated = await utils.adminUsers.list.fetch();
       setUsers(updated);
+      announce(variables.isActive ? "Compte activé" : "Compte désactivé");
     },
   });
 
   return (
-    <div className="overflow-x-auto rounded-md border bg-white">
+    <div className="overflow-x-auto rounded-md border border-gray-200 bg-white">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Nom</TableHead>
-            <TableHead>Email</TableHead>
+            <TableHead className="hidden md:table-cell">Email</TableHead>
             <TableHead>Rôle</TableHead>
-            <TableHead>Statut</TableHead>
-            <TableHead>Contenus</TableHead>
+            <TableHead className="hidden sm:table-cell">Statut</TableHead>
+            <TableHead className="hidden lg:table-cell">Contenus</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -58,20 +62,20 @@ export function UsersTable({ users: initialUsers }: { users: User[] }) {
           {users.map((user) => (
             <TableRow key={user.id}>
               <TableCell className="font-medium">{user.name}</TableCell>
-              <TableCell className="text-gray-500">{user.email}</TableCell>
+              <TableCell className="hidden md:table-cell text-muted-foreground">{user.email}</TableCell>
               <TableCell>
                 <Badge variant={user.role === "ADMIN" ? "default" : "secondary"}>
                   {user.role}
                 </Badge>
               </TableCell>
-              <TableCell>
+              <TableCell className="hidden sm:table-cell">
                 <Badge variant={user.isActive ? "outline" : "destructive"}>
                   {user.isActive ? "Actif" : "Inactif"}
                 </Badge>
               </TableCell>
-              <TableCell>{user._count.contenus}</TableCell>
+              <TableCell className="hidden lg:table-cell">{user._count.contenus}</TableCell>
               <TableCell>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <Button
                     size="sm"
                     variant="outline"

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
+import { useAnnounce } from "@/components/announcer-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,55 +27,62 @@ type Contenu = {
 
 export function ContenusTable({ contenus }: { contenus: Contenu[] }) {
   const router = useRouter();
+  const announce = useAnnounce();
 
   const togglePublish = api.adminContenus.togglePublish.useMutation({
-    onSuccess: () => router.refresh(),
+    onSuccess: (_, variables) => {
+      router.refresh();
+      announce(variables.isPublished ? "Contenu publié" : "Contenu dépublié");
+    },
   });
 
   const deleteContenu = api.adminContenus.delete.useMutation({
-    onSuccess: () => router.refresh(),
+    onSuccess: () => {
+      router.refresh();
+      announce("Contenu supprimé");
+    },
   });
 
   return (
-    <div className="overflow-x-auto rounded-md border bg-white">
+    <div className="overflow-x-auto rounded-md border border-gray-200 bg-white">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Titre</TableHead>
-            <TableHead>Type</TableHead>
-            <TableHead>Auteur</TableHead>
+            <TableHead className="hidden sm:table-cell">Type</TableHead>
+            <TableHead className="hidden md:table-cell">Auteur</TableHead>
             <TableHead>Statut</TableHead>
-            <TableHead>Créé le</TableHead>
+            <TableHead className="hidden md:table-cell">Créé le</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {contenus.length === 0 && (
             <TableRow>
-              <TableCell colSpan={6} className="py-8 text-center text-gray-500">
+              <TableCell colSpan={6} className="py-8 text-center text-muted-foreground">
                 Aucun contenu
               </TableCell>
             </TableRow>
           )}
           {contenus.map((contenu) => (
             <TableRow key={contenu.id}>
-              <TableCell className="max-w-xs truncate font-medium">
+              <TableCell className="max-w-[120px] sm:max-w-xs truncate font-medium">
                 {contenu.titre}
               </TableCell>
-              <TableCell>
+              <TableCell className="hidden sm:table-cell">
                 <Badge variant="outline">{contenu.type}</Badge>
               </TableCell>
-              <TableCell className="text-gray-500">{contenu.auteur.name}</TableCell>
+              <TableCell className="hidden md:table-cell text-muted-foreground">{contenu.auteur.name}</TableCell>
               <TableCell>
                 <Badge variant={contenu.isPublished ? "default" : "secondary"}>
                   {contenu.isPublished ? "Publié" : "Brouillon"}
                 </Badge>
               </TableCell>
-              <TableCell className="text-gray-500">
+              <TableCell className="hidden md:table-cell text-muted-foreground">
                 {new Date(contenu.createdAt).toLocaleDateString("fr-FR")}
               </TableCell>
               <TableCell>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <ContenuForm contenu={contenu} />
                   <Button
                     size="sm"

@@ -1,18 +1,17 @@
 "use client";
 
 import { authClient } from "@/server/better-auth/client";
-import { Button } from "@/components/ui/button";
 
 export function SignOutButton() {
   return (
-    <Button
-      variant="outline"
+    <button
+      className="btn btn-ghost text-gray-700 hover:bg-primary/5 hover:text-primary dark:text-base-content dark:hover:bg-primary/15"
       onClick={async () => {
         await authClient.signOut();
         window.location.href = "/";
       }}
     >
       Se déconnecter
-    </Button>
+    </button>
   );
 }

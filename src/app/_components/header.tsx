@@ -20,29 +20,23 @@ export async function Header() {
   return (
     <header className="navbar bg-white dark:bg-base-100 shadow-sm border-b border-gray-200 dark:border-base-300">
       <div className="navbar-start">
-        <Link href="/" className="btn btn-ghost hover:bg-white border-transparent hover:border-gray-200 dark:hover:bg-white/10 dark:hover:border-transparent" >
+        <Link href="/" className="btn btn-ghost hover:bg-primary/5 border-transparent dark:hover:bg-primary/15 dark:hover:border-transparent" >
           <Image src="/logo.png" alt="CesiZen" width={35} height={35} className="rounded" />
         </Link>
       </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 text-gray-700 dark:text-base-content">
-          <li>
-            <Link href="/contenus" className="hover:text-primary">
-              Contenus
-            </Link>
-          </li>
-          <li>
-            <Link href="/exercice" className="hover:text-primary">
-              Exercice
-            </Link>
-          </li>
-        </ul>
+      <div className="navbar-center hidden lg:flex gap-1">
+        <Link href="/contenus" className="btn btn-ghost text-gray-700 hover:bg-primary/5 hover:text-primary dark:text-base-content dark:hover:bg-primary/15">
+          Contenus
+        </Link>
+        <Link href="/exercice" className="btn btn-ghost text-gray-700 hover:bg-primary/5 hover:text-primary dark:text-base-content dark:hover:bg-primary/15">
+          Exercice
+        </Link>
       </div>
       <div className="navbar-end gap-2">
         <ThemeToggle />
         {session ? (
           <>
-            <Link href="/profil" className="btn btn-ghost text-gray-700 dark:text-base-content">
+            <Link href="/profil" className="btn btn-ghost text-gray-700 hover:bg-primary/5 hover:text-primary dark:text-base-content dark:hover:bg-primary/15">
               Profil
             </Link>
             {isAdmin && (
@@ -54,7 +48,7 @@ export async function Header() {
           </>
         ) : (
           <>
-            <Link href="/login" className="btn btn-ghost text-gray-700 dark:text-base-content">
+            <Link href="/login" className="btn btn-ghost text-gray-700 hover:bg-primary/5 hover:text-primary dark:text-base-content dark:hover:bg-primary/15">
               Connexion
             </Link>
             <Link href="/register" className="btn btn-primary">

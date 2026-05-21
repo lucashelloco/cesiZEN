@@ -39,7 +39,7 @@ export function ExerciceForm({ exercice }: { exercice?: Exercice }) {
     setNom(""); setNombreCycles(4); setTempsInspiration(4); setTempsApnee(0); setTempsExpiration(4);
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     const data = { nom, nombreCycles, tempsInspiration, tempsApnee, tempsExpiration };
     if (exercice) {
@@ -68,7 +68,7 @@ export function ExerciceForm({ exercice }: { exercice?: Exercice }) {
             <Input id="nom" value={nom} onChange={(e) => setNom(e.target.value)} placeholder="Ex: Cohérence cardiaque" required />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="cycles">Nombre de cycles</Label>
               <Input id="cycles" type="number" min={1} value={nombreCycles} onChange={(e) => setNombreCycles(Number(e.target.value))} required />
