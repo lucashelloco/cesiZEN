@@ -784,8 +784,8 @@ Ces tests sont exécutés **avant chaque mise en production**. Leur échec bloqu
 | NR-04 | Annonces aria-live | | | ✅ | Vitest | P1 | ✅ |
 | NR-05 | Responsive mobile 375 px | | | ✅ | Playwright | P2 | ✅ |
 
-**Total : 40 scénarios — 25 ✅ passés · 10 ⏭️ manuels restants · 5 ignorés (admin connecté requis)**  
-Campagne Vitest 2026-05-21 : **34 / 34** · Campagne Playwright 2026-05-21 : **48 / 52** (4 ignorés) — Lucas Helloco
+**Total : 41 scénarios — 23 ✅ passés (Vitest + Playwright) · 18 ⏭️ à exécuter manuellement**  
+Campagne Vitest 2026-05-21 : **34 / 34** · Campagne Playwright 2026-05-21 : **52 / 52** — Lucas Helloco
 
 ---
 
