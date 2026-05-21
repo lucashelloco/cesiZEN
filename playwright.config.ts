@@ -13,13 +13,34 @@ export default defineConfig({
     screenshot: "only-on-failure",
   },
   projects: [
+    // ─── Setup : génère la session admin ──────────────────────────────────────
+    {
+      name: "setup",
+      testMatch: /auth\.setup\.ts/,
+      use: { ...devices["Desktop Chrome"] },
+    },
+
+    // ─── Tests sans authentification ──────────────────────────────────────────
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
+      testIgnore: /auth\.setup\.ts|admin-auth\.spec\.ts/,
     },
     {
       name: "Mobile Chrome",
       use: { ...devices["Pixel 5"] },
+      testIgnore: /auth\.setup\.ts|admin-auth\.spec\.ts/,
+    },
+
+    // ─── Tests admin (session persistée par le setup) ─────────────────────────
+    {
+      name: "admin-authenticated",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "tests/e2e/.auth/admin.json",
+      },
+      dependencies: ["setup"],
+      testMatch: /admin-auth\.spec\.ts/,
     },
   ],
   webServer: {
