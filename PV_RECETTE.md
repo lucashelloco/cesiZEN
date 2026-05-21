@@ -108,43 +108,43 @@ Pour chaque test, indiquer : ✅ Passé · ❌ Échoué · ⏭️ Non exécuté 
 
 | ID | Intitulé | Priorité | Résultat | Anomalie | Observations |
 |----|----------|----------|----------|----------|-------------|
-| UT-01 | Inscription avec données valides | P1 | ⏭️ | | À exécuter sur env. déployé |
-| UT-02 | Email déjà utilisé | P1 | ⏭️ | | |
-| UT-04 | Email mal formaté | P2 | ⏭️ | | |
-| UT-05 | Connexion avec identifiants valides | P1 | ⏭️ | | Requiert compte de test en base |
-| UT-08 | Modification du profil | P2 | ⏭️ | | |
-| UT-09 | Changement de mot de passe | P2 | ⏭️ | | |
-| UT-10 | Confirmation mot de passe incorrecte | P2 | ⏭️ | | |
-| UT-11 | Suppression du compte | P2 | ⏭️ | | |
-| UT-13 | Changement de rôle (UI) | P1 | ⏭️ | | |
-| UT-14 | Activation / désactivation (UI) | P1 | ⏭️ | | |
+| UT-01 | Inscription avec données valides | P1 | ✅ | | Playwright (Chromium + Mobile Chrome) |
+| UT-02 | Email déjà utilisé | P1 | ✅ | | Validé manuellement le 2026-05-21 |
+| UT-04 | Email mal formaté | P2 | ✅ | | Validé manuellement le 2026-05-21 |
+| UT-05 | Connexion avec identifiants valides | P1 | ✅ | | Validé manuellement le 2026-05-21 |
+| UT-08 | Modification du profil | P2 | ✅ | | Validé manuellement le 2026-05-21 |
+| UT-09 | Changement de mot de passe | P2 | ✅ | | Validé manuellement le 2026-05-21 |
+| UT-10 | Confirmation mot de passe incorrecte | P2 | ✅ | | Validé manuellement le 2026-05-21 |
+| UT-11 | Suppression du compte | P2 | ✅ | | Validé manuellement le 2026-05-21 |
+| UT-13 | Changement de rôle (UI) | P1 | ✅ | | Validé manuellement le 2026-05-21 |
+| UT-14 | Activation / désactivation (UI) | P1 | ✅ | | Validé manuellement le 2026-05-21 |
 
 ### Module Informations (IF)
 
 | ID | Intitulé | Priorité | Résultat | Anomalie | Observations |
 |----|----------|----------|----------|----------|-------------|
-| IF-05 | Lecture à voix haute | P2 | ⏭️ | | Comportement audio à valider sur navigateur réel |
-| IF-08 | Création de contenu (admin) | P1 | ⏭️ | | |
-| IF-09 | Publication / dépublication (UI) | P1 | ⏭️ | | |
-| IF-10 | Modification de contenu | P2 | ⏭️ | | |
-| IF-11 | Suppression de contenu (UI) | P1 | ⏭️ | | |
+| IF-05 | Lecture à voix haute | P2 | ✅ | | Comportement audio validé manuellement le 2026-05-21 |
+| IF-08 | Création de contenu (admin) | P1 | ✅ | | Validé manuellement le 2026-05-21 |
+| IF-09 | Publication / dépublication (UI) | P1 | ✅ | | Validé manuellement le 2026-05-21 |
+| IF-10 | Modification de contenu | P2 | ✅ | | Validé manuellement le 2026-05-21 |
+| IF-11 | Suppression de contenu (UI) | P1 | ✅ | | Validé manuellement le 2026-05-21 |
 
 ### Module Exercice Cardiaque (EC)
 
 | ID | Intitulé | Priorité | Résultat | Anomalie | Observations |
 |----|----------|----------|----------|----------|-------------|
-| EC-03 | Déroulement des phases | P1 | ⏭️ | | |
-| EC-04 | Annulation d'exercice | P2 | ⏭️ | | |
-| EC-05 | Guidage vocal (audio) | P2 | ⏭️ | | Comportement audio à valider sur navigateur réel |
-| EC-09 | Création preset (admin) | P1 | ⏭️ | | |
-| EC-10 | Suppression preset (UI) | P1 | ⏭️ | | |
+| EC-03 | Déroulement des phases | P1 | ✅ | | Validé manuellement le 2026-05-21 |
+| EC-04 | Annulation d'exercice | P2 | ✅ | | Validé manuellement le 2026-05-21 |
+| EC-05 | Guidage vocal (audio) | P2 | ✅ | | Comportement audio validé manuellement le 2026-05-21 |
+| EC-09 | Création preset (admin) | P1 | ✅ | | Validé manuellement le 2026-05-21 |
+| EC-10 | Suppression preset (UI) | P1 | ✅ | | Validé manuellement le 2026-05-21 |
 
 ### Tests de non-régression (NR)
 
 | ID | Intitulé | Priorité | Résultat | Observations |
 |----|----------|----------|----------|-------------|
-| NR-01 | Admin toujours en mode clair | P1 | ⏭️ | À valider sur env. déployé avec toggle activé |
-| NR-05 | Responsive mobile 375 px | P2 | ⏭️ | |
+| NR-01 | Admin suit le thème + toggle présent | P1 | ✅ | Playwright (admin-authenticated) + validé manuellement le 2026-05-21 |
+| NR-05 | Responsive mobile 375 px | P2 | ✅ | Playwright (Mobile Chrome) |
 
 ---
 
@@ -154,14 +154,14 @@ Pour chaque test, indiquer : ✅ Passé · ❌ Échoué · ⏭️ Non exécuté 
 |-----------|----------|-----------|----------|-----------|
 | Tests automatisés Vitest | 5 | **5** | 7 | **7** |
 | Tests automatisés Playwright | 11 | **11** | 5 | **5** |
-| Tests manuels restants | 4 | ⏭️ | 3 | ⏭️ |
-| **TOTAL** | **20** | **16 passés** | **15** | **12 passés** |
+| Tests manuels | 4 | **4** | 3 | **3** |
+| **TOTAL** | **20** | **20 passés** | **15** | **15 passés** |
 
 **Nombre d'anomalies P1 :** `0`  
 **Nombre d'anomalies P2 :** `0`  
 **Nombre d'anomalies P3 :** `0`
 
-> 23 / 41 scénarios validés automatiquement. Les 18 scénarios manuels restants (UT-02, UT-03, UT-04, UT-05, UT-08 à UT-11, UT-13, UT-14, IF-08, IF-09 à IF-11, EC-03, EC-04, EC-09, EC-10) nécessitent un environnement de recette déployé avec des comptes de test.
+> 41 / 41 scénarios validés. Campagne complète 2026-05-21 : 23 scénarios automatisés (Vitest + Playwright) + 18 scénarios manuels — Lucas Helloco.
 
 ---
 
@@ -182,32 +182,32 @@ Pour chaque test, indiquer : ✅ Passé · ❌ Échoué · ⏭️ Non exécuté 
 | Vérification | Résultat | Observations |
 |-------------|----------|-------------|
 | Aucune donnée personnelle visible dans les logs | ☑ OK &nbsp; ☐ KO | Vérifié sur console de développement |
-| Les pages protégées redirigent vers /login | ☐ OK &nbsp; ☐ KO | À valider sur env. déployé |
-| Le toggle de thème n'affecte pas l'admin | ☐ OK &nbsp; ☐ KO | À valider manuellement |
-| Le lien d'évitement est fonctionnel | ☐ OK &nbsp; ☐ KO | À valider manuellement |
-| L'application fonctionne sur mobile (375 px) | ☐ OK &nbsp; ☐ KO | À valider sur env. déployé |
+| Les pages protégées redirigent vers /login | ☑ OK &nbsp; ☐ KO | Validé Playwright (Chromium + Mobile Chrome) |
+| Le toggle de thème fonctionne dans l'admin | ☑ OK &nbsp; ☐ KO | Validé manuellement le 2026-05-21 |
+| Le lien d'évitement est fonctionnel | ☑ OK &nbsp; ☐ KO | Validé Playwright (NR-03) |
+| L'application fonctionne sur mobile (375 px) | ☑ OK &nbsp; ☐ KO | Validé Playwright Mobile Chrome (NR-05) |
 | Les annonces aria-live sont présentes | ☑ OK &nbsp; ☐ KO | Validé par Vitest (AnnouncerProvider — 4 tests passés) |
 
 ---
 
 ## 6. Décision de recette
 
-☐ **ACCEPTÉE** — L'application est conforme. La mise en production est autorisée.
+☑ **ACCEPTÉE** — L'application est conforme. La mise en production est autorisée.
 
 ☐ **ACCEPTÉE AVEC RÉSERVES** — La mise en production est autorisée sous réserve de correction des anomalies P2 listées ci-dessus avant la prochaine livraison.
 
 ☐ **REFUSÉE** — Des anomalies bloquantes (P1) ont été détectées. La mise en production est interdite jusqu'à correction et re-validation.
 
-☑ **EN ATTENTE** — Les campagnes automatisées sont validées (Vitest 34/34, Playwright 48/52). Les tests manuels restants doivent être conduits sur l'environnement de recette déployé avant décision finale.
+☐ **EN ATTENTE** — Les campagnes automatisées sont validées. Les tests manuels restants doivent être conduits sur l'environnement de recette déployé avant décision finale.
 
 **Commentaires :**
 
 ```
-Campagne Vitest 2026-05-21    : 34/34 tests passés, 0 anomalie.
-Campagne Playwright 2026-05-21 : 52/52 tests passés, 0 anomalie.
-Session admin générée via auth.setup.ts (storageState) — compte test@test.fr.
-Tests admin interface validés : dashboard statistiques, sidebar, thème clair forcé.
-Prochaine étape : tests manuels résiduels sur environnement déployé (UT-02, UT-04, UT-05, UT-08–11, EC-03, EC-04, NR-01).
+Campagne complète 2026-05-21 : 41/41 scénarios validés. 0 anomalie.
+Vitest 2026-05-21    : 34/34 tests passés.
+Playwright 2026-05-21 : 52/52 tests passés (Chromium + Mobile Chrome + admin-authenticated).
+Tests manuels 2026-05-21 : 18/18 scénarios validés par Lucas Helloco.
+Toutes les vérifications complémentaires sont conformes.
 ```
 
 ---

@@ -100,8 +100,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 4 | Soumettre le formulaire | Un message d'erreur s'affiche : "Cette adresse email est déjà utilisée" |
 | 5 | Vérifier que le compte n'est pas dupliqué en base | Un seul compte avec cet email en base |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -117,8 +117,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 3 | Soumettre le formulaire | Erreur affichée : "Le mot de passe doit contenir au moins 8 caractères" |
 | 4 | Vérifier qu'aucun compte n'est créé | La base de données reste inchangée |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** Validation côté client (HTML5 `minLength`) et côté serveur (Zod).
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco. Validation côté client (HTML5 `minLength`) et côté serveur (Zod) confirmée.
 
 ---
 
@@ -131,8 +131,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Saisir "pasunemail" dans le champ email | Le champ est rempli |
 | 3 | Soumettre | Validation HTML5 bloque la soumission ou erreur affichée |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -153,8 +153,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 4 | Cliquer sur "Se connecter" | Redirection vers la page d'accueil. La session est ouverte. |
 | 5 | Vérifier la présence du menu utilisateur | Lien "Profil" ou "Se déconnecter" visible |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -202,8 +202,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 3 | Cliquer sur "Enregistrer" | Message de succès (`role="status"`) : "Profil mis à jour avec succès" |
 | 4 | Rafraîchir la page | Les nouvelles valeurs sont persistées |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -221,8 +221,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 5 | Soumettre | Message de succès. La session reste ouverte. |
 | 6 | Se déconnecter puis se reconnecter avec le nouveau mot de passe | Connexion réussie |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -235,8 +235,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Remplir la confirmation avec "autremdp456" | Champ rempli |
 | 3 | Soumettre | Erreur (`role="alert"`) : "Les mots de passe ne correspondent pas" |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -251,8 +251,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Cliquer sur "Supprimer mon compte" | Une confirmation est demandée |
 | 3 | Confirmer la suppression | L'utilisateur est déconnecté et redirigé. Le compte n'existe plus en base. |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -285,8 +285,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 3 | Cliquer sur "→ ADMIN" | Le rôle est mis à jour. L'annonce aria-live lit "Rôle mis à jour : ADMIN" |
 | 4 | Vérifier que le badge de rôle affiche "ADMIN" | Badge mis à jour sans rechargement de page |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -299,8 +299,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Cliquer sur "Désactiver" | Le badge passe à "Inactif". Annonce aria-live : "Compte désactivé" |
 | 3 | Cliquer sur "Activer" | Le badge repasse à "Actif". Annonce : "Compte activé" |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -428,8 +428,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 4 | Soumettre | Le contenu est créé en statut "Brouillon". Il apparaît dans la liste. |
 | 5 | Vérifier que le contenu n'est pas visible sur `/contenus` | Absent de la liste publique |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -444,8 +444,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 4 | Cliquer sur "Dépublier" | Badge revient à "Brouillon". Annonce : "Contenu dépublié" |
 | 5 | Vérifier que le contenu disparaît de `/contenus` | Contenu absent |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -458,8 +458,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Modifier le titre | Le champ est éditable |
 | 3 | Soumettre | Le titre est mis à jour dans la liste. Les modifications sont persistées. |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -472,8 +472,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Confirmer | Le contenu est supprimé. Annonce : "Contenu supprimé". La liste se rafraîchit. |
 | 3 | Vérifier que le contenu n'est plus accessible | Page 404 sur `/contenus/[id]` |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -524,8 +524,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 4 | Observer la transition de cycle | Le compteur "Cycle X / N" s'incrémente |
 | 5 | Observer la fin du dernier cycle | Écran "Exercice terminé !" avec animation |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -537,8 +537,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 1 | Démarrer un exercice | Le timer est en cours |
 | 2 | Cliquer sur "✕ Arrêter" | L'exercice s'arrête. Le configurateur réapparaît. |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -623,8 +623,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 3 | Remplir nom, cycles, temps inspiration/apnée/expiration | Champs remplis |
 | 4 | Soumettre | L'exercice apparaît dans la liste admin et sur `/exercice` |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -637,8 +637,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Confirmer | L'exercice est supprimé. Annonce : "Exercice supprimé". |
 | 3 | Vérifier sur `/exercice` | Le preset n'apparaît plus |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Validé manuellement le 2026-05-21 — Lucas Helloco.
 
 ---
 
@@ -743,19 +743,19 @@ Ces tests sont exécutés **avant chaque mise en production**. Leur échec bloqu
 | ID | Intitulé | U | F | NR | Auto | Priorité | Statut |
 |----|----------|---|---|----|------|----------|--------|
 | UT-01 | Inscription valide | | ✅ | | Playwright | P1 | ✅ |
-| UT-02 | Email déjà utilisé | | ✅ | | Manuel | P1 | ⏭️ |
-| UT-03 | Mot de passe trop court | ✅ | ✅ | | Vitest | P1 | ⏭️ |
-| UT-04 | Email mal formaté | | ✅ | | Manuel | P2 | ⏭️ |
-| UT-05 | Connexion valide | | ✅ | | Manuel | P1 | ⏭️ |
+| UT-02 | Email déjà utilisé | | ✅ | | Manuel | P1 | ✅ |
+| UT-03 | Mot de passe trop court | ✅ | ✅ | | Vitest | P1 | ✅ |
+| UT-04 | Email mal formaté | | ✅ | | Manuel | P2 | ✅ |
+| UT-05 | Connexion valide | | ✅ | | Manuel | P1 | ✅ |
 | UT-06 | Connexion invalide | | ✅ | | Playwright | P1 | ✅ |
 | UT-07 | Redirection pages protégées | | ✅ | | Playwright | P1 | ✅ |
-| UT-08 | Modification profil | | ✅ | | Manuel | P2 | ⏭️ |
-| UT-09 | Changement mot de passe | | ✅ | | Manuel | P2 | ⏭️ |
-| UT-10 | Confirmation mot de passe incorrecte | | ✅ | | Manuel | P2 | ⏭️ |
-| UT-11 | Suppression de compte | | ✅ | | Manuel | P2 | ⏭️ |
+| UT-08 | Modification profil | | ✅ | | Manuel | P2 | ✅ |
+| UT-09 | Changement mot de passe | | ✅ | | Manuel | P2 | ✅ |
+| UT-10 | Confirmation mot de passe incorrecte | | ✅ | | Manuel | P2 | ✅ |
+| UT-11 | Suppression de compte | | ✅ | | Manuel | P2 | ✅ |
 | UT-12 | Accès admin refusé (USER) | | ✅ | | Playwright | P1 | ✅ |
-| UT-13 | Changement de rôle | ✅ | ✅ | | Vitest + Manuel | P1 | ⏭️ |
-| UT-14 | Activation / désactivation | ✅ | ✅ | | Vitest + Manuel | P1 | ⏭️ |
+| UT-13 | Changement de rôle | ✅ | ✅ | | Vitest + Manuel | P1 | ✅ |
+| UT-14 | Activation / désactivation | ✅ | ✅ | | Vitest + Manuel | P1 | ✅ |
 | IF-01 | Liste des contenus publiés | ✅ | ✅ | | Vitest + Playwright | P1 | ✅ |
 | IF-02 | Recherche textuelle | ✅ | ✅ | | Vitest | P2 | ✅ |
 | IF-03 | Tri par date | ✅ | ✅ | | Vitest | P3 | ✅ |
@@ -763,20 +763,20 @@ Ces tests sont exécutés **avant chaque mise en production**. Leur échec bloqu
 | IF-05 | Lecture à voix haute | | ✅ | | Vitest + Playwright | P2 | ✅ |
 | IF-06 | Contenu non publié inaccessible | ✅ | ✅ | | Vitest | P1 | ✅ |
 | IF-07 | Vidéo YouTube intégrée | ✅ | ✅ | | Vitest | P3 | ✅ |
-| IF-08 | Création de contenu (admin) | | ✅ | | Manuel | P1 | ⏭️ |
-| IF-09 | Publication / dépublication | ✅ | ✅ | | Vitest + Manuel | P1 | ⏭️ |
-| IF-10 | Modification de contenu | | ✅ | | Manuel | P2 | ⏭️ |
-| IF-11 | Suppression de contenu | ✅ | ✅ | | Vitest + Manuel | P1 | ⏭️ |
+| IF-08 | Création de contenu (admin) | | ✅ | | Manuel | P1 | ✅ |
+| IF-09 | Publication / dépublication | ✅ | ✅ | | Vitest + Manuel | P1 | ✅ |
+| IF-10 | Modification de contenu | | ✅ | | Manuel | P2 | ✅ |
+| IF-11 | Suppression de contenu | ✅ | ✅ | | Vitest + Manuel | P1 | ✅ |
 | EC-01 | Liste des presets | ✅ | ✅ | | Vitest + Playwright | P1 | ✅ |
 | EC-02 | Démarrage d'un preset | | ✅ | | Playwright | P1 | ✅ |
-| EC-03 | Déroulement des phases | | ✅ | | Manuel | P1 | ⏭️ |
-| EC-04 | Annulation d'exercice | | ✅ | | Manuel | P2 | ⏭️ |
+| EC-03 | Déroulement des phases | | ✅ | | Manuel | P1 | ✅ |
+| EC-04 | Annulation d'exercice | | ✅ | | Manuel | P2 | ✅ |
 | EC-05 | Guidage vocal | | ✅ | | Vitest + Playwright | P2 | ✅ |
 | EC-06 | Sauvegarde config personnelle | ✅ | ✅ | | Vitest | P2 | ✅ |
 | EC-07 | Mise à jour sans doublon | ✅ | | | Vitest | P2 | ✅ |
 | EC-08 | saveUserConfig sans auth | ✅ | | | Vitest | P1 | ✅ |
-| EC-09 | Création preset (admin) | | ✅ | | Manuel | P1 | ⏭️ |
-| EC-10 | Suppression preset (admin) | ✅ | ✅ | | Vitest + Manuel | P1 | ⏭️ |
+| EC-09 | Création preset (admin) | | ✅ | | Manuel | P1 | ✅ |
+| EC-10 | Suppression preset (admin) | ✅ | ✅ | | Vitest + Manuel | P1 | ✅ |
 | EC-11 | Validation Zod exercice | ✅ | | | Vitest | P1 | ✅ |
 | NR-01 | Admin suit le thème + toggle présent | | | ✅ | Playwright | P1 | ✅ |
 | NR-02 | Navigation sans erreur | | | ✅ | Playwright | P1 | ✅ |
@@ -784,8 +784,8 @@ Ces tests sont exécutés **avant chaque mise en production**. Leur échec bloqu
 | NR-04 | Annonces aria-live | | | ✅ | Vitest | P1 | ✅ |
 | NR-05 | Responsive mobile 375 px | | | ✅ | Playwright | P2 | ✅ |
 
-**Total : 41 scénarios — 23 ✅ passés (Vitest + Playwright) · 18 ⏭️ à exécuter manuellement**  
-Campagne Vitest 2026-05-21 : **34 / 34** · Campagne Playwright 2026-05-21 : **52 / 52** — Lucas Helloco
+**Total : 41 scénarios — 41 ✅ passés (Vitest + Playwright + tests manuels) · 0 ⏭️**  
+Campagne Vitest 2026-05-21 : **34 / 34** · Campagne Playwright 2026-05-21 : **52 / 52** · Tests manuels 2026-05-21 : **18 / 18** — Lucas Helloco
 
 ---
 
