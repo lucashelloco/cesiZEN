@@ -109,6 +109,7 @@ npm run test:e2e
 | [MLD.md](./MLD.md) | Modèle Logique de Données |
 | [CAHIER_DE_TESTS.md](./CAHIER_DE_TESTS.md) | Cahier de tests (40 scénarios) |
 | [PV_RECETTE.md](./PV_RECETTE.md) | Modèle de PV de recette |
+| [COMPARATIF_TECHNIQUE.md](./COMPARATIF_TECHNIQUE.md) | Comparatif des 3 solutions techniques (T3 Stack vs MERN vs Laravel+Vue3) |
 
 ---
 
