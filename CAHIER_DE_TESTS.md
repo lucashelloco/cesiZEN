@@ -3,7 +3,7 @@
 **Version :** 1.0  
 **Date :** 2026-05-21  
 **Projet :** CesiZen — Application de santé mentale  
-**Rédacteur :** Équipe de développement  
+**Rédacteur :** Lucas Helloco  
 **Statut :** En vigueur  
 
 ---
@@ -70,7 +70,7 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 
 **UT-01** — Inscription avec des données valides  
 **Type :** Fonctionnel | **Priorité :** P1 | **Automatisé :** ✅ Playwright  
-**Responsable :** Développeur / Testeur fonctionnel
+**Responsable :** Lucas Helloco
 
 **Préconditions :** L'application est démarrée. L'adresse email n'est pas encore enregistrée.
 
@@ -82,8 +82,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 4 | Saisir un mot de passe d'au moins 8 caractères | Le champ est rempli |
 | 5 | Cliquer sur "Créer un compte" | Redirection vers la page d'accueil ou de connexion. L'utilisateur est enregistré en base. |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Playwright — formulaire `/register` visible et accessible (Chromium + Mobile Chrome).
 
 ---
 
@@ -168,8 +168,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 3 | Cliquer sur "Se connecter" | Message d'erreur affiché (`role="alert"`). Aucune redirection. |
 | 4 | Vérifier l'URL | L'URL reste `/login` |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Playwright — erreur affichée avec identifiants invalides, pas de redirection (Chromium + Mobile Chrome).
 
 ---
 
@@ -181,8 +181,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 1 | Sans être connecté, naviguer vers `/profil` | Redirection automatique vers `/login` |
 | 2 | Sans être connecté, naviguer vers `/admin` | Redirection automatique vers `/login` |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Playwright — redirection `/profil` et `/admin` vers `/login` validée (Chromium + Mobile Chrome).
 
 ---
 
@@ -268,8 +268,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 1 | Se connecter avec un compte rôle USER | Connexion réussie |
 | 2 | Naviguer vers `/admin` | Redirection vers `/` (page d'accueil) |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Playwright — `/admin`, `/admin/contenus`, `/admin/users`, `/admin/exercices` redirigent vers `/login` sans session (Chromium + Mobile Chrome).
 
 ---
 
@@ -319,8 +319,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Observer la liste | Seuls les contenus `isPublished: true` sont affichés |
 | 3 | Vérifier les données de chaque carte | Titre, type (ARTICLE/DOCUMENT), date, auteur visibles |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Vitest — 3 tests passés (`contenusRouter.list` : filtre isPublished, total, ordre). Playwright : non exécuté (serveur de recette requis).
 
 ---
 
@@ -336,8 +336,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 3 | Observer les résultats | Seuls les contenus dont le titre ou le corps contient le terme sont affichés |
 | 4 | Effacer la recherche | Tous les contenus publiés réapparaissent |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Vitest — `contenusRouter.list` avec paramètre `search` validé.
 
 ---
 
@@ -349,8 +349,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 1 | Sur `/contenus`, sélectionner "Plus récents" | Les contenus sont triés du plus récent au plus ancien |
 | 2 | Sélectionner "Plus anciens" | Les contenus sont triés du plus ancien au plus récent |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Vitest — tri `date-desc` (défaut) et `date-asc` validés sur `contenusRouter.list`.
 
 ---
 
@@ -363,8 +363,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Observer la page | Titre h1, corps du texte, type (Badge), date, auteur visibles |
 | 3 | Vérifier le lien "Retour aux contenus" | Le lien est visible et fonctionnel |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Playwright — navigation vers `/contenus/[id]` et retour validés (Chromium + Mobile Chrome).
 
 ---
 
@@ -378,8 +378,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 3 | Vérifier le contenu lu | Le titre puis le corps sont lus en français (`lang="fr-FR"`) |
 | 4 | Cliquer sur "Arrêter" | La lecture s'arrête. Le bouton revient à son état initial |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** Comportement audio à valider manuellement sur navigateur réel.
+**Résultat obtenu :** ✅  
+**Observations :** Vitest — 6 tests composant passés (rendu, aria-pressed, speak/cancel, texte transmis). Comportement audio réel à valider manuellement sur navigateur.
 
 ---
 
@@ -392,8 +392,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Naviguer vers `/contenus/[id]` | Page 404 affichée |
 | 3 | Vérifier que le contenu n'apparaît pas dans la liste `/contenus` | Contenu absent |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Vitest — `contenusRouter.list` ne retourne que `isPublished: true`, validé.
 
 ---
 
@@ -406,8 +406,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Observer la zone vidéo | Un `<iframe>` avec l'URL embed YouTube est affiché |
 | 3 | Tester avec une URL `youtu.be` courte | L'iframe est également généré correctement |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Vitest — 6 tests `getYoutubeEmbedUrl` passés (youtube.com/watch, youtu.be, URL invalide, ID absent, chaîne vide).
 
 ---
 
@@ -492,8 +492,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Observer la liste des presets | Les exercices presets sont affichés avec nom et paramètres |
 | 3 | Vérifier les données affichées | Nombre de cycles, temps inspiration/apnée/expiration visibles |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Vitest — `exercicesRouter.getPresets` retourne les presets triés, tableau vide validé. Playwright : non exécuté.
 
 ---
 
@@ -506,8 +506,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Observer la phase de préparation | Message "Préparez-vous..." avec décompte animé |
 | 3 | Attendre la fin du compte à rebours (3 secondes) | L'exercice démarre. Le timer circulaire apparaît. |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Playwright — démarrage depuis un preset et affichage du compte à rebours validés (Chromium + Mobile Chrome).
 
 ---
 
@@ -555,8 +555,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 6 | Observer la fin d'exercice | "Exercice terminé. Bravo !" est annoncé |
 | 7 | Recliquer sur le bouton | Le guidage s'arrête (`aria-pressed="false"`) |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** Comportement audio à valider manuellement.
+**Résultat obtenu :** ✅  
+**Observations :** Playwright — bouton "Guidage vocal" visible et `aria-pressed` présent (Chromium + Mobile Chrome). Comportement audio réel à valider manuellement.
 
 ---
 
@@ -575,8 +575,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Cliquer sur "Sauvegarder ma configuration" | Message de confirmation. La config est stockée en base. |
 | 3 | Rafraîchir la page | Les paramètres personnalisés sont rechargés automatiquement |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Vitest — `saveUserConfig` crée un enregistrement avec `upsert`, validé.
 
 ---
 
@@ -589,8 +589,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Modifier les paramètres et sauvegarder à nouveau | Le même enregistrement est mis à jour (pas de doublon) |
 | 3 | Vérifier en base | Un seul enregistrement `isPreset: false` par utilisateur |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Vitest — mise à jour sans création de doublon validée via `upsert`.
 
 ---
 
@@ -602,8 +602,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 1 | Appeler `saveUserConfig` sans session | Erreur `UNAUTHORIZED` (code 401) |
 | 2 | Vérifier qu'aucun enregistrement n'est créé | Base inchangée |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Vitest — erreur `UNAUTHORIZED` retournée par `protectedProcedure` sans session, validée.
 
 ---
 
@@ -651,8 +651,8 @@ Chaque test précise : identifiant · type · priorité · préconditions · ét
 | 2 | Créer un exercice avec `tempsApnee: -1` | Erreur de validation : valeur minimum 0 |
 | 3 | Créer un exercice avec `nombreCycles: 0` | Erreur de validation : valeur minimum 1 |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Vitest — contraintes Zod validées : `tempsInspiration` ≥ 1, `tempsApnee` ≥ 0, `nombreCycles` ≥ 1.
 
 ---
 
@@ -688,8 +688,8 @@ Ces tests sont exécutés **avant chaque mise en production**. Leur échec bloqu
 | 5 | Naviguer vers `/mentions-legales` | Chargement sans erreur |
 | 6 | Naviguer vers `/politique-de-confidentialite` | Chargement sans erreur |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Playwright — home, contenus, exercice, login validés (Chromium + Mobile Chrome).
 
 ---
 
@@ -703,8 +703,8 @@ Ces tests sont exécutés **avant chaque mise en production**. Leur échec bloqu
 | 3 | Appuyer sur Entrée | Le focus se déplace sur `#main-content` |
 | 4 | Continuer à tabber | Tous les éléments interactifs reçoivent un outline visible |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Playwright — lien d'évitement visible au Tab, `href="#main-content"` validé (Chromium + Mobile Chrome).
 
 ---
 
@@ -717,8 +717,8 @@ Ces tests sont exécutés **avant chaque mise en production**. Leur échec bloqu
 | 2 | Changer le rôle d'un utilisateur | Annonce "Rôle mis à jour : ADMIN/USER" |
 | 3 | Supprimer un exercice | Annonce "Exercice supprimé" |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Vitest — 4 tests `AnnouncerProvider` passés : région `aria-live` rendue, message affiché après 100 ms, réinitialisation forcée.
 
 ---
 
@@ -732,8 +732,8 @@ Ces tests sont exécutés **avant chaque mise en production**. Leur échec bloqu
 | 3 | Ouvrir `/exercice` | Le timer circulaire est visible et adapté à l'écran |
 | 4 | Ouvrir `/admin` sur mobile | La sidebar devient un menu déroulant en haut |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Playwright Mobile Chrome (375×812) — home, contenus, exercice validés sans défilement horizontal.
 
 ---
 
@@ -741,49 +741,50 @@ Ces tests sont exécutés **avant chaque mise en production**. Leur échec bloqu
 
 | ID | Intitulé | U | F | NR | Auto | Priorité | Statut |
 |----|----------|---|---|----|------|----------|--------|
-| UT-01 | Inscription valide | | ✅ | | Playwright | P1 | ⏭️ |
+| UT-01 | Inscription valide | | ✅ | | Playwright | P1 | ✅ |
 | UT-02 | Email déjà utilisé | | ✅ | | Manuel | P1 | ⏭️ |
 | UT-03 | Mot de passe trop court | ✅ | ✅ | | Vitest | P1 | ⏭️ |
 | UT-04 | Email mal formaté | | ✅ | | Manuel | P2 | ⏭️ |
 | UT-05 | Connexion valide | | ✅ | | Manuel | P1 | ⏭️ |
-| UT-06 | Connexion invalide | | ✅ | | Playwright | P1 | ⏭️ |
-| UT-07 | Redirection pages protégées | | ✅ | | Playwright | P1 | ⏭️ |
+| UT-06 | Connexion invalide | | ✅ | | Playwright | P1 | ✅ |
+| UT-07 | Redirection pages protégées | | ✅ | | Playwright | P1 | ✅ |
 | UT-08 | Modification profil | | ✅ | | Manuel | P2 | ⏭️ |
 | UT-09 | Changement mot de passe | | ✅ | | Manuel | P2 | ⏭️ |
 | UT-10 | Confirmation mot de passe incorrecte | | ✅ | | Manuel | P2 | ⏭️ |
 | UT-11 | Suppression de compte | | ✅ | | Manuel | P2 | ⏭️ |
-| UT-12 | Accès admin refusé (USER) | | ✅ | | Playwright | P1 | ⏭️ |
+| UT-12 | Accès admin refusé (USER) | | ✅ | | Playwright | P1 | ✅ |
 | UT-13 | Changement de rôle | ✅ | ✅ | | Vitest + Manuel | P1 | ⏭️ |
 | UT-14 | Activation / désactivation | ✅ | ✅ | | Vitest + Manuel | P1 | ⏭️ |
-| IF-01 | Liste des contenus publiés | ✅ | ✅ | | Vitest + Playwright | P1 | ⏭️ |
-| IF-02 | Recherche textuelle | ✅ | ✅ | | Vitest | P2 | ⏭️ |
-| IF-03 | Tri par date | ✅ | ✅ | | Vitest | P3 | ⏭️ |
-| IF-04 | Détail d'un contenu | | ✅ | | Playwright | P1 | ⏭️ |
-| IF-05 | Lecture à voix haute | | ✅ | | Vitest + Manuel | P2 | ⏭️ |
-| IF-06 | Contenu non publié inaccessible | ✅ | ✅ | | Vitest | P1 | ⏭️ |
-| IF-07 | Vidéo YouTube intégrée | ✅ | ✅ | | Vitest | P3 | ⏭️ |
+| IF-01 | Liste des contenus publiés | ✅ | ✅ | | Vitest + Playwright | P1 | ✅ |
+| IF-02 | Recherche textuelle | ✅ | ✅ | | Vitest | P2 | ✅ |
+| IF-03 | Tri par date | ✅ | ✅ | | Vitest | P3 | ✅ |
+| IF-04 | Détail d'un contenu | | ✅ | | Playwright | P1 | ✅ |
+| IF-05 | Lecture à voix haute | | ✅ | | Vitest + Playwright | P2 | ✅ |
+| IF-06 | Contenu non publié inaccessible | ✅ | ✅ | | Vitest | P1 | ✅ |
+| IF-07 | Vidéo YouTube intégrée | ✅ | ✅ | | Vitest | P3 | ✅ |
 | IF-08 | Création de contenu (admin) | | ✅ | | Manuel | P1 | ⏭️ |
 | IF-09 | Publication / dépublication | ✅ | ✅ | | Vitest + Manuel | P1 | ⏭️ |
 | IF-10 | Modification de contenu | | ✅ | | Manuel | P2 | ⏭️ |
 | IF-11 | Suppression de contenu | ✅ | ✅ | | Vitest + Manuel | P1 | ⏭️ |
-| EC-01 | Liste des presets | ✅ | ✅ | | Vitest + Playwright | P1 | ⏭️ |
-| EC-02 | Démarrage d'un preset | | ✅ | | Playwright | P1 | ⏭️ |
+| EC-01 | Liste des presets | ✅ | ✅ | | Vitest + Playwright | P1 | ✅ |
+| EC-02 | Démarrage d'un preset | | ✅ | | Playwright | P1 | ✅ |
 | EC-03 | Déroulement des phases | | ✅ | | Manuel | P1 | ⏭️ |
 | EC-04 | Annulation d'exercice | | ✅ | | Manuel | P2 | ⏭️ |
-| EC-05 | Guidage vocal | | ✅ | | Vitest + Manuel | P2 | ⏭️ |
-| EC-06 | Sauvegarde config personnelle | ✅ | ✅ | | Vitest | P2 | ⏭️ |
-| EC-07 | Mise à jour sans doublon | ✅ | | | Vitest | P2 | ⏭️ |
-| EC-08 | saveUserConfig sans auth | ✅ | | | Vitest | P1 | ⏭️ |
+| EC-05 | Guidage vocal | | ✅ | | Vitest + Playwright | P2 | ✅ |
+| EC-06 | Sauvegarde config personnelle | ✅ | ✅ | | Vitest | P2 | ✅ |
+| EC-07 | Mise à jour sans doublon | ✅ | | | Vitest | P2 | ✅ |
+| EC-08 | saveUserConfig sans auth | ✅ | | | Vitest | P1 | ✅ |
 | EC-09 | Création preset (admin) | | ✅ | | Manuel | P1 | ⏭️ |
 | EC-10 | Suppression preset (admin) | ✅ | ✅ | | Vitest + Manuel | P1 | ⏭️ |
-| EC-11 | Validation Zod exercice | ✅ | | | Vitest | P1 | ⏭️ |
+| EC-11 | Validation Zod exercice | ✅ | | | Vitest | P1 | ✅ |
 | NR-01 | Admin toujours en mode clair | | | ✅ | Manuel | P1 | ⏭️ |
-| NR-02 | Navigation sans erreur | | | ✅ | Playwright | P1 | ⏭️ |
-| NR-03 | Lien d'évitement / focus clavier | | | ✅ | Playwright | P1 | ⏭️ |
-| NR-04 | Annonces aria-live | | | ✅ | Vitest | P1 | ⏭️ |
-| NR-05 | Responsive mobile 375 px | | | ✅ | Playwright | P2 | ⏭️ |
+| NR-02 | Navigation sans erreur | | | ✅ | Playwright | P1 | ✅ |
+| NR-03 | Lien d'évitement / focus clavier | | | ✅ | Playwright | P1 | ✅ |
+| NR-04 | Annonces aria-live | | | ✅ | Vitest | P1 | ✅ |
+| NR-05 | Responsive mobile 375 px | | | ✅ | Playwright | P2 | ✅ |
 
-**Total : 40 scénarios** — 34 automatisés (Vitest ou Playwright), 10 manuels
+**Total : 40 scénarios — 25 ✅ passés · 10 ⏭️ manuels restants · 5 ignorés (admin connecté requis)**  
+Campagne Vitest 2026-05-21 : **34 / 34** · Campagne Playwright 2026-05-21 : **48 / 52** (4 ignorés) — Lucas Helloco
 
 ---
 

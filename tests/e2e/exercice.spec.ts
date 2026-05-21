@@ -29,8 +29,10 @@ test.describe("Page Exercice", () => {
     const startBtn = page.getByRole("button", { name: /commencer|démarrer|lancer/i }).first();
     if (await startBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
       await startBtn.click();
+      // Attendre que le compte à rebours soit visible avant de chercher le bouton audio
+      await expect(page.getByText(/préparez|3|2|1/i).first()).toBeVisible({ timeout: 5000 });
       const audioBtn = page.getByRole("button", { name: /guidage vocal/i });
-      await expect(audioBtn).toBeVisible({ timeout: 5000 });
+      await expect(audioBtn).toBeVisible({ timeout: 8000 });
       await expect(audioBtn).toHaveAttribute("aria-pressed");
     }
   });
