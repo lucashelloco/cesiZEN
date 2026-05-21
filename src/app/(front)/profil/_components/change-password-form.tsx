@@ -14,7 +14,7 @@ export function ChangePasswordForm() {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     setError("");
     setSuccess(false);
@@ -86,8 +86,8 @@ export function ChangePasswordForm() {
         />
       </div>
 
-      {error && <p className="text-sm text-red-500">{error}</p>}
-      {success && <p className="text-sm text-green-600">Mot de passe modifié avec succès.</p>}
+      {error && <p role="alert" className="text-sm text-red-500">{error}</p>}
+      {success && <p role="status" className="text-sm text-green-600">Mot de passe modifié avec succès.</p>}
 
       <Button type="submit" disabled={loading}>
         {loading ? "Modification..." : "Changer le mot de passe"}

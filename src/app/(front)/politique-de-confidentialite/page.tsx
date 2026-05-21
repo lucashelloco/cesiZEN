@@ -5,9 +5,9 @@ export default function PolitiqueConfidentialitePage() {
         Politique de confidentialité
       </h1>
 
-      <div className="space-y-8 rounded-lg border bg-white p-8 text-sm text-gray-700">
+      <div className="space-y-8 rounded-lg border bg-white p-8 text-sm text-gray-700 dark:border-gray-700 dark:bg-base-100 dark:text-gray-300">
         <section>
-          <h2 className="mb-3 text-base font-semibold text-gray-900">Données collectées</h2>
+          <h2 className="mb-3 text-base font-semibold text-gray-900 dark:text-white">Données collectées</h2>
           <p>Lors de la création de votre compte, nous collectons :</p>
           <ul className="mt-2 list-inside list-disc space-y-1 pl-2">
             <li>Votre nom ou pseudonyme</li>
@@ -21,7 +21,7 @@ export default function PolitiqueConfidentialitePage() {
         </section>
 
         <section>
-          <h2 className="mb-3 text-base font-semibold text-gray-900">Finalité du traitement</h2>
+          <h2 className="mb-3 text-base font-semibold text-gray-900 dark:text-white">Finalité du traitement</h2>
           <p>Vos données sont utilisées exclusivement pour :</p>
           <ul className="mt-2 list-inside list-disc space-y-1 pl-2">
             <li>La gestion de votre compte et de votre session</li>
@@ -31,7 +31,7 @@ export default function PolitiqueConfidentialitePage() {
         </section>
 
         <section>
-          <h2 className="mb-3 text-base font-semibold text-gray-900">Base légale</h2>
+          <h2 className="mb-3 text-base font-semibold text-gray-900 dark:text-white">Base légale</h2>
           <p>
             Le traitement de vos données est fondé sur votre consentement lors de la création de votre compte,
             conformément au Règlement Général sur la Protection des Données (RGPD — Règlement UE 2016/679).
@@ -39,7 +39,7 @@ export default function PolitiqueConfidentialitePage() {
         </section>
 
         <section>
-          <h2 className="mb-3 text-base font-semibold text-gray-900">Durée de conservation</h2>
+          <h2 className="mb-3 text-base font-semibold text-gray-900 dark:text-white">Durée de conservation</h2>
           <p>
             Vos données sont conservées tant que votre compte est actif. Vous pouvez demander la suppression
             de votre compte à tout moment depuis votre page profil, ce qui entraîne la suppression immédiate
@@ -48,7 +48,7 @@ export default function PolitiqueConfidentialitePage() {
         </section>
 
         <section>
-          <h2 className="mb-3 text-base font-semibold text-gray-900">Vos droits (RGPD)</h2>
+          <h2 className="mb-3 text-base font-semibold text-gray-900 dark:text-white">Vos droits (RGPD)</h2>
           <p>Conformément au RGPD, vous disposez des droits suivants :</p>
           <ul className="mt-2 list-inside list-disc space-y-1 pl-2">
             <li><strong>Droit d&apos;accès</strong> : consulter vos données depuis votre profil</li>
@@ -62,15 +62,15 @@ export default function PolitiqueConfidentialitePage() {
         </section>
 
         <section id="cookies">
-          <h2 className="mb-3 text-base font-semibold text-gray-900">Politique relative aux cookies</h2>
+          <h2 className="mb-3 text-base font-semibold text-gray-900 dark:text-white">Politique relative aux cookies</h2>
           <p>CesiZen utilise uniquement des cookies strictement nécessaires au fonctionnement du service :</p>
-          <div className="mt-3 overflow-x-auto rounded border">
+          <div className="mt-3 overflow-x-auto rounded border dark:border-gray-600">
             <table className="w-full text-xs">
-              <thead className="bg-gray-50">
+              <thead className="bg-gray-50 dark:bg-base-200">
                 <tr>
-                  <th className="px-3 py-2 text-left font-semibold text-gray-700">Cookie</th>
-                  <th className="px-3 py-2 text-left font-semibold text-gray-700">Finalité</th>
-                  <th className="px-3 py-2 text-left font-semibold text-gray-700">Durée</th>
+                  <th className="px-3 py-2 text-left font-semibold text-gray-700 dark:text-gray-300">Cookie</th>
+                  <th className="px-3 py-2 text-left font-semibold text-gray-700 dark:text-gray-300">Finalité</th>
+                  <th className="px-3 py-2 text-left font-semibold text-gray-700 dark:text-gray-300">Durée</th>
                 </tr>
               </thead>
               <tbody>
@@ -93,7 +93,7 @@ export default function PolitiqueConfidentialitePage() {
         </section>
 
         <section>
-          <h2 className="mb-3 text-base font-semibold text-gray-900">Partage des données</h2>
+          <h2 className="mb-3 text-base font-semibold text-gray-900 dark:text-white">Partage des données</h2>
           <p>
             Vos données ne sont jamais vendues, louées ni transmises à des tiers à des fins commerciales.
           </p>

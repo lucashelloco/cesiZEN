@@ -23,7 +23,7 @@ export function ProfilForm({ user }: { user: User }) {
     },
   });
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     update.mutate({ name, email });
   }
@@ -52,10 +52,10 @@ export function ProfilForm({ user }: { user: User }) {
       </div>
 
       {update.error && (
-        <p className="text-sm text-red-500">{update.error.message}</p>
+        <p role="alert" className="text-sm text-red-500">{update.error.message}</p>
       )}
       {success && (
-        <p className="text-sm text-green-600">Profil mis à jour avec succès.</p>
+        <p role="status" className="text-sm text-green-600">Profil mis à jour avec succès.</p>
       )}
 
       <Button type="submit" disabled={update.isPending}>

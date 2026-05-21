@@ -23,11 +23,11 @@ export default async function Home() {
   const exerciceCount = await db.exerciceCardiaque.count({ where: { isPreset: true } });
   const contenuCount = await db.contenu.count({ where: { isPublished: true } });
   return (
-    <div className="flex min-h-screen flex-col" suppressHydrationWarning>
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* Hero Section */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-base-100 to-accent/10 pt-20 pb-32 sm:pt-32 sm:pb-40">
+        <div className="relative overflow-hidden bg-white dark:bg-base-100 pt-20 pb-32 sm:pt-32 sm:pb-40">
           {/* Background decorative elements */}
           <div className="absolute inset-0 -z-10 overflow-hidden">
             <div className="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-primary/5 blur-3xl"></div>
@@ -37,22 +37,20 @@ export default async function Home() {
           <div className="relative mx-auto max-w-5xl px-4">
             {session && (
               <div className="mb-8 rounded-lg animate-fade-in-up delay-300 text-center">
-                <p className="text-4xl font-medium text-gray-900 dark:text-white">
-                  Bienvenue, <span className="text-primary font-bold">{session.user.name}</span> ! 👋
+                <p className="text-2xl sm:text-3xl font-medium text-gray-900 dark:text-white">
+                  Bienvenue <span className="font-bold">{session.user.name}</span>,
                 </p>
               </div>
             )}
-            <br />
-            br
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
 
               {/* Contenu texte */}
               <div className="space-y-8">
                 <div className="space-y-4 animate-fade-in-up">
-                  <h1 className="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+                  <h1 className="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl xl:text-6xl">
                     Prenez soin de votre <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">santé mentale</span>
                   </h1>
-                  <p className="text-lg text-base-content/70 sm:text-xl">
+                  <p className="text-lg text-gray-600 dark:text-base-content/70 sm:text-xl">
                     CesiZen vous aide à gérer le stress, l&apos;anxiété et à trouver l&apos;équilibre émotionnel à travers des exercices guidés et des contenus inspirants.
                   </p>
                 </div>
@@ -64,7 +62,7 @@ export default async function Home() {
                       <Link href="/register" className="btn btn-primary btn-lg">
                         Commencer maintenant
                       </Link>
-                      <Link href="/login" className="btn btn-outline btn-lg">
+                      <Link href="/login" className="btn btn-ghost btn-lg text-gray-700 hover:bg-primary/5 hover:text-primary dark:text-base-content dark:hover:bg-primary/15">
                         Se connecter
                       </Link>
                     </>
@@ -73,7 +71,7 @@ export default async function Home() {
                       <Link href="/exercice" className="btn btn-primary btn-lg">
                         Lancer un exercice
                       </Link>
-                      <Link href="/contenus" className="btn btn-outline btn-lg">
+                      <Link href="/contenus" className="btn btn-ghost btn-lg text-gray-700 hover:bg-primary/5 hover:text-primary dark:text-base-content dark:hover:bg-primary/15">
                         Découvrir les contenus
                       </Link>
                     </>
@@ -81,18 +79,18 @@ export default async function Home() {
                 </div>
 
                 {/* Stats */}
-                <div className="grid grid-cols-3 gap-6 border-t border-base-300 pt-8 animate-fade-in-up delay-300 dark:border-base-content/10">
+                <div className="grid grid-cols-3 gap-3 sm:gap-6 border-t border-gray-200 pt-6 sm:pt-8 animate-fade-in-up delay-300 dark:border-base-content/10">
                   <div>
-                    <p className="text-2xl font-bold" style={{ color: '#00a86b' }}>{userCount.toLocaleString('fr-FR')}</p>
-                    <p className="text-sm text-base-content/60">Utilisateurs actifs</p>
+                    <p className="text-xl sm:text-2xl font-bold" style={{ color: '#00a86b' }}>{userCount.toLocaleString('fr-FR')}</p>
+                    <p className="text-xs sm:text-sm text-gray-500 dark:text-base-content/60">Utilisateurs actifs</p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-accent">{exerciceCount.toLocaleString('fr-FR')}</p>
-                    <p className="text-sm text-base-content/60">Exercices disponibles</p>
+                    <p className="text-xl sm:text-2xl font-bold text-accent">{exerciceCount.toLocaleString('fr-FR')}</p>
+                    <p className="text-xs sm:text-sm text-gray-500 dark:text-base-content/60">Exercices disponibles</p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-secondary">{contenuCount.toLocaleString('fr-FR')}</p>
-                    <p className="text-sm text-base-content/60">Contenus disponibles</p>
+                    <p className="text-xl sm:text-2xl font-bold text-secondary">{contenuCount.toLocaleString('fr-FR')}</p>
+                    <p className="text-xs sm:text-sm text-gray-500 dark:text-base-content/60">Contenus disponibles</p>
                   </div>
                 </div>
               </div>
@@ -105,12 +103,13 @@ export default async function Home() {
                   width={350}
                   height={350}
                   priority
+                  className="w-40 sm:w-56 lg:w-72 xl:w-[350px] h-auto"
                 />
               </div>
             </div>
           </div>
         </div>
-
+        <hr />
         {/* Features Section */}
         <div className="bg-white dark:bg-base-100 py-20 sm:py-28">
           <div className="mx-auto max-w-5xl px-4">
@@ -125,7 +124,6 @@ export default async function Home() {
               {/* Feature 1 */}
               <div className="card bg-gradient-to-br from-primary/10 to-transparent shadow-md hover:shadow-xl border-2 border-primary transition-all duration-300 animate-fade-in-up delay-100">
                 <div className="card-body">
-                  <div className="text-4xl mb-4">🧘</div>
                   <h3 className="card-title text-lg text-primary">Exercices guidés</h3>
                   <p className="text-gray-700 dark:text-base-content/70">Découvrez des exercices de respiration, méditation et cohérence cardiaque.</p>
                 </div>
@@ -134,7 +132,6 @@ export default async function Home() {
               {/* Feature 2 */}
               <div className="card bg-gradient-to-br from-accent/10 to-transparent shadow-md hover:shadow-xl border-2 border-accent transition-all duration-300 animate-fade-in-up delay-200">
                 <div className="card-body">
-                  <div className="text-4xl mb-4">📚</div>
                   <h3 className="card-title text-lg text-accent">Contenus riches</h3>
                   <p className="text-gray-700 dark:text-base-content/70">Articles et ressources pour mieux comprendre votre santé mentale.</p>
                 </div>
@@ -143,7 +140,6 @@ export default async function Home() {
               {/* Feature 3 */}
               <div className="card bg-gradient-to-br from-secondary/10 to-transparent shadow-md hover:shadow-xl border-2 border-secondary transition-all duration-300 animate-fade-in-up delay-300">
                 <div className="card-body">
-                  <div className="text-4xl mb-4">📊</div>
                   <h3 className="card-title text-lg text-secondary">Suivi personnel</h3>
                   <p className="text-gray-700 dark:text-base-content/70">Suivez votre progression et vos statistiques de bien-être.</p>
                 </div>

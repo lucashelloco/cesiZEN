@@ -66,14 +66,14 @@ export function ExerciceConfigurateur({ presets, userConfig, isAuthenticated, on
     <div className="space-y-6">
       {/* Presets */}
       {presets.length > 0 && (
-        <div className="rounded-lg border bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+        <div className="rounded-lg border bg-white p-5 dark:border-gray-700 dark:bg-base-100">
           <h2 className="mb-3 font-semibold text-gray-900 dark:text-white">Exercices proposés</h2>
           <div className="grid gap-3 sm:grid-cols-3">
             {presets.map((preset) => (
               <button
                 key={preset.id}
                 onClick={() => applyPreset(preset)}
-                className="rounded-lg border p-3 text-left transition hover:border-blue-400 hover:bg-blue-50 dark:border-gray-600 dark:hover:border-blue-500 dark:hover:bg-blue-950"
+                className="rounded-lg border p-3 text-left transition hover:border-primary hover:bg-primary/5 dark:border-gray-600 dark:hover:border-primary dark:hover:bg-primary/15"
               >
                 <p className="font-medium text-gray-900 dark:text-white">{preset.nom}</p>
                 <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -89,7 +89,7 @@ export function ExerciceConfigurateur({ presets, userConfig, isAuthenticated, on
       )}
 
       {/* Configurateur */}
-      <div className="rounded-lg border bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+      <div className="rounded-lg border bg-white p-5 dark:border-gray-700 dark:bg-base-100">
         <h2 className="mb-4 font-semibold text-gray-900 dark:text-white">Configuration personnalisée</h2>
 
         <div className="space-y-4">

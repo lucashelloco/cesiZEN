@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
+import { useAnnounce } from "@/components/announcer-provider";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -25,9 +26,13 @@ type Exercice = {
 
 export function ExercicesTable({ exercices }: { exercices: Exercice[] }) {
   const router = useRouter();
+  const announce = useAnnounce();
 
   const deleteExercice = api.adminExercices.delete.useMutation({
-    onSuccess: () => router.refresh(),
+    onSuccess: () => {
+      router.refresh();
+      announce("Exercice supprimé");
+    },
   });
 
   return (
@@ -36,17 +41,17 @@ export function ExercicesTable({ exercices }: { exercices: Exercice[] }) {
         <TableHeader>
           <TableRow>
             <TableHead>Nom</TableHead>
-            <TableHead>Cycles</TableHead>
-            <TableHead>Inspiration</TableHead>
-            <TableHead>Apnée</TableHead>
-            <TableHead>Expiration</TableHead>
+            <TableHead className="hidden sm:table-cell">Cycles</TableHead>
+            <TableHead className="hidden sm:table-cell">Inspiration</TableHead>
+            <TableHead className="hidden md:table-cell">Apnée</TableHead>
+            <TableHead className="hidden md:table-cell">Expiration</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {exercices.length === 0 && (
             <TableRow>
-              <TableCell colSpan={6} className="py-8 text-center text-gray-500">
+              <TableCell colSpan={6} className="py-8 text-center text-muted-foreground">
                 Aucun exercice preset
               </TableCell>
             </TableRow>
@@ -54,12 +59,12 @@ export function ExercicesTable({ exercices }: { exercices: Exercice[] }) {
           {exercices.map((exercice) => (
             <TableRow key={exercice.id}>
               <TableCell className="font-medium">{exercice.nom}</TableCell>
-              <TableCell>{exercice.nombreCycles}</TableCell>
-              <TableCell>{exercice.tempsInspiration}s</TableCell>
-              <TableCell>{exercice.tempsApnee}s</TableCell>
-              <TableCell>{exercice.tempsExpiration}s</TableCell>
+              <TableCell className="hidden sm:table-cell">{exercice.nombreCycles}</TableCell>
+              <TableCell className="hidden sm:table-cell">{exercice.tempsInspiration}s</TableCell>
+              <TableCell className="hidden md:table-cell">{exercice.tempsApnee}s</TableCell>
+              <TableCell className="hidden md:table-cell">{exercice.tempsExpiration}s</TableCell>
               <TableCell>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <ExerciceForm exercice={exercice} />
                   <Button
                     size="sm"
