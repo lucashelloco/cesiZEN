@@ -36,7 +36,7 @@ export function ExercicesTable({ exercices }: { exercices: Exercice[] }) {
   });
 
   return (
-    <div className="overflow-x-auto rounded-md border bg-white">
+    <div className="overflow-x-auto rounded-md border border-border bg-card">
       <Table>
         <TableHeader>
           <TableRow>

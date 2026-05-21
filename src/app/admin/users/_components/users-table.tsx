@@ -46,7 +46,7 @@ export function UsersTable({ users: initialUsers }: { users: User[] }) {
   });
 
   return (
-    <div className="overflow-x-auto rounded-md border border-gray-200 bg-white">
+    <div className="overflow-x-auto rounded-md border border-border bg-card">
       <Table>
         <TableHeader>
           <TableRow>

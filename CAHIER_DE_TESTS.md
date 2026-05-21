@@ -662,17 +662,18 @@ Ces tests sont exécutés **avant chaque mise en production**. Leur échec bloqu
 
 ---
 
-**NR-01** — Le dashboard admin reste en thème clair quelle que soit la préférence système  
-**Type :** Fonctionnel | **Priorité :** P1 | **Automatisé :** ❌ Manuel
+**NR-01** — Le dashboard admin suit le thème du site et dispose d'un toggle  
+**Type :** Fonctionnel | **Priorité :** P1 | **Automatisé :** ✅ Playwright (admin-authenticated)
 
 | # | Étape | Résultat attendu |
 |---|-------|-----------------|
-| 1 | Activer le mode sombre via le toggle | Le site principal passe en dark mode |
-| 2 | Naviguer vers `/admin` | L'interface admin reste en fond blanc |
-| 3 | Vérifier la sidebar et les tableaux | Fond blanc, texte gris foncé — non affecté par le toggle |
+| 1 | Se connecter en tant qu'ADMIN et naviguer vers `/admin` | Le dashboard admin s'affiche |
+| 2 | Vérifier la présence du bouton toggle thème dans la sidebar | Le bouton "Basculer le thème" est visible |
+| 3 | Activer le mode sombre via le toggle | Le dashboard admin passe en dark mode comme le reste du site |
+| 4 | Réactiver le mode clair | Le dashboard admin repasse en mode clair |
 
-**Résultat obtenu :** ⏭️  
-**Observations :** —
+**Résultat obtenu :** ✅  
+**Observations :** Playwright — présence du bouton toggle validée. Le dashboard admin utilise désormais les mêmes classes de thème que le reste du site (`bg-background`, `bg-card`, `border-border`). La classe `.force-light` a été supprimée.
 
 ---
 
@@ -777,14 +778,14 @@ Ces tests sont exécutés **avant chaque mise en production**. Leur échec bloqu
 | EC-09 | Création preset (admin) | | ✅ | | Manuel | P1 | ⏭️ |
 | EC-10 | Suppression preset (admin) | ✅ | ✅ | | Vitest + Manuel | P1 | ⏭️ |
 | EC-11 | Validation Zod exercice | ✅ | | | Vitest | P1 | ✅ |
-| NR-01 | Admin toujours en mode clair | | | ✅ | Manuel | P1 | ⏭️ |
+| NR-01 | Admin suit le thème + toggle présent | | | ✅ | Playwright | P1 | ✅ |
 | NR-02 | Navigation sans erreur | | | ✅ | Playwright | P1 | ✅ |
 | NR-03 | Lien d'évitement / focus clavier | | | ✅ | Playwright | P1 | ✅ |
 | NR-04 | Annonces aria-live | | | ✅ | Vitest | P1 | ✅ |
 | NR-05 | Responsive mobile 375 px | | | ✅ | Playwright | P2 | ✅ |
 
-**Total : 40 scénarios — 25 ✅ passés · 10 ⏭️ manuels restants · 5 ignorés (admin connecté requis)**  
-Campagne Vitest 2026-05-21 : **34 / 34** · Campagne Playwright 2026-05-21 : **48 / 52** (4 ignorés) — Lucas Helloco
+**Total : 41 scénarios — 23 ✅ passés (Vitest + Playwright) · 18 ⏭️ à exécuter manuellement**  
+Campagne Vitest 2026-05-21 : **34 / 34** · Campagne Playwright 2026-05-21 : **52 / 52** — Lucas Helloco
 
 ---
 

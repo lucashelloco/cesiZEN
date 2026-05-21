@@ -161,7 +161,7 @@ Pour chaque test, indiquer : ✅ Passé · ❌ Échoué · ⏭️ Non exécuté 
 **Nombre d'anomalies P2 :** `0`  
 **Nombre d'anomalies P3 :** `0`
 
-> 25 / 40 scénarios validés automatiquement. Les 10 tests manuels restants (UT-02, UT-04, UT-05, UT-08 à UT-11, IF-08, IF-09 à IF-11, EC-03, EC-04, EC-09, EC-10, NR-01) nécessitent un environnement de recette déployé avec des comptes de test.
+> 23 / 41 scénarios validés automatiquement. Les 18 scénarios manuels restants (UT-02, UT-03, UT-04, UT-05, UT-08 à UT-11, UT-13, UT-14, IF-08, IF-09 à IF-11, EC-03, EC-04, EC-09, EC-10) nécessitent un environnement de recette déployé avec des comptes de test.
 
 ---
 
