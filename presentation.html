@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CesiZen — Présentation Projet</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:  #52a452;
+      --green-l: #e8f5e8;
+      --green-d: #3d7d3d;
+      --yellow: #f2c94c;
+      --teal:   #2ab5a0;
+      --teal-l: #e0f7f5;
+      --dark:   #1e2b1e;
+      --grey:   #555;
+      --light:  #f6faf6;
+      --white:  #ffffff;
+      --border: #d4e8d4;
+      --shadow: 0 4px 24px rgba(82,164,82,.12);
+    }
+
+    html, body { height: 100%; background: #e8ede8; font-family: Helvetica, Arial, sans-serif; }
+
+    /* ── Stage ─────────────────────────────────────────────────────────────── */
+    #stage {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #dce8dc;
+    }
+
+    /* Slide wrapper — fixed 16:9 proportion, scaled to fit the viewport */
+    #deck {
+      width: 1200px;
+      height: 675px;
+      position: relative;
+      transform-origin: center center;
+    }
+
+    /* ── Slide base ─────────────────────────────────────────────────────────── */
+    .slide {
+      display: none;
+      width: 1200px;
+      height: 675px;
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 48px rgba(0,0,0,.18);
+      position: relative;
+      flex-direction: column;
+    }
+    .slide.active { display: flex; }
+
+    /* ── Common header strip ────────────────────────────────────────────────── */
+    .slide-header {
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-d) 100%);
+      color: #fff;
+      padding: 22px 48px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .slide-header h2 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -.4px;
+    }
+    .slide-header .icon {
+      font-size: 28px;
+      opacity: .9;
+    }
+    .slide-header .badge {
+      margin-left: auto;
+      background: rgba(255,255,255,.2);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 13px;
+      letter-spacing: .5px;
+    }
+
+    /* ── Slide body ─────────────────────────────────────────────────────────── */
+    .slide-body {
+      flex: 1;
+      padding: 28px 48px 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── Slide footer ───────────────────────────────────────────────────────── */
+    .slide-footer {
+      height: 36px;
+      background: var(--green-l);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 48px;
+      gap: 24px;
+      flex-shrink: 0;
+    }
+    .slide-footer span { font-size: 11px; color: var(--grey); }
+    .slide-footer .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); display: inline-block; margin-right: 6px; }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       SLIDE 1 — COVER
+    ──────────────────────────────────────────────────────────────────────────*/
+    #s1 {
+      background: linear-gradient(160deg, #f6faf6 0%, #e8f5e8 50%, #d4eed4 100%);
+    }
+    #s1 .cover-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 0 80px;
+      text-align: center;
+    }
+    #s1 .cover-logo {
+      width: 84px;
+      height: 84px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-d) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+    #s1 h1 {
+      font-size: 72px;
+      font-weight: 800;
+      color: var(--green-d);
+      letter-spacing: -3px;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    #s1 h1 span { color: var(--teal); }
+    #s1 .subtitle {
+      font-size: 20px;
+      color: var(--grey);
+      margin-bottom: 32px;
+      font-weight: 400;
+    }
+    #s1 .pills {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    #s1 .pill {
+      padding: 8px 20px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    #s1 .pill-green  { background: var(--green);  color: #fff; }
+    #s1 .pill-yellow { background: var(--yellow); color: var(--dark); }
+    #s1 .pill-teal   { background: var(--teal);   color: #fff; }
+    #s1 .cover-meta {
+      position: absolute;
+      bottom: 28px;
+      right: 48px;
+      text-align: right;
+      font-size: 12px;
+      color: #888;
+      line-height: 1.6;
+    }
+    #s1 .cover-meta strong { color: var(--green-d); }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       SHARED COMPONENTS
+    ──────────────────────────────────────────────────────────────────────────*/
+    .cards-row {
+      display: flex;
+      gap: 16px;
+      flex: 1;
+    }
+    .card {
+      flex: 1;
+      background: var(--light);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-icon { font-size: 28px; }
+    .card h3 { font-size: 15px; font-weight: 700; color: var(--dark); }
+    .card p, .card li { font-size: 13px; color: var(--grey); line-height: 1.5; }
+    .card ul { list-style: none; padding: 0; }
+    .card ul li::before { content: "•"; color: var(--green); margin-right: 6px; font-weight: 700; }
+    .card.accent-green  { border-left: 4px solid var(--green); }
+    .card.accent-yellow { border-left: 4px solid var(--yellow); }
+    .card.accent-teal   { border-left: 4px solid var(--teal); }
+    .card.accent-red    { border-left: 4px solid #e05252; }
+
+    .intro-text { font-size: 15px; color: var(--grey); line-height: 1.65; }
+    .intro-text strong { color: var(--dark); }
+
+    .tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    .tag-green  { background: var(--green-l); color: var(--green-d); }
+    .tag-yellow { background: #fdf5dc; color: #8a6f00; }
+    .tag-teal   { background: var(--teal-l); color: #1a7a6e; }
+
+    /* Tables */
+    .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .data-table th {
+      background: var(--green);
+      color: #fff;
+      padding: 9px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: .3px;
+    }
+    .data-table th:first-child { border-radius: 8px 0 0 0; }
+    .data-table th:last-child  { border-radius: 0 8px 0 0; }
+    .data-table td { padding: 8px 14px; border-bottom: 1px solid var(--border); color: var(--dark); vertical-align: middle; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:nth-child(even) td { background: var(--light); }
+    .data-table td.winner { font-weight: 700; color: var(--green-d); }
+    .data-table td.score-hi { color: var(--green-d); font-weight: 700; }
+    .data-table td.score-mid { color: #b08000; }
+    .data-table td.score-lo { color: #c0392b; }
+
+    /* Two-column layout */
+    .two-col { display: flex; gap: 24px; flex: 1; }
+    .col { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+
+    /* Check list */
+    .check-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .check-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: var(--dark); line-height: 1.5; }
+    .check-list li .ck { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+    .ck-green  { background: var(--green);  color: #fff; }
+    .ck-yellow { background: var(--yellow); color: var(--dark); }
+    .ck-teal   { background: var(--teal);   color: #fff; }
+
+    /* Stat boxes */
+    .stat-row { display: flex; gap: 14px; }
+    .stat-box {
+      flex: 1;
+      background: var(--light);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+    .stat-box .num { font-size: 36px; font-weight: 800; color: var(--green-d); line-height: 1; }
+    .stat-box .lbl { font-size: 12px; color: var(--grey); margin-top: 4px; }
+    .stat-box.yellow .num { color: #8a6f00; }
+    .stat-box.teal .num   { color: #1a7a6e; }
+
+    /* MLD diagram */
+    .mld-container { display: flex; gap: 20px; flex: 1; align-items: flex-start; flex-wrap: wrap; }
+    .mld-table {
+      background: var(--light);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 12px;
+      min-width: 160px;
+    }
+    .mld-table .mld-head {
+      background: var(--green);
+      color: #fff;
+      padding: 7px 14px;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mld-table .mld-head.yellow { background: #c9a000; }
+    .mld-table .mld-head.teal   { background: var(--teal); }
+    .mld-table .mld-head.grey   { background: #777; }
+    .mld-table .mld-row { padding: 5px 14px; border-bottom: 1px solid var(--border); color: var(--dark); display: flex; align-items: center; gap: 6px; }
+    .mld-table .mld-row:last-child { border-bottom: none; }
+    .mld-table .mld-row .pk  { color: var(--yellow); font-weight: 700; font-size: 10px; background: #fff9e0; padding: 1px 5px; border-radius: 3px; }
+    .mld-table .mld-row .fk  { color: var(--teal);   font-weight: 700; font-size: 10px; background: var(--teal-l); padding: 1px 5px; border-radius: 3px; }
+
+    /* Sitemap */
+    .sitemap { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .sm-level { display: flex; gap: 10px; }
+    .sm-node {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sm-root  { background: var(--green);  color: #fff; }
+    .sm-pub   { background: var(--green-l); border: 1.5px solid var(--border); color: var(--dark); }
+    .sm-auth  { background: #fff9e0; border: 1.5px solid #f0d060; color: var(--dark); }
+    .sm-admin { background: var(--teal-l); border: 1.5px solid var(--teal); color: #1a7a6e; }
+    .sm-legal { background: #f5f5f5; border: 1.5px solid #ccc; color: #666; font-size: 12px; font-weight: 400; }
+    .sm-row-label { font-size: 11px; color: #999; align-self: center; width: 80px; flex-shrink: 0; text-transform: uppercase; letter-spacing: .5px; font-weight: 600; }
+    .sm-connector { display: flex; align-items: center; color: #bbb; font-size: 14px; }
+
+    /* Feature grid */
+    .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; flex: 1; }
+    .feat-item {
+      background: var(--light);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .feat-item .fi-icon { font-size: 20px; flex-shrink: 0; }
+    .feat-item .fi-text h4 { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 2px; }
+    .feat-item .fi-text p  { font-size: 11.5px; color: var(--grey); line-height: 1.4; }
+
+    /* Bar chart */
+    .bar-chart { display: flex; flex-direction: column; gap: 12px; }
+    .bar-row { display: flex; align-items: center; gap: 12px; }
+    .bar-label { width: 130px; font-size: 13px; font-weight: 600; color: var(--dark); flex-shrink: 0; text-align: right; }
+    .bar-track { flex: 1; height: 28px; background: #eee; border-radius: 999px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 999px; display: flex; align-items: center; padding-left: 14px; font-size: 12px; font-weight: 700; color: #fff; transition: width .6s; }
+    .bar-score { width: 60px; font-size: 13px; font-weight: 700; color: var(--dark); flex-shrink: 0; }
+
+    /* ── Navigation ─────────────────────────────────────────────────────────── */
+    #nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(8px);
+      border-radius: 40px;
+      padding: 8px 20px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.15);
+      z-index: 100;
+    }
+    #nav button {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: var(--green);
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s;
+    }
+    #nav button:hover { background: var(--green-d); }
+    #nav button:disabled { background: #ccc; cursor: not-allowed; }
+    #counter { font-size: 14px; font-weight: 600; color: var(--dark); min-width: 60px; text-align: center; }
+    .progress-dots { display: flex; gap: 6px; }
+    .pd { width: 8px; height: 8px; border-radius: 50%; background: #ddd; cursor: pointer; transition: background .2s, transform .2s; }
+    .pd.active { background: var(--green); transform: scale(1.3); }
+
+    /* ── Hint ───────────────────────────────────────────────────────────────── */
+    #hint {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      font-size: 11px;
+      color: rgba(0,0,0,.35);
+      background: rgba(255,255,255,.7);
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+<div id="stage">
+  <div id="deck">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 1 — COVER
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide active" id="s1">
+      <div class="cover-inner">
+        <div class="cover-logo">🧘</div>
+        <h1>Cesi<span>Zen</span></h1>
+        <p class="subtitle">Application de bien-être mental — École CESI</p>
+        <div class="pills">
+          <span class="pill pill-green">T3 Stack</span>
+          <span class="pill pill-yellow">Next.js 15</span>
+          <span class="pill pill-teal">TypeScript</span>
+          <span class="pill pill-green">PWA</span>
+          <span class="pill pill-yellow">RGAA</span>
+          <span class="pill pill-teal">RGPD</span>
+        </div>
+      </div>
+      <div class="cover-meta">
+        <strong>Version 0.1.0</strong><br>
+        Mai 2026<br>
+        Lucas Helloco
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 2 — CONTEXTE
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s2">
+      <div class="slide-header">
+        <span class="icon">📋</span>
+        <h2>Contexte & Objectifs</h2>
+        <span class="badge">Appel d'offres Ministère</span>
+      </div>
+      <div class="slide-body">
+        <p class="intro-text">
+          Le Ministère de la Santé Mentale lance un <strong>appel d'offres</strong> pour une
+          application web dédiée au <strong>bien-être des étudiants CESI</strong>.
+          Le prestataire retenu doit livrer une plateforme moderne, accessible et sécurisée.
+        </p>
+        <div class="cards-row" style="gap:14px;">
+          <div class="card accent-green">
+            <span class="card-icon">🎯</span>
+            <h3>Besoin principal</h3>
+            <ul>
+              <li>Exercices de respiration guidés</li>
+              <li>Contenus informatifs (articles, documents)</li>
+              <li>Gestion des utilisateurs et des rôles</li>
+              <li>Back-office d'administration</li>
+            </ul>
+          </div>
+          <div class="card accent-yellow">
+            <span class="card-icon">⚙️</span>
+            <h3>Contraintes techniques</h3>
+            <ul>
+              <li>Conformité RGAA (accessibilité)</li>
+              <li>Conformité RGPD (données personnelles)</li>
+              <li>Application Progressive (PWA)</li>
+              <li>Responsive mobile-first</li>
+            </ul>
+          </div>
+          <div class="card accent-teal">
+            <span class="card-icon">📦</span>
+            <h3>Livrables attendus</h3>
+            <ul>
+              <li>Application web déployable</li>
+              <li>Cahier de tests complet</li>
+              <li>Procès-verbal de recette</li>
+              <li>Documentation technique</li>
+            </ul>
+          </div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-box"><div class="num">3</div><div class="lbl">Modules fonctionnels</div></div>
+          <div class="stat-box"><div class="num">2</div><div class="lbl">Rôles utilisateurs</div></div>
+          <div class="stat-box yellow"><div class="num">41</div><div class="lbl">Scénarios de test</div></div>
+          <div class="stat-box teal"><div class="num">100%</div><div class="lbl">Tests passés</div></div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>École CESI — 2026</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 3 — ACTEURS
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s3">
+      <div class="slide-header">
+        <span class="icon">👥</span>
+        <h2>Acteurs du Projet</h2>
+      </div>
+      <div class="slide-body">
+        <div class="cards-row" style="gap:16px;">
+          <div class="card accent-green">
+            <span class="card-icon">🏛️</span>
+            <h3>Ministère</h3>
+            <span class="tag tag-green">Commanditaire</span>
+            <ul style="margin-top:8px;">
+              <li>Définition du cahier des charges</li>
+              <li>Validation fonctionnelle manuelle</li>
+              <li>Signature du PV de recette</li>
+              <li>Décision de mise en production</li>
+            </ul>
+          </div>
+          <div class="card accent-yellow">
+            <span class="card-icon">🎓</span>
+            <h3>Étudiants CESI</h3>
+            <span class="tag tag-yellow">Utilisateurs finaux</span>
+            <ul style="margin-top:8px;">
+              <li>Consultation des contenus</li>
+              <li>Pratique des exercices respiratoires</li>
+              <li>Gestion de leur profil</li>
+              <li>Configuration personnalisée</li>
+            </ul>
+          </div>
+          <div class="card accent-teal">
+            <span class="card-icon">🔧</span>
+            <h3>Administrateurs</h3>
+            <span class="tag tag-teal">Rôle ADMIN</span>
+            <ul style="margin-top:8px;">
+              <li>Création et publication de contenus</li>
+              <li>Gestion des exercices presets</li>
+              <li>Gestion des comptes utilisateurs</li>
+              <li>Attribution des rôles</li>
+            </ul>
+          </div>
+          <div class="card accent-red">
+            <span class="card-icon">💻</span>
+            <h3>Prestataire</h3>
+            <span class="tag" style="background:#ffe0e0;color:#c0392b;">Développeur</span>
+            <ul style="margin-top:8px;">
+              <li>Architecture et développement</li>
+              <li>Tests automatisés (Vitest + Playwright)</li>
+              <li>Livraison des rapports de tests</li>
+              <li>Correction des anomalies</li>
+            </ul>
+          </div>
+        </div>
+        <div style="background:var(--light);border:1.5px solid var(--border);border-radius:10px;padding:12px 20px;">
+          <p style="font-size:13px;color:var(--grey);">
+            <strong style="color:var(--dark);">Flux principal :</strong>
+            Ministère → Appel d'offres → Prestataire (développement) → Application →
+            Étudiants (lecture/exercices) + Administrateurs (gestion back-office) →
+            Ministère (recette &amp; validation)
+          </p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>École CESI — 2026</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 4 — BENCHMARK
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s4">
+      <div class="slide-header">
+        <span class="icon">⚖️</span>
+        <h2>Benchmark des Solutions Techniques</h2>
+        <span class="badge">3 stacks comparées</span>
+      </div>
+      <div class="slide-body">
+        <div class="bar-chart" style="margin-bottom:10px;">
+          <div class="bar-row">
+            <div class="bar-label">T3 Stack</div>
+            <div class="bar-track"><div class="bar-fill" style="width:90%;background:linear-gradient(90deg,#52a452,#3d7d3d);">126 / 140</div></div>
+            <div class="bar-score score-hi">🥇 90%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Laravel + Vue 3</div>
+            <div class="bar-track"><div class="bar-fill" style="width:73.6%;background:linear-gradient(90deg,#c9a000,#a08000);">103 / 140</div></div>
+            <div class="bar-score">🥈 74%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">MERN Stack</div>
+            <div class="bar-track"><div class="bar-fill" style="width:57.9%;background:linear-gradient(90deg,#2ab5a0,#1a7a6e);">81 / 140</div></div>
+            <div class="bar-score">🥉 58%</div>
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Critère</th>
+              <th>T3 Stack</th>
+              <th>Laravel + Vue 3</th>
+              <th>MERN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>TypeScript end-to-end</td><td class="winner">✅ Natif</td><td>⚡ Partiel</td><td>⚠️ Config manuelle</td></tr>
+            <tr><td>Authentification</td><td class="winner">✅ Better-Auth</td><td>✅ Laravel Sanctum</td><td>⚠️ JWT manuel</td></tr>
+            <tr><td>ORM / Base de données</td><td class="winner">✅ Prisma</td><td>✅ Eloquent</td><td>⚠️ Mongoose</td></tr>
+            <tr><td>API type-safe</td><td class="winner">✅ tRPC</td><td>❌ REST générique</td><td>❌ REST générique</td></tr>
+            <tr><td>PWA &amp; Accessibilité</td><td class="winner">✅ next-pwa + RGAA</td><td>⚡ Manuel</td><td>⚡ Manuel</td></tr>
+            <tr><td>DX &amp; Productivité</td><td class="winner">✅ Excellent</td><td>✅ Bon</td><td>⚠️ Moyen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>T3 Stack retenu — score 126/140</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 5 — POURQUOI POSTGRESQL
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s5">
+      <div class="slide-header">
+        <span class="icon">🐘</span>
+        <h2>Choix de la Base de Données — Pourquoi PostgreSQL ?</h2>
+        <span class="badge">Neon Serverless PostgreSQL</span>
+      </div>
+      <div class="slide-body">
+        <div style="flex-shrink:0;margin-bottom:6px;">
+          <table class="data-table" style="font-size:12px;">
+            <thead>
+              <tr>
+                <th style="width:200px;">Critère</th>
+                <th>🐘 PostgreSQL</th>
+                <th>🐬 MySQL / MariaDB</th>
+                <th>🍃 MongoDB</th>
+                <th>🗃️ SQLite</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ACID / Transactions</td>
+                <td class="winner">✅ Complet</td>
+                <td>✅ Complet</td>
+                <td>⚠️ Partiel (v4+)</td>
+                <td>✅ Complet</td>
+              </tr>
+              <tr>
+                <td>Intégrité référentielle (FK)</td>
+                <td class="winner">✅ Natif</td>
+                <td>✅ Natif</td>
+                <td>❌ Absent</td>
+                <td>⚠️ Optionnel</td>
+              </tr>
+              <tr>
+                <td>Types riches (JSONB, Enum, UUID)</td>
+                <td class="winner">✅ Natif</td>
+                <td>⚠️ Limité</td>
+                <td>✅ Natif (BSON)</td>
+                <td>❌ Absent</td>
+              </tr>
+              <tr>
+                <td>Support Prisma (migrations)</td>
+                <td class="winner">✅ Premier plan</td>
+                <td>✅ Bon</td>
+                <td>⚠️ Limité</td>
+                <td>✅ Dev uniquement</td>
+              </tr>
+              <tr>
+                <td>Recherche full-text</td>
+                <td class="winner">✅ Natif (tsvector)</td>
+                <td>⚠️ Basique</td>
+                <td>✅ Atlas Search</td>
+                <td>❌ Absent</td>
+              </tr>
+              <tr>
+                <td>Déploiement cloud serverless</td>
+                <td class="winner">✅ Neon, Supabase, Railway</td>
+                <td>⚠️ PlanetScale</td>
+                <td>✅ Atlas</td>
+                <td>❌ Inadapté prod</td>
+              </tr>
+              <tr>
+                <td>Concurrence (writes)</td>
+                <td class="winner">✅ MVCC natif</td>
+                <td>✅ Bon</td>
+                <td>✅ Bon</td>
+                <td>❌ Lock fichier</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cards-row" style="gap:12px;flex:0;">
+          <div class="card accent-green" style="flex-direction:row;align-items:flex-start;gap:12px;padding:12px 16px;">
+            <span style="font-size:22px;flex-shrink:0;">🐘</span>
+            <div>
+              <h3 style="font-size:12.5px;margin-bottom:4px;">PostgreSQL — atouts décisifs pour CesiZen</h3>
+              <p style="font-size:12px;color:var(--grey);">Schéma strict avec FK garantissant l'intégrité (<code>auteurId → User</code>, <code>userId → User</code>). Enums Prisma (<code>Role</code>, <code>TypeContenu</code>) natifs. Contraintes d'unicité composées (<code>nom, isPreset</code>).</p>
+            </div>
+          </div>
+          <div class="card accent-teal" style="flex-direction:row;align-items:flex-start;gap:12px;padding:12px 16px;">
+            <span style="font-size:22px;flex-shrink:0;">⚡</span>
+            <div>
+              <h3 style="font-size:12.5px;margin-bottom:4px;">Neon — PostgreSQL serverless</h3>
+              <p style="font-size:12px;color:var(--grey);">Branching de base de données (dev/prod isolés), scale-to-zero, intégration Vercel native, tier gratuit généreux. <code>DATABASE_URL</code> + <code>DIRECT_URL</code> pour les migrations Prisma.</p>
+            </div>
+          </div>
+          <div class="card accent-yellow" style="flex-direction:row;align-items:flex-start;gap:12px;padding:12px 16px;">
+            <span style="font-size:22px;flex-shrink:0;">❌</span>
+            <div>
+              <h3 style="font-size:12.5px;margin-bottom:4px;">MongoDB écarté</h3>
+              <p style="font-size:12px;color:var(--grey);">Données CesiZen sont <em>relationnelles</em> (User → Contenus, User → Exercices). Un schéma NoSQL documentaire n'apporte aucun avantage et perd les FK, les Enums et les contraintes d'unicité.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>PostgreSQL (Neon) · Prisma 6 · MVCC · ACID</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 6 — STACK RETENUE
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s6">
+      <div class="slide-header">
+        <span class="icon">🏗️</span>
+        <h2>Solution Retenue — T3 Stack</h2>
+        <span class="badge">Score 126 / 140</span>
+      </div>
+      <div class="slide-body">
+        <div class="two-col">
+          <div class="col">
+            <div class="card accent-green" style="flex:0;">
+              <h3 style="margin-bottom:10px;">🧩 Briques techniques</h3>
+              <table style="width:100%;font-size:13px;border-collapse:collapse;">
+                <tr><td style="padding:5px 0;color:var(--grey);width:110px;">Framework</td><td style="font-weight:600;color:var(--dark);">Next.js 15 (App Router)</td></tr>
+                <tr><td style="padding:5px 0;color:var(--grey);">Langage</td><td style="font-weight:600;color:var(--dark);">TypeScript 5</td></tr>
+                <tr><td style="padding:5px 0;color:var(--grey);">API</td><td style="font-weight:600;color:var(--dark);">tRPC v11</td></tr>
+                <tr><td style="padding:5px 0;color:var(--grey);">ORM</td><td style="font-weight:600;color:var(--dark);">Prisma 6 + PostgreSQL</td></tr>
+                <tr><td style="padding:5px 0;color:var(--grey);">Auth</td><td style="font-weight:600;color:var(--dark);">Better-Auth</td></tr>
+                <tr><td style="padding:5px 0;color:var(--grey);">Style</td><td style="font-weight:600;color:var(--dark);">Tailwind CSS v4 + DaisyUI</td></tr>
+                <tr><td style="padding:5px 0;color:var(--grey);">Tests</td><td style="font-weight:600;color:var(--dark);">Vitest + Playwright</td></tr>
+                <tr><td style="padding:5px 0;color:var(--grey);">PWA</td><td style="font-weight:600;color:var(--dark);">next-pwa (Workbox)</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card accent-yellow" style="flex:0;">
+              <h3 style="margin-bottom:10px;">✅ Atouts décisifs</h3>
+              <ul class="check-list">
+                <li><span class="ck ck-green">✓</span><span>TypeScript <em>end-to-end</em> : zéro contrat API à maintenir, erreurs détectées à la compilation</span></li>
+                <li><span class="ck ck-green">✓</span><span>tRPC + Zod : validation des données automatique côté client <em>et</em> serveur</span></li>
+                <li><span class="ck ck-green">✓</span><span>Server Components Next.js : performances et SEO sans configuration</span></li>
+                <li><span class="ck ck-yellow">✓</span><span>Prisma Migrate : schéma versionné, migrations reproductibles</span></li>
+                <li><span class="ck ck-teal">✓</span><span>Un seul langage (JS/TS) : frontend, backend et tests — productivité maximale</span></li>
+              </ul>
+            </div>
+            <div class="card accent-teal" style="flex:0;">
+              <h3 style="margin-bottom:6px;">📊 Métriques projet</h3>
+              <div class="stat-row" style="gap:10px;">
+                <div class="stat-box" style="padding:10px;"><div class="num" style="font-size:24px;">34</div><div class="lbl">Tests Vitest</div></div>
+                <div class="stat-box" style="padding:10px;"><div class="num" style="font-size:24px;">52</div><div class="lbl">Tests E2E</div></div>
+                <div class="stat-box teal" style="padding:10px;"><div class="num" style="font-size:24px;">100%</div><div class="lbl">Couverture</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>École CESI — 2026</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 7 — ARCHITECTURE MVC
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s7">
+      <div class="slide-header">
+        <span class="icon">🏛️</span>
+        <h2>Architecture MVC — T3 Stack</h2>
+        <span class="badge">Model · View · Controller</span>
+      </div>
+      <div class="slide-body" style="gap:12px;">
+
+        <!-- Flux principal -->
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;background:var(--light);border:1.5px solid var(--border);border-radius:10px;padding:10px 20px;">
+          <span style="font-size:12.5px;font-weight:600;color:var(--grey);">Navigateur</span>
+          <span style="color:#bbb;font-size:18px;">→</span>
+          <span style="background:var(--yellow);color:var(--dark);padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;">View (React)</span>
+          <span style="color:#bbb;font-size:18px;">⇄</span>
+          <span style="background:var(--teal);color:#fff;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;">Controller (tRPC)</span>
+          <span style="color:#bbb;font-size:18px;">⇄</span>
+          <span style="background:var(--green);color:#fff;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;">Model (Prisma)</span>
+          <span style="color:#bbb;font-size:18px;">→</span>
+          <span style="font-size:12.5px;font-weight:600;color:var(--grey);">PostgreSQL</span>
+        </div>
+
+        <div class="cards-row" style="gap:14px;">
+
+          <!-- MODEL -->
+          <div class="card accent-green" style="flex:1.1;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <span style="background:var(--green);color:#fff;border-radius:8px;padding:4px 12px;font-size:13px;font-weight:800;">M</span>
+              <h3 style="font-size:15px;">Model</h3>
+            </div>
+            <p style="font-size:12px;color:var(--grey);margin-bottom:8px;font-style:italic;">Données, schéma, logique métier</p>
+            <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:5px;">
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;">📁</span><span><code style="font-size:11px;">prisma/schema.prisma</code> — entités, enums, relations</span></li>
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;">🔑</span><span><strong>Prisma Client</strong> — ORM type-safe, requêtes compilées</span></li>
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;">✅</span><span><strong>Zod schemas</strong> — validation des inputs (tRPC input parsers)</span></li>
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;">🗃️</span><span>Tables : <code style="font-size:11px;">User, Contenu, ExerciceCardiaque, Session, Account</code></span></li>
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:var(--green);font-weight:700;flex-shrink:0;">📂</span><span><code style="font-size:11px;">src/server/api/routers/</code> — logique métier isolée par domaine</span></li>
+            </ul>
+          </div>
+
+          <!-- VIEW -->
+          <div class="card accent-yellow" style="flex:1.1;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <span style="background:#c9a000;color:#fff;border-radius:8px;padding:4px 12px;font-size:13px;font-weight:800;">V</span>
+              <h3 style="font-size:15px;">View</h3>
+            </div>
+            <p style="font-size:12px;color:var(--grey);margin-bottom:8px;font-style:italic;">Rendu, interface, composants</p>
+            <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:5px;">
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:#c9a000;font-weight:700;flex-shrink:0;">🖥️</span><span><strong>Server Components</strong> — <code style="font-size:11px;">page.tsx</code>, <code style="font-size:11px;">layout.tsx</code> (rendu serveur)</span></li>
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:#c9a000;font-weight:700;flex-shrink:0;">⚡</span><span><strong>Client Components</strong> — <code style="font-size:11px;">"use client"</code> (interactions, état local)</span></li>
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:#c9a000;font-weight:700;flex-shrink:0;">🎨</span><span><strong>shadcn/ui + DaisyUI</strong> — composants accessibles, tokens CSS</span></li>
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:#c9a000;font-weight:700;flex-shrink:0;">📂</span><span><code style="font-size:11px;">src/app/</code> — App Router Next.js 15 (colocation page/layout)</span></li>
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:#c9a000;font-weight:700;flex-shrink:0;">🌙</span><span><strong>next-themes</strong> — thème clair/sombre sans flash</span></li>
+            </ul>
+          </div>
+
+          <!-- CONTROLLER -->
+          <div class="card accent-teal" style="flex:1.1;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <span style="background:var(--teal);color:#fff;border-radius:8px;padding:4px 12px;font-size:13px;font-weight:800;">C</span>
+              <h3 style="font-size:15px;">Controller</h3>
+            </div>
+            <p style="font-size:12px;color:var(--grey);margin-bottom:8px;font-style:italic;">Routage, sécurité, orchestration</p>
+            <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:5px;">
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">🔀</span><span><strong>tRPC routers</strong> — procedures typées, validation Zod automatique</span></li>
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">🛡️</span><span><strong>Middleware Next.js</strong> — protection des routes (<code style="font-size:11px;">middleware.ts</code>)</span></li>
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">🔐</span><span><strong>Better-Auth</strong> — gestion sessions, rôles, tokens</span></li>
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">🔑</span><span>3 niveaux : <code style="font-size:11px;">publicProcedure</code> · <code style="font-size:11px;">protectedProcedure</code> · <code style="font-size:11px;">adminProcedure</code></span></li>
+              <li style="font-size:12.5px;display:flex;gap:6px;align-items:flex-start;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">📂</span><span><code style="font-size:11px;">src/server/api/trpc.ts</code> — contexte, guards, factory</span></li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Arborescence fichiers clés -->
+        <div style="background:var(--dark);border-radius:10px;padding:12px 20px;flex-shrink:0;">
+          <div style="display:flex;gap:40px;">
+            <div>
+              <div style="font-size:11px;color:#8bc48b;margin-bottom:6px;font-weight:700;letter-spacing:.5px;">MODEL</div>
+              <div style="font-size:11.5px;color:#c8e6c8;line-height:1.8;font-family:monospace;">
+                prisma/schema.prisma<br>
+                src/server/api/routers/*.ts<br>
+                src/server/db.ts
+              </div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:#f2c94c;margin-bottom:6px;font-weight:700;letter-spacing:.5px;">VIEW</div>
+              <div style="font-size:11.5px;color:#fdf5c8;line-height:1.8;font-family:monospace;">
+                src/app/**/page.tsx<br>
+                src/app/**/layout.tsx<br>
+                src/components/**/*.tsx
+              </div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:#2ab5a0;margin-bottom:6px;font-weight:700;letter-spacing:.5px;">CONTROLLER</div>
+              <div style="font-size:11.5px;color:#b0e8e0;line-height:1.8;font-family:monospace;">
+                src/server/api/trpc.ts<br>
+                src/server/better-auth/config.ts<br>
+                src/middleware.ts
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>MVC · tRPC · Prisma · Next.js App Router</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 8 — MLD
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s8">
+      <div class="slide-header">
+        <span class="icon">🗄️</span>
+        <h2>Modèle Logique de Données (MLD)</h2>
+        <span class="badge">PostgreSQL · Prisma</span>
+      </div>
+      <div class="slide-body">
+        <div class="mld-container">
+
+          <div class="mld-table" style="min-width:200px;">
+            <div class="mld-head">👤 User</div>
+            <div class="mld-row"><span class="pk">PK</span> id : String</div>
+            <div class="mld-row">name : String</div>
+            <div class="mld-row">email : String (unique)</div>
+            <div class="mld-row">role : USER | ADMIN</div>
+            <div class="mld-row">isActive : Boolean</div>
+            <div class="mld-row">emailVerified : Boolean</div>
+            <div class="mld-row">createdAt : DateTime</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px;align-self:center;font-size:20px;color:var(--grey);">
+            <span title="1-N">1 ↔ N</span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div class="mld-table" style="min-width:220px;">
+              <div class="mld-head yellow">📄 Contenu</div>
+              <div class="mld-row"><span class="pk">PK</span> id : String (cuid)</div>
+              <div class="mld-row">titre : String</div>
+              <div class="mld-row">corps : Text</div>
+              <div class="mld-row">type : ARTICLE | DOCUMENT</div>
+              <div class="mld-row">isPublished : Boolean</div>
+              <div class="mld-row">videoUrl : String?</div>
+              <div class="mld-row"><span class="fk">FK</span> auteurId → User</div>
+            </div>
+
+            <div class="mld-table" style="min-width:220px;">
+              <div class="mld-head teal">🫁 ExerciceCardiaque</div>
+              <div class="mld-row"><span class="pk">PK</span> id : String (cuid)</div>
+              <div class="mld-row">nom : String</div>
+              <div class="mld-row">nombreCycles : Int</div>
+              <div class="mld-row">tempsInspiration : Int (s)</div>
+              <div class="mld-row">tempsApnee : Int (s, défaut 0)</div>
+              <div class="mld-row">tempsExpiration : Int (s)</div>
+              <div class="mld-row">isPreset : Boolean</div>
+              <div class="mld-row"><span class="fk">FK</span> userId → User? (null = preset global)</div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px;align-self:center;font-size:20px;color:var(--grey);">
+            <span>1 ↔ N</span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div class="mld-table" style="min-width:190px;">
+              <div class="mld-head grey">🔐 Session</div>
+              <div class="mld-row"><span class="pk">PK</span> id : String</div>
+              <div class="mld-row">token : String (unique)</div>
+              <div class="mld-row">expiresAt : DateTime</div>
+              <div class="mld-row">ipAddress : String?</div>
+              <div class="mld-row"><span class="fk">FK</span> userId → User</div>
+            </div>
+
+            <div class="mld-table" style="min-width:190px;">
+              <div class="mld-head grey">🔑 Account</div>
+              <div class="mld-row"><span class="pk">PK</span> id : String</div>
+              <div class="mld-row">providerId : String</div>
+              <div class="mld-row">password : String? (hash)</div>
+              <div class="mld-row"><span class="fk">FK</span> userId → User</div>
+            </div>
+          </div>
+
+        </div>
+        <div style="background:var(--light);border:1.5px solid var(--border);border-radius:8px;padding:9px 16px;">
+          <p style="font-size:12px;color:var(--grey);">
+            <strong style="color:var(--dark);">Note :</strong>
+            Un <code>ExerciceCardiaque</code> avec <code>userId = null</code> est un <em>preset global</em> visible par tous.
+            Avec <code>userId renseigné</code>, il s'agit de la configuration personnelle d'un utilisateur connecté.
+            Contrainte d'unicité : <code>(nom, isPreset)</code>.
+          </p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>5 tables · PostgreSQL (Neon)</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 7 — PLAN DU SITE
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s9">
+      <div class="slide-header">
+        <span class="icon">🗺️</span>
+        <h2>Plan du Site</h2>
+        <span class="badge">Next.js App Router</span>
+      </div>
+      <div class="slide-body" style="padding-top:20px;">
+
+        <!-- Root -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+          <span class="sm-node sm-root" style="font-size:14px;padding:10px 22px;">🏠 / — Accueil</span>
+        </div>
+
+        <div style="display:flex;gap:10px;padding-left:20px;flex-wrap:nowrap;overflow:hidden;">
+          <!-- Public section -->
+          <div style="display:flex;flex-direction:column;gap:8px;min-width:170px;">
+            <div style="font-size:11px;color:var(--grey);font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding-left:4px;">Public</div>
+            <span class="sm-node sm-pub">📚 /contenus</span>
+            <span class="sm-node sm-pub" style="padding-left:30px;font-size:11.5px;">└ /contenus/[id]</span>
+            <span class="sm-node sm-pub">🫁 /exercice</span>
+          </div>
+
+          <!-- Auth section -->
+          <div style="display:flex;flex-direction:column;gap:8px;min-width:170px;">
+            <div style="font-size:11px;color:var(--grey);font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding-left:4px;">Authentification</div>
+            <span class="sm-node sm-auth">🔐 /login</span>
+            <span class="sm-node sm-auth">📝 /register</span>
+            <span class="sm-node sm-auth">👤 /profil</span>
+          </div>
+
+          <!-- Admin section -->
+          <div style="display:flex;flex-direction:column;gap:8px;min-width:200px;">
+            <div style="font-size:11px;color:var(--grey);font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding-left:4px;">Admin (rôle ADMIN requis)</div>
+            <span class="sm-node sm-admin">📊 /admin — Dashboard</span>
+            <span class="sm-node sm-admin" style="padding-left:24px;font-size:11.5px;">└ /admin/contenus</span>
+            <span class="sm-node sm-admin" style="padding-left:24px;font-size:11.5px;">└ /admin/users</span>
+            <span class="sm-node sm-admin" style="padding-left:24px;font-size:11.5px;">└ /admin/exercices</span>
+          </div>
+
+          <!-- Legal section -->
+          <div style="display:flex;flex-direction:column;gap:8px;min-width:210px;">
+            <div style="font-size:11px;color:var(--grey);font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding-left:4px;">Légal</div>
+            <span class="sm-node sm-legal">📜 /mentions-legales</span>
+            <span class="sm-node sm-legal">🔒 /politique-de-confidentialite</span>
+          </div>
+        </div>
+
+        <div class="cards-row" style="gap:12px;flex:0;margin-top:8px;">
+          <div class="card accent-green" style="flex-direction:row;align-items:center;gap:12px;padding:12px 16px;">
+            <span style="font-size:18px;">🌐</span>
+            <div><h3 style="font-size:12.5px;">Pages publiques</h3><p style="font-size:11.5px;">Accès sans authentification — Accueil, Contenus, Exercice, Login, Register</p></div>
+          </div>
+          <div class="card accent-yellow" style="flex-direction:row;align-items:center;gap:12px;padding:12px 16px;">
+            <span style="font-size:18px;">🔒</span>
+            <div><h3 style="font-size:12.5px;">Pages protégées</h3><p style="font-size:11.5px;">Middleware Next.js — /profil, /admin/** → redirection /login si non connecté</p></div>
+          </div>
+          <div class="card accent-teal" style="flex-direction:row;align-items:center;gap:12px;padding:12px 16px;">
+            <span style="font-size:18px;">🛡️</span>
+            <div><h3 style="font-size:12.5px;">Espace Admin</h3><p style="font-size:11.5px;">Vérification rôle ADMIN côté serveur — redirection / si rôle insuffisant</p></div>
+          </div>
+        </div>
+
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>12 routes · App Router Next.js 15</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 8 — RGAA
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s10">
+      <div class="slide-header">
+        <span class="icon">♿</span>
+        <h2>Accessibilité — RGAA</h2>
+        <span class="badge">Référentiel Général d'Accessibilité</span>
+      </div>
+      <div class="slide-body">
+        <div class="two-col">
+          <div class="col">
+            <p class="intro-text" style="font-size:13.5px;">
+              Le RGAA impose que toute application publique française soit accessible aux
+              personnes en situation de handicap. CesiZen implémente les critères clés.
+            </p>
+            <div class="card accent-green">
+              <h3 style="margin-bottom:10px;">🎯 Implémentations</h3>
+              <ul class="check-list">
+                <li><span class="ck ck-green">✓</span><span><strong>Lien d'évitement</strong> — "Aller au contenu principal" visible au focus Tab</span></li>
+                <li><span class="ck ck-green">✓</span><span><strong>Focus clavier visible</strong> — outline 2px vert sur tous les éléments interactifs</span></li>
+                <li><span class="ck ck-green">✓</span><span><strong>Régions ARIA</strong> — <code>&lt;main id="main-content"&gt;</code>, <code>aria-live="polite"</code></span></li>
+                <li><span class="ck ck-green">✓</span><span><strong>Annonces vocales</strong> — AnnouncerProvider pour actions admin (mutation tRPC)</span></li>
+                <li><span class="ck ck-yellow">✓</span><span><strong>Lecture à voix haute</strong> — Web Speech API sur pages contenus</span></li>
+                <li><span class="ck ck-teal">✓</span><span><strong>Responsive 375 px</strong> — mobile-first, sidebar hamburger sur mobile</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card accent-teal">
+              <h3 style="margin-bottom:10px;">🧪 Validé par les tests</h3>
+              <table style="width:100%;font-size:12.5px;border-collapse:collapse;">
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:6px 0;color:var(--grey);">NR-02 Navigation sans erreur</td>
+                  <td style="color:var(--green-d);font-weight:700;">✅ Playwright</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:6px 0;color:var(--grey);">NR-03 Lien d'évitement + focus</td>
+                  <td style="color:var(--green-d);font-weight:700;">✅ Playwright</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:6px 0;color:var(--grey);">NR-04 Annonces aria-live</td>
+                  <td style="color:var(--green-d);font-weight:700;">✅ Vitest</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:6px 0;color:var(--grey);">NR-05 Responsive 375 px</td>
+                  <td style="color:var(--green-d);font-weight:700;">✅ Playwright</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 0;color:var(--grey);">IF-05 Lecture à voix haute</td>
+                  <td style="color:var(--green-d);font-weight:700;">✅ Vitest + Manuel</td>
+                </tr>
+              </table>
+            </div>
+            <div class="card accent-yellow">
+              <h3 style="margin-bottom:8px;">🎨 Contraste & couleurs</h3>
+              <ul class="check-list">
+                <li><span class="ck ck-yellow">✓</span><span>Vert primaire (#52a452) — ratio ≥ 4.5:1 sur fond blanc</span></li>
+                <li><span class="ck ck-yellow">✓</span><span>Mode clair (défaut) + mode sombre avec les mêmes ratios</span></li>
+                <li><span class="ck ck-yellow">✓</span><span>Toggle de thème accessible dans la navigation</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>5 critères NR validés — RGAA</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 9 — RGPD
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s11">
+      <div class="slide-header">
+        <span class="icon">🔒</span>
+        <h2>Protection des Données — RGPD</h2>
+        <span class="badge">Règlement UE 2016/679</span>
+      </div>
+      <div class="slide-body">
+        <div class="cards-row" style="gap:14px;">
+          <div class="card accent-green">
+            <span class="card-icon">📋</span>
+            <h3>Données collectées</h3>
+            <ul>
+              <li>Nom et adresse e-mail (inscription)</li>
+              <li>Mot de passe hashé (bcrypt)</li>
+              <li>Configurations d'exercices personnelles</li>
+              <li>Sessions de connexion (token, IP, user-agent)</li>
+            </ul>
+          </div>
+          <div class="card accent-yellow">
+            <span class="card-icon">🎯</span>
+            <h3>Finalités & Base légale</h3>
+            <ul>
+              <li>Authentification — <em>exécution du contrat</em></li>
+              <li>Personnalisation — <em>consentement</em></li>
+              <li>Logs de session — <em>intérêt légitime</em></li>
+              <li>Aucune donnée vendue à des tiers</li>
+            </ul>
+          </div>
+          <div class="card accent-teal">
+            <span class="card-icon">⚖️</span>
+            <h3>Droits des utilisateurs</h3>
+            <ul>
+              <li>Accès et modification du profil (/profil)</li>
+              <li>Suppression du compte (droit à l'oubli)</li>
+              <li>Mentions légales accessibles</li>
+              <li>Politique de confidentialité publiée</li>
+            </ul>
+          </div>
+        </div>
+        <div class="two-col" style="flex:0;gap:14px;">
+          <div class="card accent-green" style="flex-direction:row;gap:14px;padding:14px 18px;">
+            <span style="font-size:22px;">🛡️</span>
+            <div>
+              <h3 style="margin-bottom:6px;">Sécurité des données</h3>
+              <ul class="check-list" style="gap:5px;">
+                <li><span class="ck ck-green" style="width:16px;height:16px;font-size:9px;">✓</span><span style="font-size:12.5px;">HTTPS obligatoire (transport chiffré)</span></li>
+                <li><span class="ck ck-green" style="width:16px;height:16px;font-size:9px;">✓</span><span style="font-size:12.5px;">Mots de passe hashés (Better-Auth / Argon2)</span></li>
+                <li><span class="ck ck-green" style="width:16px;height:16px;font-size:9px;">✓</span><span style="font-size:12.5px;">Sessions révocables, expiration automatique</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="card accent-yellow" style="flex-direction:row;gap:14px;padding:14px 18px;">
+            <span style="font-size:22px;">📄</span>
+            <div>
+              <h3 style="margin-bottom:6px;">Pages légales publiées</h3>
+              <ul class="check-list" style="gap:5px;">
+                <li><span class="ck ck-yellow" style="width:16px;height:16px;font-size:9px;">✓</span><span style="font-size:12.5px;">/mentions-legales — identité éditeur, hébergeur</span></li>
+                <li><span class="ck ck-yellow" style="width:16px;height:16px;font-size:9px;">✓</span><span style="font-size:12.5px;">/politique-de-confidentialite — finalités, droits, cookies</span></li>
+                <li><span class="ck ck-yellow" style="width:16px;height:16px;font-size:9px;">✓</span><span style="font-size:12.5px;">Liens accessibles depuis le footer de chaque page</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="background:#fffbe6;border:1.5px solid var(--yellow);border-radius:8px;padding:10px 16px;">
+          <p style="font-size:12.5px;color:#6b5000;">
+            <strong>⚠️ Note :</strong> Aucune donnée de navigation n'est envoyée à des tiers. Pas de traceurs publicitaires, pas de Google Analytics. Conformité CNIL en cours de vérification pour le déploiement en production.
+          </p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>RGPD — Données minimales · Droit à l'oubli</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 10 — TESTS
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s12">
+      <div class="slide-header">
+        <span class="icon">🧪</span>
+        <h2>Campagne de Tests & Qualité</h2>
+        <span class="badge">41 / 41 ✅ validés</span>
+      </div>
+      <div class="slide-body">
+        <div class="stat-row" style="gap:12px;flex-shrink:0;">
+          <div class="stat-box"><div class="num">34</div><div class="lbl">Tests Vitest</div></div>
+          <div class="stat-box yellow"><div class="num">52</div><div class="lbl">Tests Playwright E2E</div></div>
+          <div class="stat-box teal"><div class="num">18</div><div class="lbl">Tests manuels</div></div>
+          <div class="stat-box"><div class="num" style="font-size:28px;">41/41</div><div class="lbl">Scénarios totaux</div></div>
+          <div class="stat-box" style="background:var(--green-l);border-color:var(--green);"><div class="num" style="color:var(--green-d);font-size:28px;">100%</div><div class="lbl">Taux de réussite</div></div>
+        </div>
+        <div class="two-col" style="gap:14px;">
+          <div class="col">
+            <div class="card accent-green">
+              <h3 style="margin-bottom:8px;">🔬 Vitest — Tests unitaires & composants</h3>
+              <table style="width:100%;font-size:12px;border-collapse:collapse;">
+                <tr><th style="background:var(--green);color:#fff;padding:5px 10px;text-align:left;font-size:11px;">Suite</th><th style="background:var(--green);color:#fff;padding:5px 10px;text-align:left;font-size:11px;">Tests</th><th style="background:var(--green);color:#fff;padding:5px 10px;text-align:left;font-size:11px;">Résultat</th></tr>
+                <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border);">announcer-provider</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);">4</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);color:var(--green-d);font-weight:700;">✅</td></tr>
+                <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border);">read-aloud</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);">6</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);color:var(--green-d);font-weight:700;">✅</td></tr>
+                <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border);">contenus router</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);">9</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);color:var(--green-d);font-weight:700;">✅</td></tr>
+                <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border);">youtube utils</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);">6</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);color:var(--green-d);font-weight:700;">✅</td></tr>
+                <tr><td style="padding:5px 10px;">exercices router</td><td style="padding:5px 10px;">9</td><td style="padding:5px 10px;color:var(--green-d);font-weight:700;">✅</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card accent-teal">
+              <h3 style="margin-bottom:8px;">🌐 Playwright — Tests E2E (Chromium + Mobile)</h3>
+              <table style="width:100%;font-size:12px;border-collapse:collapse;">
+                <tr><th style="background:var(--teal);color:#fff;padding:5px 10px;text-align:left;font-size:11px;">Suite</th><th style="background:var(--teal);color:#fff;padding:5px 10px;text-align:left;font-size:11px;">Tests</th></tr>
+                <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border);">home.spec</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);color:var(--green-d);font-weight:700;">10 ✅</td></tr>
+                <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border);">auth.spec</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);color:var(--green-d);font-weight:700;">12 ✅</td></tr>
+                <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border);">contenus.spec</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);color:var(--green-d);font-weight:700;">10 ✅</td></tr>
+                <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border);">exercice.spec</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);color:var(--green-d);font-weight:700;">8 ✅</td></tr>
+                <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border);">admin.spec</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);color:var(--green-d);font-weight:700;">8 ✅</td></tr>
+                <tr><td style="padding:5px 10px;">admin-auth.spec</td><td style="padding:5px 10px;color:var(--green-d);font-weight:700;">4 ✅</td></tr>
+              </table>
+            </div>
+            <div class="card accent-yellow" style="flex:0;">
+              <h3 style="margin-bottom:6px;">📋 Tests manuels — 18 scénarios</h3>
+              <p style="font-size:12.5px;color:var(--grey);">Parcours utilisateur complets : inscription, connexion, profil, CRUD admin (contenus, exercices, rôles), guidage vocal, phases respiratoires.</p>
+              <p style="font-size:12px;color:var(--green-d);font-weight:600;margin-top:6px;">✅ Tous validés le 2026-05-21 — Lucas Helloco</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>Campagne complète 2026-05-21 · PV de recette signé</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 11 — PWA & MOBILE
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s13">
+      <div class="slide-header">
+        <span class="icon">📱</span>
+        <h2>Progressive Web App & Mobile</h2>
+        <span class="badge">next-pwa · Workbox</span>
+      </div>
+      <div class="slide-body">
+        <div class="two-col" style="gap:16px;">
+          <div class="col">
+            <p class="intro-text" style="font-size:13.5px;">
+              CesiZen est une <strong>Progressive Web App</strong> installable sur mobile et desktop.
+              Elle fonctionne hors-ligne pour les contenus déjà consultés et offre une expérience native.
+            </p>
+            <div class="card accent-green">
+              <h3 style="margin-bottom:10px;">⚙️ Fonctionnalités PWA</h3>
+              <ul class="check-list">
+                <li><span class="ck ck-green">✓</span><span><strong>Service Worker</strong> — mise en cache automatique (Workbox)</span></li>
+                <li><span class="ck ck-green">✓</span><span><strong>Manifest.json</strong> — icônes, couleurs, orientation, display standalone</span></li>
+                <li><span class="ck ck-green">✓</span><span><strong>Cache des assets</strong> — chargement instantané au retour</span></li>
+                <li><span class="ck ck-yellow">✓</span><span><strong>Installation</strong> — bouton "Ajouter à l'écran d'accueil" sur mobile et Chrome</span></li>
+                <li><span class="ck ck-teal">✓</span><span><strong>Online/offline</strong> — rechargement automatique à la reconnexion</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card accent-yellow">
+              <h3 style="margin-bottom:10px;">📐 Responsive Design</h3>
+              <ul class="check-list">
+                <li><span class="ck ck-yellow">✓</span><span>Mobile-first — viewport 375 px testé (Playwright Mobile Chrome)</span></li>
+                <li><span class="ck ck-yellow">✓</span><span>Sidebar admin en menu hamburger sur mobile</span></li>
+                <li><span class="ck ck-yellow">✓</span><span>Timer circulaire SVG adaptatif</span></li>
+                <li><span class="ck ck-yellow">✓</span><span>Tables admin avec colonnes masquées en mobile (<code>hidden md:table-cell</code>)</span></li>
+              </ul>
+            </div>
+            <div class="card accent-teal">
+              <h3 style="margin-bottom:10px;">🌙 Thème clair / sombre</h3>
+              <ul class="check-list">
+                <li><span class="ck ck-teal">✓</span><span>next-themes — bascule instantanée sans rechargement</span></li>
+                <li><span class="ck ck-teal">✓</span><span>Persistance en localStorage</span></li>
+                <li><span class="ck ck-teal">✓</span><span>Toggle accessible (aria-label) dans nav et sidebar admin</span></li>
+                <li><span class="ck ck-teal">✓</span><span>Tokens CSS OKLCH — contraste garanti dans les deux thèmes</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="stat-row" style="flex-shrink:0;gap:12px;">
+          <div class="stat-box"><div class="num" style="font-size:22px;">375 px</div><div class="lbl">Viewport mobile testé</div></div>
+          <div class="stat-box yellow"><div class="num" style="font-size:22px;">iOS + Android</div><div class="lbl">Compatibilité</div></div>
+          <div class="stat-box teal"><div class="num" style="font-size:22px;">Offline</div><div class="lbl">Cache Workbox</div></div>
+          <div class="stat-box"><div class="num" style="font-size:22px;">2 thèmes</div><div class="lbl">Clair & Sombre</div></div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>PWA · Responsive · next-pwa (Workbox)</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 12 — FONCTIONNALITÉS
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s14">
+      <div class="slide-header">
+        <span class="icon">⚡</span>
+        <h2>Fonctionnalités de l'Application</h2>
+        <span class="badge">3 modules · 2 rôles</span>
+      </div>
+      <div class="slide-body" style="padding-top:20px;">
+        <div class="feat-grid">
+          <div class="feat-item">
+            <span class="fi-icon">🔐</span>
+            <div class="fi-text"><h4>Authentification complète</h4><p>Inscription, connexion, sessions sécurisées (Better-Auth + Argon2)</p></div>
+          </div>
+          <div class="feat-item">
+            <span class="fi-icon">👤</span>
+            <div class="fi-text"><h4>Gestion du profil</h4><p>Modification nom/email, changement de mot de passe, suppression du compte</p></div>
+          </div>
+          <div class="feat-item">
+            <span class="fi-icon">📚</span>
+            <div class="fi-text"><h4>Bibliothèque de contenus</h4><p>Articles et documents, recherche, tri par date, vidéos YouTube intégrées</p></div>
+          </div>
+          <div class="feat-item">
+            <span class="fi-icon">🔊</span>
+            <div class="fi-text"><h4>Lecture à voix haute</h4><p>Web Speech API — lecture du titre et du corps en français (lang="fr-FR")</p></div>
+          </div>
+          <div class="feat-item">
+            <span class="fi-icon">🫁</span>
+            <div class="fi-text"><h4>Exercice respiratoire</h4><p>Timer SVG circulaire, 3 phases (Inspirez/Retenez/Expirez), animation arc</p></div>
+          </div>
+          <div class="feat-item">
+            <span class="fi-icon">🎙️</span>
+            <div class="fi-text"><h4>Guidage vocal exercice</h4><p>Annonces vocales synchronisées aux phases (Web Speech API)</p></div>
+          </div>
+          <div class="feat-item">
+            <span class="fi-icon">⚙️</span>
+            <div class="fi-text"><h4>Config personnelle</h4><p>Sauvegarde des paramètres d'exercice par utilisateur (Prisma upsert)</p></div>
+          </div>
+          <div class="feat-item">
+            <span class="fi-icon">📊</span>
+            <div class="fi-text"><h4>Dashboard admin</h4><p>Statistiques : nombre d'utilisateurs, contenus, exercices</p></div>
+          </div>
+          <div class="feat-item">
+            <span class="fi-icon">📝</span>
+            <div class="fi-text"><h4>CRUD contenus (admin)</h4><p>Création, modification, publication/dépublication, suppression</p></div>
+          </div>
+          <div class="feat-item">
+            <span class="fi-icon">🏃</span>
+            <div class="fi-text"><h4>CRUD exercices (admin)</h4><p>Gestion des presets globaux depuis le back-office</p></div>
+          </div>
+          <div class="feat-item">
+            <span class="fi-icon">👥</span>
+            <div class="fi-text"><h4>Gestion utilisateurs (admin)</h4><p>Changement de rôle USER/ADMIN, activation/désactivation de compte</p></div>
+          </div>
+          <div class="feat-item">
+            <span class="fi-icon">🌙</span>
+            <div class="fi-text"><h4>Thème clair / sombre</h4><p>Toggle persistant (localStorage), annimations, tokens CSS OKLCH</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>12 fonctionnalités principales · Module UT, IF, EC</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SLIDE 13 — BILAN
+    ════════════════════════════════════════════════════════════════════════ -->
+    <div class="slide" id="s15">
+      <div class="slide-header">
+        <span class="icon">🏁</span>
+        <h2>Bilan & Perspectives</h2>
+        <span class="badge">PV de recette — ACCEPTÉE</span>
+      </div>
+      <div class="slide-body">
+        <div class="two-col" style="gap:16px;">
+          <div class="col">
+            <div class="card accent-green">
+              <h3 style="margin-bottom:10px;">✅ Objectifs atteints</h3>
+              <ul class="check-list">
+                <li><span class="ck ck-green">✓</span><span>Application fonctionnelle — 3 modules (UT, IF, EC)</span></li>
+                <li><span class="ck ck-green">✓</span><span>41/41 scénarios de test validés (Vitest + Playwright + Manuel)</span></li>
+                <li><span class="ck ck-green">✓</span><span>RGAA — lien d'évitement, focus visible, aria-live, responsive</span></li>
+                <li><span class="ck ck-green">✓</span><span>RGPD — mentions légales, politique de confidentialité, droit à l'oubli</span></li>
+                <li><span class="ck ck-green">✓</span><span>PWA installable, thème clair/sombre, Web Speech API</span></li>
+              </ul>
+            </div>
+            <div class="card accent-teal">
+              <h3 style="margin-bottom:8px;">📊 Résumé technique</h3>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div style="text-align:center;background:var(--white);border:1.5px solid var(--border);border-radius:8px;padding:10px;">
+                  <div style="font-size:22px;font-weight:800;color:var(--green-d);">34</div>
+                  <div style="font-size:11px;color:var(--grey);">Tests Vitest</div>
+                </div>
+                <div style="text-align:center;background:var(--white);border:1.5px solid var(--border);border-radius:8px;padding:10px;">
+                  <div style="font-size:22px;font-weight:800;color:var(--green-d);">52</div>
+                  <div style="font-size:11px;color:var(--grey);">Tests E2E</div>
+                </div>
+                <div style="text-align:center;background:var(--white);border:1.5px solid var(--border);border-radius:8px;padding:10px;">
+                  <div style="font-size:22px;font-weight:800;color:var(--green-d);">12</div>
+                  <div style="font-size:11px;color:var(--grey);">Routes</div>
+                </div>
+                <div style="text-align:center;background:var(--white);border:1.5px solid var(--border);border-radius:8px;padding:10px;">
+                  <div style="font-size:22px;font-weight:800;color:var(--green-d);">5</div>
+                  <div style="font-size:11px;color:var(--grey);">Tables SQL</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card accent-yellow">
+              <h3 style="margin-bottom:10px;">🚀 Perspectives v0.2.0</h3>
+              <ul class="check-list">
+                <li><span class="ck ck-yellow">→</span><span>Notifications push (abonnement exercices quotidiens)</span></li>
+                <li><span class="ck ck-yellow">→</span><span>Statistiques de pratique (graphiques, historique)</span></li>
+                <li><span class="ck ck-yellow">→</span><span>Partage de contenus entre utilisateurs</span></li>
+                <li><span class="ck ck-yellow">→</span><span>Internationalisation (i18n) — anglais</span></li>
+                <li><span class="ck ck-yellow">→</span><span>Audit RGAA automatisé (axe-core + Playwright)</span></li>
+              </ul>
+            </div>
+            <div style="background:linear-gradient(135deg,var(--green-l),var(--teal-l));border:1.5px solid var(--border);border-radius:12px;padding:20px 24px;text-align:center;">
+              <div style="font-size:48px;margin-bottom:8px;">🎉</div>
+              <div style="font-size:18px;font-weight:800;color:var(--green-d);margin-bottom:6px;">Recette ACCEPTÉE</div>
+              <div style="font-size:13px;color:var(--grey);">Campagne complète 2026-05-21<br>0 anomalie détectée</div>
+              <div style="margin-top:12px;font-size:13px;font-weight:600;color:var(--teal);">Lucas Helloco — École CESI</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span><span class="dot"></span>CesiZen v0.1.0</span>
+        <span>Lucas Helloco — École CESI — Mai 2026</span>
+      </div>
+    </div>
+
+  </div><!-- /deck -->
+</div><!-- /stage -->
+
+<!-- Navigation -->
+<nav id="nav">
+  <button id="btn-prev" disabled>&#8592;</button>
+  <div class="progress-dots" id="dots"></div>
+  <span id="counter">1 / 13</span>
+  <button id="btn-next">&#8594;</button>
+</nav>
+
+<div id="hint">← → pour naviguer · F11 pour plein écran</div>
+
+<script>
+  const TOTAL = 15;
+  let current = 1;
+
+  const slides = Array.from({ length: TOTAL }, (_, i) => document.getElementById('s' + (i + 1)));
+  const dotsEl = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  const deck    = document.getElementById('deck');
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'pd' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i + 1));
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(n) {
+    slides[current - 1].classList.remove('active');
+    dotsEl.children[current - 1].classList.remove('active');
+    current = Math.max(1, Math.min(TOTAL, n));
+    slides[current - 1].classList.add('active');
+    dotsEl.children[current - 1].classList.add('active');
+    counter.textContent = current + ' / ' + TOTAL;
+    btnPrev.disabled = current === 1;
+    btnNext.disabled = current === TOTAL;
+  }
+
+  btnPrev.addEventListener('click', () => goTo(current - 1));
+  btnNext.addEventListener('click', () => goTo(current + 1));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') goTo(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                    goTo(current - 1);
+    if (e.key === 'Home')  goTo(1);
+    if (e.key === 'End')   goTo(TOTAL);
+  });
+
+  // Scale deck to fit viewport (maintain 16:9)
+  function scaleDeck() {
+    const sw = window.innerWidth;
+    const sh = window.innerHeight - 60; // leave room for nav
+    const scale = Math.min(sw / 1200, sh / 675) * 0.95;
+    deck.style.transform = 'scale(' + scale + ')';
+  }
+  window.addEventListener('resize', scaleDeck);
+  scaleDeck();
+</script>
+</body>
+</html>
