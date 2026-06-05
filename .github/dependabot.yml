@@ -14,8 +14,17 @@ updates:
       - "maintenance"
     commit-message:
       prefix: "deps"
+    # On ignore les montées de version MAJEURES : elles introduisent des
+    # changements cassants (ex. Next 16, Prisma 7, Zod 4) qui doivent être
+    # évalués et testés manuellement, et non mergés automatiquement.
+    # Les majeurs restent suivis via la veille (CHANGELOG, alertes sécurité).
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
     groups:
-      # Regroupe les mises à jour mineures/patch pour limiter le bruit
+      # Regroupe les mises à jour mineures/patch dans une seule PR pour
+      # limiter le bruit et faciliter la revue.
       minor-and-patch:
         update-types:
           - "minor"
