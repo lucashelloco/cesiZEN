@@ -1,0 +1,32 @@
+# Veille automatisée des dépendances — alimente le backlog de maintenance.
+# Documentation : https://docs.github.com/code-security/dependabot
+version: 2
+updates:
+  # Dépendances npm de l'application
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "maintenance"
+    commit-message:
+      prefix: "deps"
+    groups:
+      # Regroupe les mises à jour mineures/patch pour limiter le bruit
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Mises à jour des actions GitHub utilisées dans la CI
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "ci"
