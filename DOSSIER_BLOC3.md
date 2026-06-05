@@ -88,16 +88,26 @@ La base PostgreSQL est confiée à **Neon**, qui sépare le stockage et le calcu
 
 ### 2.2 Les trois environnements
 
-Le déploiement s'appuie sur trois environnements distincts, chacun avec son rôle, ses données et son déclencheur :
+Le déploiement s'appuie sur trois environnements distincts, **chacun adossé à une branche Git dédiée**, ce qui rend le flux de promotion explicite et traçable :
 
-| | Développement | Test / Preview | Production |
+| | Développement | Test / Recette | Production |
 |--|---------------|----------------|------------|
-| **Objectif** | Coder et tester localement | Valider une évolution avant fusion | Servir les utilisateurs réels |
-| **Hébergement** | `localhost:3000` | Vercel Preview (URL unique par PR) | Vercel Production |
+| **Branche Git** | `develop` | `beta` | `main` |
+| **Objectif** | Intégrer le travail en cours | Valider/recetter avant mise en prod | Servir les utilisateurs réels |
+| **Hébergement** | `localhost:3000` + Vercel Preview | Vercel Preview (alias stable beta) | Vercel Production |
 | **Base de données** | PostgreSQL local (ou Docker) | Branche Neon de test | Base Neon de production |
-| **Déclencheur** | `npm run dev` | Ouverture / mise à jour d'une Pull Request | Fusion sur la branche `main` |
+| **Déclencheur** | Fusion d'une `feature/*` dans `develop` | Promotion `develop → beta` | Promotion `beta → main` (+ tag `vX.Y.Z`) |
 | **Données** | Jeu de seed (`npm run db:seed`) | Données de test anonymisées | Données réelles |
 | **Accès** | Développeur | Équipe / relecteur via lien | Public |
+
+**Flux de promotion** (un changement « monte » d'un environnement au suivant) :
+
+```
+feature/*  ──►  develop  ──►  beta  ──►  main  ──►  tag vX.Y.Z
+ (local)        (DEV)        (TEST)     (PROD)      (release)
+```
+
+Chaque promotion passe par une Pull Request validée par la CI. Une version livrée en production est **figée par un tag de version sémantique** (`v1.0.0`, `v1.1.0`…), ce qui permet d'identifier précisément ce qui tourne et de revenir à une version antérieure si besoin.
 
 **Environnement réellement mis en place et démontré : la production Vercel.** À chaque fusion sur `main`, Vercel reconstruit et publie automatiquement l'application. Le déploiement comprend l'installation des dépendances, la génération du client Prisma, le build Next.js et la mise en ligne atomique (bascule instantanée, sans coupure). Les variables d'environnement de production (URL de base de données, secret d'authentification, identifiants OAuth) sont configurées de façon chiffrée dans le tableau de bord Vercel — jamais dans le code.
 
@@ -107,10 +117,14 @@ Le déploiement s'appuie sur trois environnements distincts, chacun avec son rô
 
 Le code et la documentation sont versionnés avec **Git** et hébergés sur **GitHub**.
 
-**Modèle de branches.**
+**Modèle de branches (Git Flow simplifié).** Quatre niveaux de branches, alignés sur les environnements :
 
-- `main` — branche de production, **protégée** : toute modification passe obligatoirement par une Pull Request, et la CI doit être verte avant la fusion. Les pushs directs sont interdits.
-- `feature/*` — une branche par fonctionnalité ou correction (ex. `feature/commit4`). Le développement y est isolé, puis proposé à la fusion via une Pull Request relue.
+- `feature/*` — une branche par fonctionnalité ou correction. Le développement y est isolé, puis proposé à la fusion via une Pull Request relue.
+- `develop` — branche d'intégration : reçoit les `feature/*` validées. Correspond à l'environnement de **développement**.
+- `beta` — branche de **recette/test** : reçoit `develop` une fois prêt pour validation avant production.
+- `main` — branche de **production**, **protégée** : toute modification passe obligatoirement par une Pull Request, la CI doit être verte avant la fusion, et les pushs directs sont **refusés** (vérifié : un `git push` direct sur `main` est rejeté par le hook de protection).
+
+**Versionnement sémantique (SemVer).** Chaque mise en production est marquée par un **tag** `vMAJEUR.MINEUR.CORRECTIF` (ex. `v1.0.0`) et publiée comme **Release GitHub**. La règle : MAJEUR pour un changement incompatible, MINEUR pour une fonctionnalité rétrocompatible, CORRECTIF pour un correctif. Cela fournit un historique de versions lisible et un point de retour arrière fiable.
 
 **Pull Requests et revue.** Chaque PR utilise un gabarit standardisé ([.github/pull_request_template.md](.github/pull_request_template.md)) rappelant la check-list de validation (lint, tests, CI verte, absence de secret, ticket lié). La revue de code, même en projet individuel, sert de point de contrôle qualité et documente l'intention des changements.
 
@@ -347,6 +361,7 @@ Au-delà de la théorie, ce travail a impliqué des actions **concrètes et vér
 - **Annexe C** — Exécution réussie du pipeline GitHub Actions (CI verte).
 - **Annexe D** — Alertes Dependabot (vulnérabilités identifiées) et tableau de bord sécurité.
 - **Annexe E** — Tableau de suivi GitHub Projects et gabarits d'issue.
+- **Annexe F** — Branches `develop` / `beta` / `main` et Release `v1.0.0` (versionnement sémantique).
 - **Liens** — Dépôt : https://github.com/lucashelloco/cesiZEN · Production : https://cesi-zen-lucas-projects-0159bd0f.vercel.app
 
 ---
