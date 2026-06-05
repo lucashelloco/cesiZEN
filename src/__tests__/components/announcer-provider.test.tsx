@@ -33,7 +33,9 @@ describe("AnnouncerProvider", () => {
     );
 
     act(() => screen.getByRole("button").click());
-    act(() => vi.advanceTimersByTime(100));
+    act(() => {
+      vi.advanceTimersByTime(100);
+    });
 
     expect(document.querySelector("[aria-live]")?.textContent).toBe("Contenu publié");
   });
@@ -49,13 +51,17 @@ describe("AnnouncerProvider", () => {
 
     // Premier appel
     act(() => btn.click());
-    act(() => vi.advanceTimersByTime(100));
+    act(() => {
+      vi.advanceTimersByTime(100);
+    });
     expect(document.querySelector("[aria-live]")?.textContent).toBe("Action effectuée");
 
     // Deuxième appel identique — doit vider puis ré-afficher
     act(() => btn.click());
     expect(document.querySelector("[aria-live]")?.textContent).toBe("");
-    act(() => vi.advanceTimersByTime(100));
+    act(() => {
+      vi.advanceTimersByTime(100);
+    });
     expect(document.querySelector("[aria-live]")?.textContent).toBe("Action effectuée");
   });
 

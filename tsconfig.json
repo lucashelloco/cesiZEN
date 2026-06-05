@@ -37,5 +37,12 @@
     "**/*.js",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "generated"]
+  "exclude": [
+    "node_modules",
+    "generated",
+    "coverage",
+    "public/sw.js",
+    "public/workbox-*.js",
+    "public/swe-worker-*.js"
+  ]
 }

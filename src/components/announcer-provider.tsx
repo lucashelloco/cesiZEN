@@ -2,7 +2,9 @@
 
 import { createContext, useCallback, useContext, useState } from "react";
 
-const AnnouncerContext = createContext<(msg: string) => void>(() => {});
+const AnnouncerContext = createContext<(msg: string) => void>(() => {
+  /* no-op par défaut, surchargé par le provider */
+});
 
 export function AnnouncerProvider({ children }: { children: React.ReactNode }) {
   const [message, setMessage] = useState("");

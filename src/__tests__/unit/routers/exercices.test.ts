@@ -23,7 +23,7 @@ const validConfig = {
 };
 
 function makeCtx(session: unknown = null) {
-  return { db: mockDb as never, session, headers: new Headers() };
+  return { db: mockDb as never, session: session as never, headers: new Headers() };
 }
 
 function makeSession(userId = "user-1") {
