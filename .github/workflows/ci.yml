@@ -13,6 +13,7 @@ jobs:
 
     env:
       DATABASE_URL: postgresql://postgres:password@localhost:5432/cesi_zen
+      DIRECT_URL: postgresql://postgres:password@localhost:5432/cesi_zen
       BETTER_AUTH_SECRET: ci_secret_placeholder
       BETTER_AUTH_GITHUB_CLIENT_ID: placeholder
       BETTER_AUTH_GITHUB_CLIENT_SECRET: placeholder
@@ -56,6 +57,9 @@ jobs:
 
       - name: Typecheck
         run: npm run typecheck
+
+      - name: Unit & component tests
+        run: npm run test:run
 
       - name: Build
         run: npm run build

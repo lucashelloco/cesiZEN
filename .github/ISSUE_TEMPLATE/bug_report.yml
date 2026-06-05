@@ -1,0 +1,61 @@
+name: "🐛 Anomalie / Bug"
+description: Signaler un dysfonctionnement de l'application CesiZen
+title: "[BUG] "
+labels: ["bug", "à qualifier"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de remplir ce formulaire pour faciliter la qualification et la correction de l'anomalie.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description du problème
+      description: Décrivez clairement le comportement observé.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Étapes de reproduction
+      description: Comment reproduire le bug ?
+      placeholder: |
+        1. Aller sur '...'
+        2. Cliquer sur '...'
+        3. Observer l'erreur
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportement attendu
+    validations:
+      required: true
+  - type: dropdown
+    id: criticite
+    attributes:
+      label: Criticité
+      description: Impact sur le service (voir matrice de criticité du plan de maintenance).
+      options:
+        - "Bloquant — service indisponible / faille de sécurité"
+        - "Majeur — fonction principale dégradée"
+        - "Mineur — gêne sans contournement"
+        - "Cosmétique — affichage / confort"
+    validations:
+      required: true
+  - type: dropdown
+    id: environnement
+    attributes:
+      label: Environnement
+      options:
+        - Production (Vercel)
+        - Preview / Test
+        - Développement local
+    validations:
+      required: true
+  - type: textarea
+    id: contexte
+    attributes:
+      label: Contexte (navigateur, OS, captures)
+    validations:
+      required: false

@@ -36,6 +36,17 @@ export default tseslint.config(
     },
   },
   {
+    // Les mocks et matchers de test (Vitest) renvoient `any` par conception ;
+    // les règles type-aware "no-unsafe-*" y sont donc trop bruyantes.
+    files: ["**/__tests__/**", "**/*.test.ts", "**/*.test.tsx", "tests/**"],
+    rules: {
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+    },
+  },
+  {
     linterOptions: {
       reportUnusedDisableDirectives: true,
     },

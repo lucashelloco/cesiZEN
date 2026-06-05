@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "🔒 Signalement de faille de sécurité"
+    url: https://github.com/lucashelloco/cesiZEN/security/advisories/new
+    about: "Pour une vulnérabilité de sécurité, utilisez un advisory privé plutôt qu'une issue publique."

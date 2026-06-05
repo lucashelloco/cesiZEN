@@ -1,0 +1,50 @@
+name: "✨ Évolution / Fonctionnalité"
+description: Proposer une évolution ou une nouvelle fonctionnalité
+title: "[EVOL] "
+labels: ["enhancement", "à qualifier"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de décrire le besoin afin qu'il puisse être priorisé dans le backlog.
+  - type: textarea
+    id: besoin
+    attributes:
+      label: Besoin / problème à résoudre
+      description: Quel est le besoin utilisateur ou métier ?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution proposée
+    validations:
+      required: true
+  - type: dropdown
+    id: module
+    attributes:
+      label: Module concerné
+      options:
+        - Comptes utilisateurs
+        - Informations
+        - Exercice de respiration
+        - Transverse / autre
+    validations:
+      required: true
+  - type: dropdown
+    id: priorite
+    attributes:
+      label: Priorité souhaitée
+      options:
+        - Haute
+        - Moyenne
+        - Basse
+    validations:
+      required: true
+  - type: textarea
+    id: criteres
+    attributes:
+      label: Critères d'acceptation
+      description: Comment valider que l'évolution est terminée ?
+    validations:
+      required: false
