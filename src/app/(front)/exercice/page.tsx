@@ -13,7 +13,7 @@ export default async function ExercicePage() {
   return (
     <div className="mx-auto max-w-2xl xl:max-w-3xl">
       <h1 className="mb-2 text-2xl font-bold" style={{ color: "var(--brand-green)" }}>
-        Exercice de cohérence cardiaque (je suis un test) et ça menerve a 
+        Exercice de cohérence cardiaque
       </h1>
       <p className="mb-8 text-gray-500 dark:text-gray-400">
         La cohérence cardiaque synchronise votre respiration et votre rythme cardiaque pour réduire le stress.
