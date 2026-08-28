@@ -1,0 +1,1514 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<title>Chaîne d'outillage CesiZen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  /* ── Tokens : thème clair (état par défaut, non stampé) ─────────────────── */
+  :root {
+    --bg:        #e7ede6;
+    --surface:   #ffffff;
+    --surface-2: #f0f4ef;
+    --surface-3: #e4ebe3;
+    --ink:       #16221a;
+    --ink-2:     #46564a;
+    --ink-3:     #74836f;
+    --line:      #d7e2d6;
+    --line-2:    #c3d3c2;
+    --brand:     #35702f;
+    --brand-2:   #52a452;
+    --brand-soft:#e6f1e4;
+    --teal:      #12796d;
+    --teal-soft: #dcf0ec;
+    --amber:     #8a6206;
+    --amber-soft:#faf0d9;
+    --red:       #a93a26;
+    --red-soft:  #f9e4de;
+    --shadow:    0 10px 40px rgba(22, 34, 26, .16);
+
+    --f-display: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --f-body:    "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --f-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  /* Thème sombre du système — sauf choix explicite « clair » */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        #0d130f;
+      --surface:   #161f19;
+      --surface-2: #1c2620;
+      --surface-3: #223029;
+      --ink:       #e7efe6;
+      --ink-2:     #b0c0b2;
+      --ink-3:     #869686;
+      --line:      #2b382e;
+      --line-2:    #3a4a3d;
+      --brand:     #7cc57c;
+      --brand-2:   #9bd79b;
+      --brand-soft:#1c2d1e;
+      --teal:      #4fd2bd;
+      --teal-soft: #10302b;
+      --amber:     #e0b552;
+      --amber-soft:#2d2615;
+      --red:       #f08b76;
+      --red-soft:  #331a14;
+      --shadow:    0 10px 40px rgba(0, 0, 0, .5);
+    }
+  }
+  /* Choix explicite « sombre » */
+  :root[data-theme="dark"] {
+    --bg:        #0d130f;
+    --surface:   #161f19;
+    --surface-2: #1c2620;
+    --surface-3: #223029;
+    --ink:       #e7efe6;
+    --ink-2:     #b0c0b2;
+    --ink-3:     #869686;
+    --line:      #2b382e;
+    --line-2:    #3a4a3d;
+    --brand:     #7cc57c;
+    --brand-2:   #9bd79b;
+    --brand-soft:#1c2d1e;
+    --teal:      #4fd2bd;
+    --teal-soft: #10302b;
+    --amber:     #e0b552;
+    --amber-soft:#2d2615;
+    --red:       #f08b76;
+    --red-soft:  #331a14;
+    --shadow:    0 10px 40px rgba(0, 0, 0, .5);
+  }
+
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--f-body);
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  /* ── Ossature ───────────────────────────────────────────────────────────── */
+  #app { height: 100%; display: flex; flex-direction: column; }
+
+  #progress { height: 3px; background: var(--line); flex: 0 0 auto; }
+  #progress-bar {
+    height: 100%; width: 0;
+    background: linear-gradient(90deg, var(--brand) 0%, var(--teal) 100%);
+    transition: width .28s ease;
+  }
+
+  #stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  #deck {
+    width: 1280px; height: 720px;
+    position: relative;
+    flex: 0 0 auto;
+    transform-origin: center center;
+  }
+
+  /* ── Slide ──────────────────────────────────────────────────────────────── */
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    background: var(--surface);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .slide.is-active { display: flex; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .slide.is-active { animation: slide-in .26s ease both; }
+    @keyframes slide-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  }
+
+  /* Rail latéral : numéro + axe */
+  .rail {
+    flex: 0 0 78px;
+    background: var(--surface-2);
+    border-right: 1px solid var(--line);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: space-between;
+    padding: 26px 0 24px;
+  }
+  .rail-num {
+    font-family: var(--f-mono); font-size: 15px; font-weight: 500;
+    color: var(--brand); letter-spacing: .04em;
+  }
+  .rail-axis {
+    writing-mode: vertical-rl; transform: rotate(180deg);
+    font-size: 11px; font-weight: 600; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+  .rail-mark { width: 10px; height: 10px; border-radius: 3px; background: var(--brand-2); }
+
+  .main {
+    flex: 1 1 auto; min-width: 0;
+    padding: 40px 52px 34px;
+    display: flex; flex-direction: column; gap: 22px;
+  }
+
+  .head { display: flex; align-items: flex-start; gap: 20px; }
+  .head-text { flex: 1 1 auto; min-width: 0; }
+  .eyebrow {
+    margin: 0 0 7px;
+    font-size: 12px; font-weight: 600; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--teal);
+  }
+  .head h2 {
+    margin: 0;
+    font-family: var(--f-display); font-size: 38px; font-weight: 700;
+    letter-spacing: -.022em; line-height: 1.08; color: var(--ink);
+    text-wrap: balance;
+  }
+  .req {
+    flex: 0 0 auto; margin-top: 4px;
+    font-family: var(--f-mono); font-size: 11px; letter-spacing: .06em;
+    color: var(--ink-3); border: 1px solid var(--line-2);
+    border-radius: 999px; padding: 3px 10px; white-space: nowrap;
+  }
+
+  .body { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 16px; }
+  .lead { margin: 0; font-size: 19.5px; line-height: 1.45; color: var(--ink-2); max-width: 74ch; }
+  .lead strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Grilles ────────────────────────────────────────────────────────────── */
+  .grid { display: grid; gap: 14px; }
+  .g2 { grid-template-columns: 1fr 1fr; }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  .g4 { grid-template-columns: repeat(4, 1fr); }
+  .g-2-1 { grid-template-columns: 1.35fr 1fr; }
+  .g-1-2 { grid-template-columns: 1fr 1.5fr; }
+  .fill { min-height: 0; }
+
+  /* ── Panneau ────────────────────────────────────────────────────────────── */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--line-2);
+    border-radius: 10px;
+    padding: 15px 17px 16px;
+    display: flex; flex-direction: column; gap: 9px;
+    min-width: 0;
+  }
+  .panel.on-brand { border-top-color: var(--brand-2); }
+  .panel.on-teal  { border-top-color: var(--teal); }
+  .panel.on-amber { border-top-color: var(--amber); }
+  .panel.on-red   { border-top-color: var(--red); }
+  .panel.tinted   { background: var(--surface-2); }
+  .panel h3 {
+    margin: 0;
+    font-family: var(--f-display); font-size: 17px; font-weight: 700;
+    letter-spacing: -.01em; color: var(--ink);
+  }
+  .panel p { margin: 0; font-size: 15.5px; line-height: 1.45; color: var(--ink-2); }
+
+  /* ── Listes ─────────────────────────────────────────────────────────────── */
+  .list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .list li {
+    position: relative; padding-left: 16px;
+    font-size: 15.5px; line-height: 1.45; color: var(--ink-2);
+  }
+  .list li::before {
+    content: ""; position: absolute; left: 0; top: .52em;
+    width: 6px; height: 6px; border-radius: 2px; background: var(--brand-2);
+  }
+  .list.neutral li::before { background: var(--line-2); }
+  .list strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Mono / code ────────────────────────────────────────────────────────── */
+  code, .mono {
+    font-family: var(--f-mono); font-size: .88em;
+    background: var(--surface-3); color: var(--ink);
+    padding: 1px 6px; border-radius: 4px;
+  }
+  .panel.tinted code { background: var(--surface); }
+
+  /* ── Pipeline (étapes numérotées) ───────────────────────────────────────── */
+  .steps { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .steps li {
+    display: flex; align-items: baseline; gap: 11px;
+    font-family: var(--f-mono); font-size: 14.5px; line-height: 1.5; color: var(--ink);
+    padding: 3px 9px; border-radius: 5px; background: var(--surface-2);
+  }
+  .steps li .n { color: var(--ink-3); font-size: 12px; min-width: 18px; }
+  .steps li .why { font-family: var(--f-body); color: var(--ink-3); font-size: 13.5px; margin-left: auto; }
+  .steps li.gate { background: var(--brand-soft); }
+
+  /* ── Chaîne horizontale ─────────────────────────────────────────────────── */
+  .chain { display: flex; align-items: stretch; gap: 0; }
+  .chain-step {
+    flex: 1 1 0; min-width: 0;
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 8px; padding: 11px 12px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .chain-step .k {
+    font-size: 11px; font-weight: 600; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--teal);
+  }
+  .chain-step .v { font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+  .chain-step .d { font-size: 13.5px; color: var(--ink-3); line-height: 1.35; }
+  .chain-arrow {
+    flex: 0 0 26px; display: flex; align-items: center; justify-content: center;
+    color: var(--line-2); font-size: 18px;
+  }
+
+  /* ── Zones d'environnement ──────────────────────────────────────────────── */
+  .zones { display: flex; align-items: stretch; gap: 0; }
+  .zone {
+    flex: 1 1 0; min-width: 0;
+    border: 1px solid var(--line); border-top: 3px solid var(--zone, var(--line-2));
+    border-radius: 10px; padding: 13px 14px 14px;
+    display: flex; flex-direction: column; gap: 9px;
+    background: var(--surface);
+  }
+  .zone-name {
+    font-family: var(--f-display); font-size: 13px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--zone, var(--ink));
+  }
+  .zone-nodes { display: flex; flex-direction: column; gap: 5px; }
+  .node {
+    font-family: var(--f-mono); font-size: 13.5px; color: var(--ink);
+    background: var(--surface-2); border-radius: 5px; padding: 4px 8px;
+  }
+  .zone-meta {
+    margin: 0; padding: 10px 0 0; list-style: none;
+    display: flex; flex-direction: column; gap: 3px;
+    margin-top: auto; border-top: 1px solid var(--line);
+  }
+  .zone-meta li { font-size: 13.5px; color: var(--ink-3); line-height: 1.35; }
+  .zone-meta b { color: var(--ink-2); font-weight: 600; }
+
+  /* ── Tableau comparatif ─────────────────────────────────────────────────── */
+  .cmp-wrap { overflow-x: auto; }
+  .cmp { width: 100%; border-collapse: collapse; font-size: 15px; }
+  .cmp th, .cmp td { text-align: left; padding: 8px 12px; vertical-align: top; line-height: 1.35; }
+  .cmp thead th {
+    font-family: var(--f-display); font-size: 12px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3);
+    border-bottom: 1px solid var(--line-2);
+  }
+  .cmp tbody td { border-bottom: 1px solid var(--line); color: var(--ink-2); }
+  .cmp tbody tr:last-child td { border-bottom: none; }
+  .cmp th.crit { width: 24%; }
+  .cmp td.crit { font-weight: 600; color: var(--ink); }
+  .cmp .pick { background: var(--brand-soft); }
+  .cmp thead th.pick { color: var(--brand); border-bottom-color: var(--brand-2); }
+  .cmp tbody td.pick { color: var(--ink); font-weight: 500; }
+  .cmp tbody tr:first-child td.pick { border-radius: 0; }
+
+  /* ── Encadré ────────────────────────────────────────────────────────────── */
+  .callout {
+    border-left: 3px solid var(--amber);
+    background: var(--amber-soft);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .callout h3 {
+    margin: 0; font-family: var(--f-display); font-size: 15px; font-weight: 700;
+    letter-spacing: .04em; color: var(--amber);
+  }
+  .callout p { margin: 0; font-size: 15px; line-height: 1.45; color: var(--ink-2); }
+  .callout strong { color: var(--ink); font-weight: 600; }
+  .callout.teal { border-left-color: var(--teal); background: var(--teal-soft); }
+  .callout.teal h3 { color: var(--teal); }
+  .callout.brand { border-left-color: var(--brand-2); background: var(--brand-soft); }
+  .callout.brand h3 { color: var(--brand); }
+
+  /* ── Chiffres ───────────────────────────────────────────────────────────── */
+  .stats { display: flex; gap: 10px; }
+  .stat {
+    flex: 1 1 0; background: var(--surface-2); border-radius: 8px;
+    padding: 11px 14px; display: flex; flex-direction: column; gap: 2px;
+  }
+  .stat .num {
+    font-family: var(--f-display); font-size: 30px; font-weight: 800;
+    letter-spacing: -.03em; line-height: 1; color: var(--brand);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat.alt .num { color: var(--teal); }
+  .stat.warn .num { color: var(--amber); }
+  .stat .lbl { font-size: 13.5px; color: var(--ink-3); line-height: 1.3; }
+
+  /* ── Verdict (ligne de conclusion de slide) ─────────────────────────────── */
+  .verdict {
+    display: flex; align-items: baseline; gap: 12px;
+    padding-top: 12px; border-top: 1px solid var(--line);
+    font-size: 15.5px; color: var(--ink-2); line-height: 1.42;
+  }
+  .verdict .tagword {
+    flex: 0 0 auto;
+    font-family: var(--f-display); font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--brand);
+  }
+  .verdict.limit .tagword { color: var(--ink-3); }
+  .verdict strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Couverture ─────────────────────────────────────────────────────────── */
+  .cover {
+    flex: 1 1 auto;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 76px; gap: 0;
+    background:
+      radial-gradient(circle at 88% 12%, var(--brand-soft) 0%, transparent 46%),
+      radial-gradient(circle at 8% 92%, var(--teal-soft) 0%, transparent 44%),
+      var(--surface);
+  }
+  .cover-rule { width: 62px; height: 4px; border-radius: 2px; background: var(--brand-2); margin-bottom: 26px; }
+  .cover .kicker {
+    margin: 0 0 16px;
+    font-size: 13px; font-weight: 600; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--teal);
+  }
+  .cover h1 {
+    margin: 0 0 18px;
+    font-family: var(--f-display); font-size: 68px; font-weight: 800;
+    letter-spacing: -.035em; line-height: .98; color: var(--ink);
+    max-width: 17ch; text-wrap: balance;
+  }
+  .cover h1 em { font-style: normal; color: var(--brand); }
+  .cover .sub { margin: 0 0 30px; font-size: 20px; line-height: 1.45; color: var(--ink-2); max-width: 56ch; }
+  .cover .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 34px; }
+  .chip {
+    font-family: var(--f-mono); font-size: 12.5px; color: var(--ink-2);
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 999px; padding: 4px 12px;
+  }
+  .cover-meta {
+    display: flex; align-items: center; gap: 22px;
+    padding-top: 20px; border-top: 1px solid var(--line);
+    font-size: 14px; color: var(--ink-3);
+  }
+  .cover-meta b { color: var(--ink); font-weight: 600; }
+  .cover-meta .hint { margin-left: auto; font-family: var(--f-mono); font-size: 12px; }
+  .cover-meta kbd {
+    font-family: var(--f-mono); font-size: 11px; background: var(--surface-3);
+    border: 1px solid var(--line-2); border-bottom-width: 2px;
+    border-radius: 4px; padding: 1px 5px; color: var(--ink-2);
+  }
+
+  /* ── Notes d'orateur ────────────────────────────────────────────────────── */
+  .note-src { display: none; }
+  #notes {
+    flex: 0 0 auto; display: none;
+    background: var(--surface); border-top: 1px solid var(--line-2);
+    padding: 14px 26px; max-height: 26vh; overflow-y: auto;
+  }
+  body.notes-on #notes { display: block; }
+  #notes h4 {
+    margin: 0 0 6px;
+    font-family: var(--f-display); font-size: 11px; font-weight: 700;
+    letter-spacing: .16em; text-transform: uppercase; color: var(--teal);
+  }
+  #notes-body { font-size: 15px; line-height: 1.5; color: var(--ink-2); max-width: 100ch; }
+  #notes-body p { margin: 0 0 6px; }
+  #notes-body p:last-child { margin-bottom: 0; }
+  #notes-body strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Barre de contrôle ──────────────────────────────────────────────────── */
+  #chrome {
+    flex: 0 0 auto;
+    display: flex; align-items: center; gap: 14px;
+    padding: 9px 22px;
+    border-top: 1px solid var(--line);
+    background: var(--surface-2);
+    font-size: 12.5px; color: var(--ink-3);
+  }
+  #chrome .title { font-weight: 600; color: var(--ink-2); }
+  #chrome .spacer { margin-left: auto; }
+  #counter { font-family: var(--f-mono); font-variant-numeric: tabular-nums; color: var(--ink-2); }
+  .btn {
+    font: inherit; font-family: var(--f-body);
+    color: var(--ink-2); background: var(--surface);
+    border: 1px solid var(--line-2); border-radius: 6px;
+    padding: 3px 11px; cursor: pointer;
+  }
+  .btn:hover { border-color: var(--brand-2); color: var(--ink); }
+  .btn:focus-visible { outline: 2px solid var(--brand-2); outline-offset: 2px; }
+  #chrome .keys { font-family: var(--f-mono); font-size: 11.5px; }
+
+  /* ── Impression : une slide par page A4 paysage ─────────────────────────── */
+  @media print {
+    @page { size: A4 landscape; margin: 0; }
+    :root, :root[data-theme="dark"] {
+      --bg: #ffffff; --surface: #ffffff; --surface-2: #f0f4ef; --surface-3: #e4ebe3;
+      --ink: #16221a; --ink-2: #46564a; --ink-3: #74836f;
+      --line: #d7e2d6; --line-2: #c3d3c2;
+      --brand: #35702f; --brand-2: #52a452; --brand-soft: #e6f1e4;
+      --teal: #12796d; --teal-soft: #dcf0ec;
+      --amber: #8a6206; --amber-soft: #faf0d9;
+      --red: #a93a26; --red-soft: #f9e4de;
+      --shadow: none;
+    }
+    html, body { height: auto; overflow: visible; background: #fff; }
+    #app { display: block; height: auto; }
+    #progress, #chrome, #notes { display: none !important; }
+    #stage { display: block; overflow: visible; height: auto; }
+    #deck { transform: none !important; width: auto; height: auto; position: static; }
+    .slide {
+      display: flex !important; position: static;
+      width: 1280px; height: 720px;
+      zoom: .862;
+      border-radius: 0; box-shadow: none;
+      break-after: page; page-break-after: always;
+      animation: none !important;
+    }
+    .slide:last-child { break-after: auto; page-break-after: auto; }
+  }
+</style>
+
+<div id="app">
+  <div id="progress"><div id="progress-bar"></div></div>
+
+  <div id="stage">
+    <div id="deck">
+
+      <!-- ═══ 01 · Couverture ═══════════════════════════════════════════════ -->
+      <section class="slide is-active">
+        <div class="cover">
+          <div class="cover-rule"></div>
+          <p class="kicker">CESI · Concepteur Développeur d'Applications — Bloc 3</p>
+          <h1>Déployer &amp; sécuriser <em>CesiZen</em></h1>
+          <p class="sub">La chaîne d'outillage du projet : intégration continue, déploiement, ticketing et sécurité — et pourquoi chaque outil a été retenu.</p>
+          <div class="chips">
+            <span class="chip">GitHub</span>
+            <span class="chip">GitHub Actions</span>
+            <span class="chip">Vercel</span>
+            <span class="chip">Neon · PostgreSQL</span>
+            <span class="chip">GitHub Issues</span>
+            <span class="chip">Dependabot</span>
+          </div>
+          <div class="cover-meta">
+            <span><b>Lucas Helloco</b></span>
+            <span>Version <b>v1.0.0</b></span>
+            <span>Août 2026</span>
+            <span class="hint"><kbd>→</kbd> naviguer · <kbd>n</kbd> notes · <kbd>f</kbd> plein écran</span>
+          </div>
+        </div>
+        <p class="note-src">Bonjour. Je vais vous présenter comment CesiZen est <strong>déployé, maintenu et sécurisé</strong> — et surtout <strong>pourquoi j'ai retenu chaque outil</strong> plutôt que ses concurrents. Trois axes : déployer, maintenir, sécuriser. Je termine par un bilan.</p>
+      </section>
+
+      <!-- ═══ 02 · La chaîne + les 3 environnements ═════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">02</span>
+          <span class="rail-axis">Déployer</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Vue d'ensemble</p>
+              <h2>Le trajet d'une modification, du poste local à la production</h2>
+            </div>
+            <span class="req">VI.A</span>
+          </div>
+          <div class="body">
+            <p class="lead">Trois environnements, articulés sur les branches Git. Chaque changement « monte » d'un environnement au suivant — <strong>aucun code non validé n'atteint la production</strong>.</p>
+
+            <div class="zones fill">
+              <div class="zone" style="--zone: var(--teal);">
+                <span class="zone-name">Développement</span>
+                <div class="zone-nodes">
+                  <span class="node">poste local · npm run dev</span>
+                  <span class="node">branche feature/*</span>
+                </div>
+                <ul class="zone-meta">
+                  <li><b>Objectif</b> — intégrer le travail en cours</li>
+                  <li><b>Déclencheur</b> — fusion d'une <code>feature/*</code></li>
+                  <li><b>Base</b> — PostgreSQL local (Docker)</li>
+                  <li><b>Données</b> — jeu de seed</li>
+                  <li><b>Accès</b> — développeur</li>
+                </ul>
+              </div>
+              <div class="chain-arrow">→</div>
+              <div class="zone" style="--zone: var(--amber);">
+                <span class="zone-name">Test / Recette</span>
+                <div class="zone-nodes">
+                  <span class="node">Pull Request</span>
+                  <span class="node">CI GitHub Actions</span>
+                  <span class="node">Preview Vercel (URL/PR)</span>
+                </div>
+                <ul class="zone-meta">
+                  <li><b>Objectif</b> — recetter avant la fusion</li>
+                  <li><b>Déclencheur</b> — ouverture ou mise à jour d'une PR</li>
+                  <li><b>Base</b> — branche Neon de test</li>
+                  <li><b>Données</b> — test anonymisées</li>
+                  <li><b>Accès</b> — relecteur, par lien</li>
+                </ul>
+              </div>
+              <div class="chain-arrow">→</div>
+              <div class="zone" style="--zone: var(--brand);">
+                <span class="zone-name">Production</span>
+                <div class="zone-nodes">
+                  <span class="node">branche main (protégée)</span>
+                  <span class="node">Vercel Production</span>
+                  <span class="node">tag vX.Y.Z</span>
+                </div>
+                <ul class="zone-meta">
+                  <li><b>Objectif</b> — servir les utilisateurs réels</li>
+                  <li><b>Déclencheur</b> — fusion sur <code>main</code>, puis tag</li>
+                  <li><b>Base</b> — Neon production</li>
+                  <li><b>Données</b> — réelles</li>
+                  <li><b>Accès</b> — public</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="verdict">
+              <span class="tagword">Le principe</span>
+              <span>Une seule porte d'entrée vers la production : la <strong>Pull Request</strong>. Elle déclenche la CI, génère un environnement de recette jetable, et ne peut être fusionnée que si tout est vert.</span>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">Voilà la chaîne complète. Insister sur la <strong>continuité</strong> : le même schéma vaut pour une correction d'une ligne comme pour une fonctionnalité entière. Le point clé pour le jury : <strong>la Pull Request est le point de contrôle unique</strong> — c'est là que la CI valide et que l'environnement de recette apparaît automatiquement. Les trois environnements ne sont pas trois serveurs à administrer : ce sont trois états d'une même chaîne.</p>
+      </section>
+
+      <!-- ═══ 03 · Hébergement ═════════════════════════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">03</span>
+          <span class="rail-axis">Déployer</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Choix d'hébergement</p>
+              <h2>Pourquoi le serverless, et pas un serveur à moi</h2>
+            </div>
+            <span class="req">VI.A</span>
+          </div>
+          <div class="body">
+            <div class="grid g-1-2 fill">
+              <div class="panel on-teal tinted">
+                <h3>Le besoin dimensionnant</h3>
+                <ul class="list">
+                  <li>Application <strong>grand public</strong> : fréquentation variable et imprévisible</li>
+                  <li>Des pics liés à la communication, un usage diurne, des nuits creuses</li>
+                  <li>Une <strong>seule personne</strong> pour développer <em>et</em> exploiter</li>
+                </ul>
+                <p>Le dimensionnement ne pouvait donc pas être fixe : il devait suivre la charge, sans personne pour l'ajuster.</p>
+              </div>
+              <div class="grid g2">
+                <div class="panel on-brand">
+                  <h3>Élasticité</h3>
+                  <p>La capacité monte et descend seule. Pas de surcoût en période creuse, pas de saturation aux pics.</p>
+                </div>
+                <div class="panel on-brand">
+                  <h3>Coût à l'usage</h3>
+                  <p>Facturation à la consommation ; les paliers gratuits suffisent en phase de lancement.</p>
+                </div>
+                <div class="panel on-brand">
+                  <h3>Exploitation réduite</h3>
+                  <p>Aucun OS ni serveur à patcher : moins de maintenance, et une <strong>surface d'attaque plus faible</strong>.</p>
+                </div>
+                <div class="panel on-brand">
+                  <h3>Proximité réseau</h3>
+                  <p>Le CDN Vercel sert les ressources statiques au plus près de l'utilisateur.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid g2">
+              <div class="callout teal">
+                <h3>Neon — le même raisonnement pour la base</h3>
+                <p>PostgreSQL managé, <strong>scale-to-zero</strong>, <em>connection pooler</em> indispensable au serverless, et des <strong>branches de base de données</strong> pour les environnements de test. Compatible nativement avec Prisma.</p>
+              </div>
+              <div class="callout">
+                <h3>Écartés — et pourquoi</h3>
+                <p><strong>VPS + Docker, AWS, Kubernetes</strong> : plus de contrôle, mais une complexité et un coût d'exploitation <strong>disproportionnés</strong> pour ce projet. Docker reste utilisé — pour la base en local.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">Le réflexe du jury sera : « pourquoi pas Docker sur un VPS ? ». Ma réponse tient en une phrase : <strong>je dimensionne pour une charge que je ne peux pas prévoir, avec une équipe d'une personne</strong>. Le serverless me donne l'élasticité et me retire l'administration système. Et Vercel est l'éditeur de Next.js : l'intégration est native. Précision honnête : ce n'est pas un choix universel — sur une charge stable et prévisible, un VPS coûterait moins cher.</p>
+      </section>
+
+      <!-- ═══ 04 · Versioning ══════════════════════════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">04</span>
+          <span class="rail-axis">Déployer</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Gestion des sources</p>
+              <h2>Versioning : Git, des branches protégées, du SemVer</h2>
+            </div>
+            <span class="req">VI.A.1</span>
+          </div>
+          <div class="body">
+            <div class="chain">
+              <div class="chain-step"><span class="k">Isoler</span><span class="v">feature/*</span><span class="d">Une branche par fonctionnalité ou correction</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">Intégrer</span><span class="v">develop</span><span class="d">Reçoit les branches validées</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">Contrôler</span><span class="v">Pull Request</span><span class="d">Revue + CI verte obligatoires</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">Livrer</span><span class="v">main</span><span class="d">Protégée : push direct refusé</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">Figer</span><span class="v">tag v1.0.0</span><span class="d">Release GitHub, point de retour</span></div>
+            </div>
+
+            <div class="grid g3 fill">
+              <div class="panel on-brand">
+                <h3>La branche <code>main</code> est protégée</h3>
+                <ul class="list">
+                  <li>Toute modification passe par une <strong>Pull Request</strong></li>
+                  <li>La <strong>CI doit être verte</strong> avant la fusion</li>
+                  <li>Les pushs directs sont <strong>refusés</strong> — vérifié</li>
+                </ul>
+              </div>
+              <div class="panel on-teal">
+                <h3>Versionnement sémantique</h3>
+                <p><code>vMAJEUR.MINEUR.CORRECTIF</code></p>
+                <ul class="list neutral">
+                  <li><strong>MAJEUR</strong> — changement incompatible</li>
+                  <li><strong>MINEUR</strong> — ajout rétrocompatible</li>
+                  <li><strong>CORRECTIF</strong> — correction seule</li>
+                </ul>
+              </div>
+              <div class="panel">
+                <h3>Bonnes pratiques appliquées</h3>
+                <ul class="list neutral">
+                  <li>Gabarit de PR avec check-list : lint, tests, CI verte, <strong>aucun secret</strong>, ticket lié</li>
+                  <li>Commits conventionnels (<code>feat</code>, <code>fix</code>, <code>docs</code>)</li>
+                  <li>Documentation versionnée <strong>avec</strong> le code</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="verdict">
+              <span class="tagword">Pour le client</span>
+              <span>Une version en production est <strong>identifiable</strong> (un tag), <strong>traçable</strong> (l'historique des PR) et <strong>réversible</strong> (on sait exactement où revenir).</span>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">Le cahier des charges demande explicitement la <strong>méthodologie de suivi des versions</strong> et <strong>l'outil</strong>. L'outil, c'est Git + GitHub. La méthodologie, c'est ce trajet : isoler, intégrer, contrôler, livrer, figer. Le message à faire passer : le tag SemVer n'est pas de la décoration — c'est ce qui permet de dire au Ministère « la production tourne en v1.0.0 » et de revenir en arrière sans hésiter.</p>
+      </section>
+
+      <!-- ═══ 05 · GitHub vs GitLab ════════════════════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">05</span>
+          <span class="rail-axis">Déployer</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Choix d'outil · versioning</p>
+              <h2>GitHub, GitLab ou Bitbucket ?</h2>
+            </div>
+            <span class="req">VI.A.1</span>
+          </div>
+          <div class="body">
+            <div class="cmp-wrap fill">
+              <table class="cmp">
+                <thead>
+                  <tr>
+                    <th class="crit">Critère</th>
+                    <th class="pick">GitHub — retenu</th>
+                    <th>GitLab</th>
+                    <th>Bitbucket</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="crit">Hébergement Git + revue</td>
+                    <td class="pick">Complet, standard du marché</td>
+                    <td>Complet, très bonne revue</td>
+                    <td>Complet</td>
+                  </tr>
+                  <tr>
+                    <td class="crit">CI intégrée</td>
+                    <td class="pick">GitHub Actions</td>
+                    <td>GitLab CI — excellente, souvent citée en référence</td>
+                    <td>Pipelines, plus limitée</td>
+                  </tr>
+                  <tr>
+                    <td class="crit">Veille des dépendances</td>
+                    <td class="pick">Dependabot <strong>natif</strong>, zéro intégration</td>
+                    <td>Intégré, mais surtout en édition payante</td>
+                    <td>Via un outil tiers</td>
+                  </tr>
+                  <tr>
+                    <td class="crit">Intégration Vercel</td>
+                    <td class="pick"><strong>Native</strong> — Preview par PR sans configuration</td>
+                    <td>Possible, à configurer</td>
+                    <td>Possible, à configurer</td>
+                  </tr>
+                  <tr>
+                    <td class="crit">Écosystème / employabilité</td>
+                    <td class="pick">Le plus riche ; compétence attendue en entreprise</td>
+                    <td>Riche, fort en auto-hébergé</td>
+                    <td>Plus étroit</td>
+                  </tr>
+                  <tr>
+                    <td class="crit">Coût sur ce projet</td>
+                    <td class="pick">Gratuit (Pro via Student Pack)</td>
+                    <td>Gratuit, limites de minutes CI</td>
+                    <td>Gratuit sous conditions</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="verdict">
+              <span class="tagword">Ce qui a tranché</span>
+              <span>Pas la qualité brute — <strong>GitLab CI est au moins aussi bon</strong>. C'est la <strong>cohérence de l'ensemble</strong> : code, CI, tickets, veille et déploiement sur une seule plateforme, donc <strong>zéro intégration à maintenir</strong>.</span>
+            </div>
+            <div class="verdict limit">
+              <span class="tagword">Limite assumée</span>
+              <span>Une dépendance forte à un écosystème unique. Elle est atténuée par le fait que <strong>Git reste portable</strong> et que la CI tient dans un fichier YAML de 60 lignes, réécrivable ailleurs en une demi-journée.</span>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">Ne pas caricaturer GitLab : c'est un très bon produit, et sa CI est une référence — surtout en auto-hébergé. Mon argument n'est pas « GitHub est meilleur », c'est <strong>« GitHub me donne l'ensemble cohérent »</strong> : Actions, Issues, Dependabot et l'intégration Vercel native, sans coller cinq outils entre eux. Terminer par la limite assumée : ça montre que le choix est réfléchi, pas subi.</p>
+      </section>
+
+      <!-- ═══ 06 · Le pipeline CI ══════════════════════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">06</span>
+          <span class="rail-axis">Déployer</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Automatisation · intégration continue</p>
+              <h2>Le pipeline qui garde la production</h2>
+            </div>
+            <span class="req">VI.A.2</span>
+          </div>
+          <div class="body">
+            <div class="grid g-2-1 fill">
+              <div class="panel on-brand">
+                <h3><code>.github/workflows/ci.yml</code> — 10 étapes</h3>
+                <ol class="steps">
+                  <li><span class="n">01</span> checkout du code</li>
+                  <li><span class="n">02</span> Node.js 20 <span class="why">avec cache npm</span></li>
+                  <li><span class="n">03</span> service PostgreSQL 16 <span class="why">conteneur jetable</span></li>
+                  <li><span class="n">04</span> npm ci <span class="why">installation reproductible</span></li>
+                  <li><span class="n">05</span> prisma generate</li>
+                  <li><span class="n">06</span> prisma migrate deploy <span class="why">migrations testées</span></li>
+                  <li class="gate"><span class="n">07</span> npm run lint <span class="why">ESLint — bloquant</span></li>
+                  <li class="gate"><span class="n">08</span> npm run typecheck <span class="why">TypeScript — bloquant</span></li>
+                  <li class="gate"><span class="n">09</span> npm run test:run <span class="why">34 tests Vitest — bloquant</span></li>
+                  <li class="gate"><span class="n">10</span> npm run build <span class="why">build de production</span></li>
+                </ol>
+              </div>
+              <div class="grid" style="grid-template-rows: auto auto auto; gap: 14px;">
+                <div class="panel on-teal tinted">
+                  <h3>Déclencheurs</h3>
+                  <ul class="list">
+                    <li>Chaque <strong>push</strong> sur <code>main</code></li>
+                    <li>Chaque <strong>Pull Request</strong> vers <code>main</code></li>
+                  </ul>
+                </div>
+                <div class="panel">
+                  <h3>Une base jetable à chaque exécution</h3>
+                  <p>Un PostgreSQL 16 neuf est démarré pour le run, les migrations y sont appliquées, puis il disparaît. Les <strong>migrations sont donc testées</strong> avant la production.</p>
+                </div>
+                <div class="callout brand">
+                  <h3>La règle</h3>
+                  <p>Une seule étape rouge et <strong>la fusion est bloquée</strong>. Seul du code qui compile, respecte les conventions et passe les tests peut atteindre la production.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">C'est le cœur technique. Montrer que ce n'est pas théorique : ce fichier existe, il tourne à chaque PR. Deux détails à souligner. <strong>Un</strong> : <code>npm ci</code> installe exactement le lockfile — l'installation est reproductible. <strong>Deux</strong> : la base PostgreSQL jetable sert à <strong>tester les migrations</strong>, pas seulement le code — c'est ce qui évite de casser la base de production. Si la démo live est possible, montrer un run vert ici.</p>
+      </section>
+
+      <!-- ═══ 07 · Actions vs Jenkins ══════════════════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">07</span>
+          <span class="rail-axis">Déployer</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Choix d'outil · automatisation</p>
+              <h2>GitHub Actions, Jenkins, GitLab CI ou CircleCI ?</h2>
+            </div>
+            <span class="req">VI.A.2</span>
+          </div>
+          <div class="body">
+            <div class="cmp-wrap">
+              <table class="cmp">
+                <thead>
+                  <tr>
+                    <th class="crit">Critère</th>
+                    <th class="pick">GitHub Actions — retenu</th>
+                    <th>Jenkins</th>
+                    <th>GitLab CI</th>
+                    <th>CircleCI</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="crit">Serveur à maintenir</td>
+                    <td class="pick"><strong>Aucun</strong></td>
+                    <td>Oui — à héberger, patcher, sécuriser</td>
+                    <td>Aucun (SaaS)</td>
+                    <td>Aucun (SaaS)</td>
+                  </tr>
+                  <tr>
+                    <td class="crit">Configuration</td>
+                    <td class="pick">YAML dans le dépôt, <strong>relu en PR</strong></td>
+                    <td>Jenkinsfile + plugins à gérer</td>
+                    <td>YAML dans le dépôt</td>
+                    <td>YAML dans le dépôt</td>
+                  </tr>
+                  <tr>
+                    <td class="crit">Lien dépôt ↔ PR</td>
+                    <td class="pick">Natif — statut affiché sur la PR</td>
+                    <td>Via connecteur</td>
+                    <td>Natif (sur GitLab)</td>
+                    <td>Via connecteur</td>
+                  </tr>
+                  <tr>
+                    <td class="crit">Coût à ce volume</td>
+                    <td class="pick">Gratuit</td>
+                    <td>Gratuit, mais coût d'infrastructure</td>
+                    <td>Gratuit, quota de minutes</td>
+                    <td>Quota gratuit limité</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="grid g2 fill">
+              <div class="callout">
+                <h3>L'argument décisif</h3>
+                <p>Jenkins impose <strong>un serveur de plus</strong> à héberger, mettre à jour et sécuriser. C'est exactement ce que l'architecture serverless cherchait à supprimer : le choix aurait été <strong>contradictoire</strong> avec le reste.</p>
+              </div>
+              <div class="panel on-teal">
+                <h3>Ce que l'outil apporte au client</h3>
+                <ul class="list">
+                  <li><strong>Tests intégrés</strong> au pipeline : unitaires, composants, migrations</li>
+                  <li><strong>Statut visible</strong> sur chaque PR : vert ou rouge, sans ambiguïté</li>
+                  <li><strong>Suivi des mises à jour</strong> : Dependabot ouvre les PR, la CI les valide</li>
+                  <li><strong>Historique</strong> des exécutions : qui, quand, quoi, pourquoi c'est tombé</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">La ligne à retenir : <strong>« Jenkins, c'est un serveur de plus à sécuriser »</strong>. Cohérence du système : j'ai choisi le serverless pour ne pas administrer de machine, je ne vais pas en réintroduire une pour la CI. Le panneau de droite répond directement au cahier des charges, qui demande « le détail des fonctionnalités utiles pour le Ministère ». Si on me demande les tests de performance : ils ne sont pas encore dans le pipeline — Playwright est en place pour l'E2E, les tests de charge sont dans mes pistes d'amélioration.</p>
+      </section>
+
+      <!-- ═══ 08 · CD, preview, rollback ═══════════════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">08</span>
+          <span class="rail-axis">Déployer</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Déploiement continu</p>
+              <h2>Livrer sans coupure — et savoir revenir en arrière</h2>
+            </div>
+            <span class="req">VI.A.2</span>
+          </div>
+          <div class="body">
+            <div class="grid g3 fill">
+              <div class="panel on-teal">
+                <h3>Une PR = un environnement</h3>
+                <p>Chaque Pull Request génère un <strong>déploiement Preview isolé</strong>, avec sa propre URL.</p>
+                <ul class="list">
+                  <li>Validation visuelle avant fusion</li>
+                  <li>Partageable par lien pour la recette</li>
+                  <li>Créé et détruit automatiquement</li>
+                </ul>
+              </div>
+              <div class="panel on-brand">
+                <h3>Fusion = mise en production</h3>
+                <p>La fusion sur <code>main</code> déclenche le déploiement, sans intervention.</p>
+                <ul class="list">
+                  <li>Install, <code>prisma generate</code>, build Next.js</li>
+                  <li>Bascule <strong>atomique</strong> : pas de coupure</li>
+                  <li><em>Smoke test</em> des parcours critiques ensuite</li>
+                </ul>
+              </div>
+              <div class="panel on-red">
+                <h3>Retour arrière, deux niveaux</h3>
+                <ul class="list neutral">
+                  <li><strong>Instant Rollback</strong> Vercel — le déploiement précédent est re-promu <strong>en un clic, sans rebuild</strong></li>
+                  <li><strong><code>git revert</code></strong> côté code, puis nouvelle PR : le correctif repasse par la CI et l'historique reste cohérent</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="callout">
+              <h3>Le point dur : la base de données</h3>
+              <p>Un rollback applicatif ne défait pas une migration. Les migrations sont donc conçues <strong>additives</strong> autant que possible — on ajoute une colonne plutôt qu'on n'en supprime — pour qu'une version antérieure de l'application reste compatible avec le schéma en place.</p>
+            </div>
+
+            <div class="verdict">
+              <span class="tagword">CI puis CD</span>
+              <span>La CI <strong>valide</strong>, le CD <strong>livre</strong>. Séparer les deux permet de bloquer une livraison sans bloquer le développement.</span>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">L'encadré sur la base est le détail qui fait la différence devant un jury : beaucoup présentent le rollback comme un bouton magique. <strong>Un rollback applicatif ne défait pas une migration</strong> — d'où la règle des migrations additives. Question probable : « comment revenez-vous en arrière en prod ? » → Instant Rollback pour l'urgence (secondes), <code>git revert</code> + PR pour la correction propre.</p>
+      </section>
+
+      <!-- ═══ 09 · Ticketing ═══════════════════════════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">09</span>
+          <span class="rail-axis">Maintenir</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Suivi des anomalies et des évolutions</p>
+              <h2>Le ticketing : GitHub Issues + Projects</h2>
+            </div>
+            <span class="req">VI.A</span>
+          </div>
+          <div class="body">
+            <div class="grid g-2-1 fill">
+              <div class="grid g2">
+                <div class="panel on-red">
+                  <h3>Gabarit « Anomalie »</h3>
+                  <ul class="list neutral">
+                    <li>Description du problème</li>
+                    <li>Étapes de reproduction</li>
+                    <li>Comportement attendu</li>
+                    <li><strong>Criticité</strong> — liste imposée</li>
+                    <li>Environnement concerné</li>
+                    <li>Contexte : navigateur, OS, captures</li>
+                  </ul>
+                </div>
+                <div class="panel on-teal">
+                  <h3>Gabarit « Évolution »</h3>
+                  <ul class="list neutral">
+                    <li>Besoin exprimé</li>
+                    <li>Solution proposée</li>
+                    <li>Module concerné</li>
+                    <li><strong>Priorité</strong></li>
+                    <li>Critères d'acceptation</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="panel tinted">
+                <h3>Le tableau de suivi</h3>
+                <ul class="list">
+                  <li>À qualifier</li>
+                  <li>À faire</li>
+                  <li>En cours</li>
+                  <li>En revue</li>
+                  <li>Terminé</li>
+                </ul>
+                <p>Étiquettes : <code>bug</code>, <code>enhancement</code>, <code>priority:high</code>, <code>dependencies</code>, <code>maintenance</code>.</p>
+              </div>
+            </div>
+
+            <div class="grid g2">
+              <div class="callout brand">
+                <h3>Des formulaires, pas des boîtes vides</h3>
+                <p>La saisie libre est <strong>désactivée</strong> : un ticket sans étapes de reproduction ni criticité ne peut pas être ouvert. La qualification commence à la déclaration.</p>
+              </div>
+              <div class="callout">
+                <h3>Une faille ne s'ouvre pas en public</h3>
+                <p>Le formulaire renvoie vers un <strong>security advisory privé</strong> : signaler une vulnérabilité dans une issue publique reviendrait à la divulguer avant de l'avoir corrigée.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">Deux choses à mettre en avant. <strong>Un</strong> : ce sont des <em>formulaires</em>, pas des issues libres — la saisie blanche est désactivée, donc chaque ticket arrive déjà qualifié. <strong>Deux</strong> : le renvoi vers l'advisory privé, qui montre que la sécurité est pensée jusque dans l'outil de ticketing. Si le board Projects est visible en démo, l'ouvrir ici.</p>
+      </section>
+
+      <!-- ═══ 10 · Cycle de vie ════════════════════════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">10</span>
+          <span class="rail-axis">Maintenir</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Méthodologie de traitement</p>
+              <h2>La vie d'un ticket, de la déclaration à la clôture</h2>
+            </div>
+            <span class="req">VI.A</span>
+          </div>
+          <div class="body">
+            <div class="chain">
+              <div class="chain-step"><span class="k">1 · Déclaration</span><span class="v">Issue</span><span class="d">Via le gabarit adapté</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">2 · Qualification</span><span class="v">Criticité</span><span class="d">Reproduire, puis classer</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">3 · Priorisation</span><span class="v">Backlog</span><span class="d">Criticité × impact métier</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">4 · Développement</span><span class="v">fix/*</span><span class="d">Avec ajout de tests</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">5 · Revue</span><span class="v">Pull Request</span><span class="d">CI verte + check-list</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">6 · Déploiement</span><span class="v">Vercel</span><span class="d">Automatique à la fusion</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">7 · Clôture</span><span class="v">Closes #42</span><span class="d">L'issue se ferme seule</span></div>
+            </div>
+
+            <div class="grid g-2-1 fill">
+              <div class="panel on-amber">
+                <h3>Matrice de criticité — et les délais qui vont avec</h3>
+                <div class="cmp-wrap">
+                  <table class="cmp">
+                    <thead>
+                      <tr><th class="crit">Criticité</th><th>Définition</th><th>Prise en charge</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td class="crit">Bloquant</td><td>Service indisponible ou faille de sécurité</td><td><strong>Immédiat</strong> — hotfix</td></tr>
+                      <tr><td class="crit">Majeur</td><td>Fonction principale dégradée</td><td>Sous 48 h</td></tr>
+                      <tr><td class="crit">Mineur</td><td>Gêne avec contournement possible</td><td>Prochain cycle</td></tr>
+                      <tr><td class="crit">Cosmétique</td><td>Affichage, confort d'usage</td><td>Backlog</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="callout brand">
+                <h3>Le ticket et le code ne se quittent pas</h3>
+                <p>Une issue est liée à sa branche, à sa Pull Request et à ses commits. Écrire <code>Closes #42</code> dans la PR <strong>ferme le ticket à la fusion</strong> — donc au moment exact où le correctif part en production.</p>
+                <p>Aucune double saisie, aucun tableau à remettre à jour à la main.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">Le cycle en sept étapes est la réponse à « comment traitez-vous une anomalie ». Appuyer sur l'étape 2, la <strong>qualification</strong> : on reproduit avant de classer, et la criticité détermine le délai — c'est ce qui rend l'engagement tenable. Et sur l'étape 7 : la clôture est <strong>automatique</strong>, le ticket se ferme au moment où le correctif atteint la production. Pas de décalage entre l'outil et la réalité.</p>
+      </section>
+
+      <!-- ═══ 11 · Issues vs Jira ══════════════════════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">11</span>
+          <span class="rail-axis">Maintenir</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Choix d'outil · ticketing</p>
+              <h2>GitHub Issues plutôt que Jira</h2>
+            </div>
+            <span class="req">VI.A</span>
+          </div>
+          <div class="body">
+            <div class="cmp-wrap">
+              <table class="cmp">
+                <thead>
+                  <tr>
+                    <th class="crit">Critère</th>
+                    <th class="pick">GitHub Issues — retenu</th>
+                    <th>Jira</th>
+                    <th>Trello / Linear</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="crit">Lien avec le code</td>
+                    <td class="pick"><strong>Direct</strong> — issue ↔ branche ↔ PR ↔ commit</td>
+                    <td>Via connecteur à configurer et maintenir</td>
+                    <td>Faible à partiel</td>
+                  </tr>
+                  <tr>
+                    <td class="crit">Workflows personnalisés</td>
+                    <td class="pick">Simples : étiquettes + colonnes</td>
+                    <td><strong>Très riches</strong> — transitions, champs, règles</td>
+                    <td>Simples</td>
+                  </tr>
+                  <tr>
+                    <td class="crit">Reporting agile</td>
+                    <td class="pick">Basique</td>
+                    <td><strong>Avancé</strong> — burndown, vélocité, sprints</td>
+                    <td>Variable</td>
+                  </tr>
+                  <tr>
+                    <td class="crit">Coût sur ce projet</td>
+                    <td class="pick">Gratuit, déjà là</td>
+                    <td>Payant par utilisateur</td>
+                    <td>Gratuit puis payant</td>
+                  </tr>
+                  <tr>
+                    <td class="crit">Charge d'administration</td>
+                    <td class="pick"><strong>Nulle</strong></td>
+                    <td>Réelle — configuration et synchronisation</td>
+                    <td>Faible</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="grid g2 fill">
+              <div class="callout brand">
+                <h3>Ce qui a tranché</h3>
+                <p>La <strong>proximité du code</strong>. Un ticket, une branche, une PR, un commit, une mise en production : une seule chaîne, <strong>aucune synchronisation entre deux outils</strong> — et donc rien qui puisse diverger.</p>
+              </div>
+              <div class="verdict limit" style="border-top: none; padding-top: 0; align-items: flex-start;">
+                <span class="tagword">Limite assumée</span>
+                <span>Jira est <strong>plus puissant</strong>, ce n'est pas discutable : workflows sur mesure, reporting agile, gestion multi-équipes. Sur une équipe de dix personnes avec des sprints formalisés, je choisirais probablement Jira. Ici il serait <strong>surdimensionné et payant</strong> pour un besoin que les Issues couvrent entièrement.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">Ne pas dire « Jira c'est trop lourd » sans nuance : <strong>reconnaître d'abord sa supériorité fonctionnelle</strong>, puis expliquer que la puissance non utilisée est un coût, pas un avantage. La phrase à garder : « sur une équipe de dix avec des sprints, je choisirais Jira ; ici, ce serait payer et administrer un outil pour des fonctions que je n'utiliserais pas ». C'est ce recul que le jury cherche.</p>
+      </section>
+
+      <!-- ═══ 12 · Veille + REX ════════════════════════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">12</span>
+          <span class="rail-axis">Maintenir</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Veille technologique</p>
+              <h2>Dependabot — et ce qu'un incident réel m'a appris</h2>
+            </div>
+            <span class="req">VI.A.2</span>
+          </div>
+          <div class="body">
+            <div class="grid g-1-2 fill">
+              <div class="panel on-teal tinted">
+                <h3>La veille outillée</h3>
+                <ul class="list">
+                  <li>Analyse <strong>hebdomadaire</strong> des dépendances npm <em>et</em> des actions de CI</li>
+                  <li>Mises à jour <strong>mineures et correctives regroupées</strong> en une seule PR</li>
+                  <li>Montées de version <strong>majeures ignorées</strong> par l'automatisme</li>
+                  <li>Alertes de sécurité GitHub sur CVE, en temps réel</li>
+                </ul>
+                <p>Complétée par une veille humaine : CHANGELOG et blogs officiels (Next.js, Prisma, Better Auth), OWASP, annonces de fin de support Node.js.</p>
+              </div>
+
+              <div class="grid" style="grid-template-rows: auto auto; gap: 14px;">
+                <div class="callout">
+                  <h3>Retour d'expérience — l'incident</h3>
+                  <p>Une vague de PR automatiques <strong>majeures</strong> — Next 16, Prisma 7, Zod 4, ESLint 10 — a été fusionnée d'un coup. Résultat : <strong>build et déploiement cassés</strong>. Prisma 7 supprimait les propriétés <code>url</code> et <code>directUrl</code> du schéma, Zod 4 changeait son API.</p>
+                  <p><strong>La cause aggravante :</strong> Vercel installe les dépendances avec <code>npm install</code>, pas <code>npm ci</code> — il prend donc la <strong>dernière version du range SemVer</strong>, et non celle du lockfile validé en CI. La production ne recevait pas ce que la CI avait testé.</p>
+                  <p><strong>Correction :</strong> revert vers l'état stable, puis durcissement de Dependabot — les majeures ne sont plus proposées automatiquement, elles sont traitées <strong>une par une, sur une branche dédiée</strong>.</p>
+                </div>
+                <div class="callout brand">
+                  <h3>La leçon</h3>
+                  <p><strong>Veille ≠ adoption.</strong> Être informé d'une nouvelle version majeure est nécessaire ; la déployer sans l'avoir testée est une prise de risque. La veille reste automatique, l'adoption redevient une décision.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">C'est <strong>la slide qui montre le plus de recul</strong> — ne pas la survoler. Assumer l'incident : je l'ai provoqué en fusionnant des majeures sans les tester, et ça a cassé la production. Le point technique fin, qui impressionne : <strong>Vercel installe en <code>npm install</code>, pas <code>npm ci</code></strong> — donc la prod peut recevoir des versions que la CI n'a jamais vues. C'est exactement le genre d'écart qu'on ne découvre qu'en production. Conclure sur « veille ≠ adoption ».</p>
+      </section>
+
+      <!-- ═══ 13 · Sécurité : risques et mesures ═══════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">13</span>
+          <span class="rail-axis">Sécuriser</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Analyse et prévention</p>
+              <h2>Vulnérabilités, risques et mesures</h2>
+            </div>
+            <span class="req">VI.B.1</span>
+          </div>
+          <div class="body">
+            <div class="stats">
+              <div class="stat warn"><span class="num">41</span><span class="lbl">vulnérabilités relevées<br>21 hautes · 18 moyennes · 2 basses</span></div>
+              <div class="stat"><span class="num">23 → 8</span><span class="lbl">après <code>npm audit fix</code><br>les 8 restantes exigent des majeures</span></div>
+              <div class="stat alt"><span class="num">2</span><span class="lbl">rôles et 3 niveaux de procédures<br><code>public</code> · <code>protected</code> · <code>admin</code></span></div>
+              <div class="stat alt"><span class="num">5</span><span class="lbl">en-têtes HTTP de sécurité<br>HSTS, X-Frame-Options…</span></div>
+            </div>
+
+            <div class="grid g-2-1 fill">
+              <div class="panel on-red">
+                <h3>Les risques principaux — grille OWASP</h3>
+                <div class="cmp-wrap">
+                  <table class="cmp">
+                    <thead>
+                      <tr><th class="crit">Risque</th><th>Criticité</th><th>Mesure appliquée</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td class="crit">A06 — Composants vulnérables</td><td><strong>Haute</strong></td><td>Dependabot + <code>npm audit fix</code></td></tr>
+                      <tr><td class="crit">A01 — Contrôle d'accès</td><td><strong>Haute</strong></td><td><code>adminProcedure</code>, middleware, rôles</td></tr>
+                      <tr><td class="crit">A07 — Authentification</td><td><strong>Haute</strong></td><td>Better Auth, hachage, cookies sécurisés</td></tr>
+                      <tr><td class="crit">A03 — Injection</td><td>Moyenne</td><td>Prisma (requêtes paramétrées) + Zod</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="grid" style="grid-template-rows: auto auto; gap: 14px;">
+                <div class="callout teal">
+                  <h3>Défense en profondeur</h3>
+                  <p>Plusieurs CVE visent un <strong>contournement du middleware Next.js</strong>. La sécurité ne repose donc pas sur lui : chaque procédure sensible est <strong>revérifiée côté serveur</strong> dans tRPC.</p>
+                </div>
+                <div class="panel on-brand">
+                  <h3>Chiffrement</h3>
+                  <ul class="list">
+                    <li><strong>En transit</strong> — TLS partout, <code>sslmode=require</code></li>
+                    <li><strong>Au repos</strong> — chiffrement Neon</li>
+                    <li><strong>Mots de passe</strong> — hachés, jamais réversibles</li>
+                    <li><strong>Secrets</strong> — variables chiffrées Vercel, <strong>jamais dans Git</strong></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">Chiffres <strong>réels</strong>, pas théoriques : 41 vulnérabilités relevées, 23 ramenées à 8. Assumer les 8 restantes — elles exigent des montées majeures, donc elles sont planifiées, pas oubliées (cohérent avec la slide précédente). Le point fort ici est la <strong>défense en profondeur</strong> : j'utilise le middleware, mais je sais qu'il est contournable, donc je revérifie côté serveur. Et sur les secrets : vérifié, aucun <code>.env</code> n'a jamais été commité.</p>
+      </section>
+
+      <!-- ═══ 14 · Crise, escalade, RGPD ═══════════════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">14</span>
+          <span class="rail-axis">Sécuriser</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Gestion de crise et données personnelles</p>
+              <h2>Quand l'incident arrive : escalade et RGPD</h2>
+            </div>
+            <span class="req">VI.B.2</span>
+          </div>
+          <div class="body">
+            <div class="chain">
+              <div class="chain-step"><span class="k">1 · Détection</span><span class="v">Alerter</span><span class="d">Dependabot, signalement, advisory</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">2 · Confinement</span><span class="v">Limiter</span><span class="d">Rollback, compte désactivé, secrets révoqués</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">3 · Éradication</span><span class="v">Corriger</span><span class="d">Patch sur branche, validé par la CI</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">4 · Restauration</span><span class="v">Redéployer</span><span class="d">Version saine + smoke test</span></div>
+              <div class="chain-arrow">›</div>
+              <div class="chain-step"><span class="k">5 · Post-mortem</span><span class="v">Apprendre</span><span class="d">Analyse et pratiques mises à jour</span></div>
+            </div>
+
+            <div class="grid g-1-2 fill">
+              <div class="panel on-red">
+                <h3>Escalade de l'information</h3>
+                <ul class="list neutral">
+                  <li><strong>Responsable du projet</strong> — qualifie l'incident et décide du confinement</li>
+                  <li><strong>DPO</strong> — saisi dès qu'une donnée personnelle peut être touchée</li>
+                  <li><strong>CNIL</strong> — notification sous <strong>72 heures</strong> en cas de violation</li>
+                  <li><strong>Utilisateurs</strong> — informés si le risque pour eux est élevé</li>
+                </ul>
+                <p>La descente d'information suit le même chemin : l'incident n'est clos qu'une fois le post-mortem partagé.</p>
+              </div>
+              <div class="grid g2">
+                <div class="panel on-teal">
+                  <h3>Données personnelles collectées</h3>
+                  <p>Nom, adresse e-mail, mot de passe haché. <strong>Rien de plus</strong> — principe de minimisation.</p>
+                  <ul class="list">
+                    <li>Politique de confidentialité et mentions légales publiées</li>
+                    <li>Accès, rectification, suppression du compte</li>
+                    <li>Suppression des données à la clôture</li>
+                  </ul>
+                </div>
+                <div class="panel on-brand">
+                  <h3>Deux choix qui servent le RGPD</h3>
+                  <ul class="list">
+                    <li><strong>Better Auth auto-hébergé</strong> : les données d'authentification restent <strong>dans notre base</strong>, pas chez un tiers facturé à l'utilisateur</li>
+                    <li><strong>Un sous-traitant de moins</strong> à encadrer au sens de l'art. 28 : aucune donnée de compte confiée à un service d'authentification tiers</li>
+                  </ul>
+                  <p><strong>Vigilance :</strong> un futur tracker d'émotions manipulerait des <strong>données de santé</strong> (art. 9) — consentement explicite et garanties renforcées. Hors périmètre livré, mais documenté.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">Le cahier des charges demande <strong>explicitement</strong> les niveaux d'escalade et les conditions de remontée : c'est le panneau de gauche, avec les 72 heures CNIL comme repère chiffré. Sur le RGPD, l'argument que peu de candidats ont : <strong>Better Auth est auto-hébergé, donc les données d'authentification ne partent pas chez un tiers</strong> — c'est un choix technique qui a une conséquence juridique directe. Terminer sur les données de santé : hors périmètre, mais identifié — ça montre que la question a été posée.</p>
+      </section>
+
+      <!-- ═══ 15 · Bilan ═══════════════════════════════════════════════════ -->
+      <section class="slide">
+        <div class="rail">
+          <span class="rail-num">15</span>
+          <span class="rail-axis">Bilan</span>
+          <span class="rail-mark"></span>
+        </div>
+        <div class="main">
+          <div class="head">
+            <div class="head-text">
+              <p class="eyebrow">Conclusion</p>
+              <h2>Une chaîne cohérente, et ce qu'il reste à faire</h2>
+            </div>
+          </div>
+          <div class="body">
+            <div class="grid g3">
+              <div class="panel on-brand">
+                <h3>Un écosystème, pas une collection d'outils</h3>
+                <p>GitHub et Vercel couvrent code, CI, tickets, veille et déploiement. <strong>Moins d'intégrations à maintenir</strong> — un facteur de pérennité décisif pour un projet porté par une seule personne.</p>
+              </div>
+              <div class="panel on-teal">
+                <h3>Chaque choix a une raison — et une limite</h3>
+                <p>GitLab CI est excellent, Jira est plus puissant, un VPS coûterait moins cher à charge stable. J'ai choisi selon <strong>ce projet</strong> : sa charge, son équipe, son budget.</p>
+              </div>
+              <div class="panel on-amber">
+                <h3>Des faits, pas des intentions</h3>
+                <p>CI remise au vert, vulnérabilités ramenées de <strong>23 à 8</strong>, blocage de déploiement corrigé, incident de montée de version géré et documenté.</p>
+              </div>
+            </div>
+
+            <div class="grid g-1-2 fill">
+              <div class="panel tinted">
+                <h3>Pistes d'amélioration</h3>
+                <ul class="list">
+                  <li><strong>Monitoring et alerting</strong> — logs et disponibilité</li>
+                  <li><strong>CodeQL</strong> — analyse statique de sécurité en CI</li>
+                  <li><strong>Tests de charge</strong> — valider le dimensionnement</li>
+                  <li><strong>Adoption testée</strong> des majeures : Next 16, Prisma 7</li>
+                </ul>
+              </div>
+              <div class="callout brand">
+                <h3>Ce que je retiens</h3>
+                <p>Une chaîne CI/CD ne se juge pas quand tout va bien, mais <strong>le jour où elle bloque quelque chose</strong> — une PR rouge, un déploiement cassé, une dépendance vulnérable.</p>
+                <p>Sur ce projet, c'est arrivé. La chaîne a joué son rôle : elle a rendu l'incident <strong>visible, réversible et documenté</strong>. C'est exactement ce qu'on attend d'elle.</p>
+              </div>
+            </div>
+
+            <div class="verdict">
+              <span class="tagword">Merci</span>
+              <span>Je suis à votre disposition pour vos questions.</span>
+            </div>
+          </div>
+        </div>
+        <p class="note-src">Ne pas réciter le dossier : trois messages, c'est tout. <strong>Un</strong> — un écosystème cohérent plutôt qu'une collection d'outils. <strong>Deux</strong> — chaque choix assume sa limite. <strong>Trois</strong> — des faits vérifiables, pas des intentions. Puis la formule de clôture : une chaîne CI/CD se juge le jour où elle bloque quelque chose. Enchaîner sur les questions.</p>
+      </section>
+
+    </div>
+  </div>
+
+  <div id="notes" aria-live="polite">
+    <h4>Notes d'orateur</h4>
+    <div id="notes-body"></div>
+  </div>
+
+  <div id="chrome">
+    <span class="title">CesiZen — Déployer &amp; sécuriser</span>
+    <span class="keys">← → naviguer · n notes · f plein écran</span>
+    <span class="spacer"></span>
+    <button class="btn" id="prev" type="button" aria-label="Slide précédente">‹ Préc.</button>
+    <span id="counter">1 / 15</span>
+    <button class="btn" id="next" type="button" aria-label="Slide suivante">Suiv. ›</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var deck = document.getElementById('deck');
+  var stage = document.getElementById('stage');
+  var slides = Array.prototype.slice.call(deck.querySelectorAll('.slide'));
+  var bar = document.getElementById('progress-bar');
+  var counter = document.getElementById('counter');
+  var notesBody = document.getElementById('notes-body');
+  var current = 0;
+
+  function fit() {
+    var w = stage.clientWidth;
+    var h = stage.clientHeight;
+    if (!w || !h) return;
+    var pad = w < 700 ? 8 : 24;
+    var scale = Math.min((w - pad) / 1280, (h - pad) / 720);
+    deck.style.transform = 'scale(' + Math.max(scale, 0.05) + ')';
+  }
+
+  function render() {
+    slides.forEach(function (s, i) {
+      s.classList.toggle('is-active', i === current);
+      s.setAttribute('aria-hidden', i === current ? 'false' : 'true');
+    });
+    counter.textContent = (current + 1) + ' / ' + slides.length;
+    bar.style.width = ((current + 1) / slides.length * 100) + '%';
+    var note = slides[current].querySelector('.note-src');
+    notesBody.innerHTML = note ? '<p>' + note.innerHTML + '</p>' : '<p>—</p>';
+  }
+
+  function go(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    render();
+  }
+
+  document.getElementById('prev').addEventListener('click', function () { go(current - 1); });
+  document.getElementById('next').addEventListener('click', function () { go(current + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': case ' ': case 'PageDown':
+        e.preventDefault(); go(current + 1); break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+        e.preventDefault(); go(current - 1); break;
+      case 'Home': e.preventDefault(); go(0); break;
+      case 'End': e.preventDefault(); go(slides.length - 1); break;
+      case 'n': case 'N':
+        document.body.classList.toggle('notes-on'); fit(); break;
+      case 'f': case 'F':
+        if (document.fullscreenElement) { document.exitFullscreen(); }
+        else if (document.documentElement.requestFullscreen) { document.documentElement.requestFullscreen(); }
+        break;
+    }
+  });
+
+  stage.addEventListener('click', function (e) {
+    go(e.clientX < stage.getBoundingClientRect().width / 2 ? current - 1 : current + 1);
+  });
+
+  var touchX = null;
+  stage.addEventListener('touchstart', function (e) { touchX = e.changedTouches[0].clientX; }, { passive: true });
+  stage.addEventListener('touchend', function (e) {
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 45) go(dx < 0 ? current + 1 : current - 1);
+    touchX = null;
+  }, { passive: true });
+
+  if (window.ResizeObserver) { new ResizeObserver(fit).observe(stage); }
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', fit);
+  document.fonts && document.fonts.ready && document.fonts.ready.then(fit);
+
+  fit();
+  render();
+})();
+</script>
+
+</body>
+</html>
