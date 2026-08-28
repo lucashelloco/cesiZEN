@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<title>Dossier Bloc 3 CesiZen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  /* ── Palette : document imprimable, clair par défaut ─────────────────────── */
+  :root {
+    --paper:     #ffffff;
+    --desk:      #e4eae3;
+    --ink:       #1a2420;
+    --ink-2:     #45534b;
+    --ink-3:     #6f7d74;
+    --rule:      #d5dfd4;
+    --rule-2:    #bccbbb;
+    --wash:      #f2f6f1;
+    --brand:     #2f6a2c;
+    --brand-2:   #4b9a4b;
+    --brand-wash:#e8f1e6;
+    --teal:      #106e63;
+    --teal-wash: #ddeeea;
+    --amber:     #855d05;
+    --amber-wash:#f8efd8;
+    --red:       #9d3522;
+    --red-wash:  #f8e3de;
+    --shade:     0 2px 18px rgba(26, 36, 32, .13);
+
+    --f-head: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --f-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+    --page-w: 794px;   /* A4 210mm @96dpi */
+    --page-h: 1123px;  /* A4 297mm @96dpi */
+    --marg-x: 78px;    /* ~20,6mm */
+    --marg-t: 64px;
+    --marg-b: 58px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --desk: #0e1310;
+      --shade: 0 2px 22px rgba(0, 0, 0, .55);
+    }
+  }
+  :root[data-theme="dark"] {
+    --desk: #0e1310;
+    --shade: 0 2px 22px rgba(0, 0, 0, .55);
+  }
+
+  html, body { margin: 0; }
+  body {
+    background: var(--desk);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 15px;
+    line-height: 1.58;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Barre d'outils (écran seulement) ───────────────────────────────────── */
+  #bar {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; align-items: center; gap: 14px;
+    padding: 9px 20px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--f-head); font-size: 12.5px; color: var(--ink-2);
+  }
+  #bar .name { font-weight: 700; color: var(--ink); }
+  #bar .sep { margin-left: auto; }
+  #bar .count { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+  #bar button {
+    font: inherit; font-family: var(--f-head); font-size: 12.5px;
+    color: var(--ink-2); background: var(--wash);
+    border: 1px solid var(--rule-2); border-radius: 5px;
+    padding: 4px 11px; cursor: pointer;
+  }
+  #bar button:hover { border-color: var(--brand-2); color: var(--ink); }
+  #bar button:focus-visible { outline: 2px solid var(--brand-2); outline-offset: 2px; }
+
+  /* ── Pages ──────────────────────────────────────────────────────────────── */
+  #pages { padding: 26px 0 40px; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+
+  .page {
+    width: var(--page-w); height: var(--page-h);
+    background: var(--paper);
+    box-shadow: var(--shade);
+    position: relative;
+    padding: var(--marg-t) var(--marg-x) var(--marg-b);
+    overflow: hidden;
+  }
+
+  .page-head {
+    position: absolute; top: 26px; left: var(--marg-x); right: var(--marg-x);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--f-head); font-size: 9.5px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-3);
+    padding-bottom: 7px; border-bottom: 1px solid var(--rule);
+  }
+  .page-foot {
+    position: absolute; bottom: 24px; left: var(--marg-x); right: var(--marg-x);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--f-head); font-size: 9.5px; color: var(--ink-3);
+    padding-top: 7px; border-top: 1px solid var(--rule);
+  }
+  .page-foot .no { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+  .page.cover .page-head, .page.cover .page-foot { display: none; }
+
+  .flow > *:first-child { margin-top: 0; }
+
+  /* ── Typographie du corps ───────────────────────────────────────────────── */
+  h2, h3, h4 { font-family: var(--f-head); color: var(--ink); text-wrap: balance; }
+  h2 {
+    font-size: 21px; font-weight: 800; letter-spacing: -.015em;
+    margin: 0 0 14px; padding-bottom: 9px;
+    border-bottom: 2px solid var(--brand);
+    line-height: 1.18;
+  }
+  h3 {
+    font-size: 15.5px; font-weight: 700; letter-spacing: -.005em;
+    margin: 20px 0 8px; line-height: 1.25; color: var(--brand);
+  }
+  h4 {
+    font-size: 13px; font-weight: 700; margin: 15px 0 6px;
+    letter-spacing: .02em; color: var(--ink-2);
+  }
+  p { margin: 0 0 9px; text-align: justify; hyphens: auto; }
+  strong { font-weight: 600; color: var(--ink); }
+  em { font-style: italic; }
+  a { color: var(--brand); text-decoration: none; border-bottom: 1px solid var(--rule-2); }
+
+  ul, ol { margin: 0 0 10px; padding-left: 20px; }
+  li { margin-bottom: 4px; }
+  li::marker { color: var(--brand-2); }
+
+  code {
+    font-family: var(--f-mono); font-size: .86em;
+    background: var(--wash); border: 1px solid var(--rule);
+    border-radius: 3px; padding: 0 4px;
+    overflow-wrap: anywhere;
+  }
+  pre {
+    font-family: var(--f-mono); font-size: 11px; line-height: 1.5;
+    background: var(--wash); border: 1px solid var(--rule);
+    border-left: 3px solid var(--brand-2);
+    border-radius: 4px; padding: 10px 12px; margin: 0 0 11px;
+    overflow-x: auto; white-space: pre;
+  }
+  pre code { background: none; border: none; padding: 0; font-size: inherit; }
+
+  blockquote {
+    margin: 0 0 11px; padding: 10px 14px;
+    background: var(--amber-wash); border-left: 3px solid var(--amber);
+    border-radius: 0 4px 4px 0;
+  }
+  blockquote p { margin: 0 0 6px; text-align: left; }
+  blockquote p:last-child { margin: 0; }
+  blockquote strong { color: var(--amber); }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 12.5px; line-height: 1.4; margin: 0 0 12px;
+    font-family: var(--f-head); font-weight: 400;
+  }
+  thead th {
+    text-align: left; font-weight: 700; font-size: 10.5px;
+    letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2);
+    background: var(--wash);
+    border-bottom: 1.5px solid var(--rule-2);
+    padding: 6px 8px;
+  }
+  tbody td {
+    padding: 6px 8px; vertical-align: top;
+    border-bottom: 1px solid var(--rule); color: var(--ink-2);
+  }
+  tbody tr:last-child td { border-bottom: 1.5px solid var(--rule-2); }
+  tbody td:first-child { color: var(--ink); font-weight: 600; }
+  td code, th code { font-size: .92em; }
+
+  hr { border: none; border-top: 1px solid var(--rule); margin: 16px 0; }
+
+  /* ── Page de garde ──────────────────────────────────────────────────────── */
+  .cover .flow { height: 100%; }
+  .cover [data-role="cover"] { height: 100%; display: flex; flex-direction: column; }
+  .cover-rule { width: 58px; height: 5px; background: var(--brand); border-radius: 2px; }
+  .cover .eyebrow {
+    font-family: var(--f-head); font-size: 11.5px; font-weight: 600;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--teal);
+    margin: 26px 0 18px;
+  }
+  .cover h1 {
+    font-family: var(--f-head); font-size: 40px; font-weight: 800;
+    letter-spacing: -.028em; line-height: 1.08; margin: 0 0 14px; color: var(--ink);
+    text-wrap: balance;
+  }
+  .cover .subtitle {
+    font-size: 18px; line-height: 1.4; color: var(--ink-2); margin: 0 0 30px;
+    text-align: left;
+  }
+  .cover .lede {
+    font-size: 14.5px; line-height: 1.6; color: var(--ink-2);
+    padding: 16px 18px; background: var(--wash);
+    border-left: 3px solid var(--brand-2); border-radius: 0 5px 5px 0;
+    text-align: left;
+  }
+  .cover .meta {
+    margin-top: auto; padding-top: 20px; border-top: 1px solid var(--rule);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px 26px;
+    font-family: var(--f-head); font-size: 12.5px;
+  }
+  .cover .meta dt {
+    font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 2px;
+  }
+  .cover .meta dd { margin: 0; color: var(--ink); font-weight: 600; }
+  .cover .meta dd a { border: none; overflow-wrap: anywhere; font-weight: 400; }
+
+  /* ── Sommaire ───────────────────────────────────────────────────────────── */
+  .toc { list-style: none; margin: 0; padding: 0; font-family: var(--f-head); }
+  .toc li { margin: 0; }
+  .toc a {
+    display: flex; align-items: baseline; gap: 8px;
+    padding: 5px 0; border: none; color: var(--ink);
+    text-decoration: none;
+  }
+  .toc .lvl-1 a { font-size: 14px; font-weight: 700; padding-top: 13px; }
+  .toc .lvl-2 a { font-size: 12.5px; font-weight: 400; color: var(--ink-2); padding-left: 18px; }
+  .toc .num { font-family: var(--f-mono); font-size: .88em; color: var(--brand); flex: 0 0 auto; }
+  .toc .lbl { flex: 0 0 auto; }
+  .toc .dots {
+    flex: 1 1 auto; height: 0; align-self: center;
+    border-bottom: 1px dotted var(--rule-2); margin: 0 3px;
+  }
+  .toc .pg { flex: 0 0 auto; font-family: var(--f-mono); font-size: .88em; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+  /* ── Encadrés sémantiques ───────────────────────────────────────────────── */
+  .box {
+    margin: 0 0 12px; padding: 11px 14px; border-radius: 0 5px 5px 0;
+    border-left: 3px solid var(--rule-2); background: var(--wash);
+  }
+  .box > *:last-child { margin-bottom: 0; }
+  .box-title {
+    font-family: var(--f-head); font-size: 11px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 5px;
+  }
+  .box.info  { border-left-color: var(--teal);  background: var(--teal-wash); }
+  .box.info .box-title { color: var(--teal); }
+  .box.warn  { border-left-color: var(--amber); background: var(--amber-wash); }
+  .box.warn .box-title { color: var(--amber); }
+  .box.alert { border-left-color: var(--red);   background: var(--red-wash); }
+  .box.alert .box-title { color: var(--red); }
+
+  figcaption, .caption {
+    font-family: var(--f-head); font-size: 10.5px; color: var(--ink-3);
+    margin: -6px 0 13px; text-align: left;
+  }
+
+  /* ── Mesure hors écran ──────────────────────────────────────────────────── */
+  #source { position: absolute; visibility: hidden; pointer-events: none; left: -99999px; top: 0; }
+
+  /* ── Impression : A4 exact, une page par feuille ────────────────────────── */
+  @media print {
+    @page { size: A4 portrait; margin: 0; }
+    :root, :root[data-theme="dark"] { --desk: #ffffff; --shade: none; }
+    html, body { background: #fff; }
+    #bar { display: none !important; }
+    #pages { padding: 0; gap: 0; display: block; }
+    .page {
+      box-shadow: none;
+      break-after: page; page-break-after: always;
+      margin: 0 auto;
+    }
+    .page:last-child { break-after: auto; page-break-after: auto; }
+  }
+</style>
+
+<div id="bar">
+  <span class="name">CesiZen — Dossier Bloc 3</span>
+  <span>Déployer et sécuriser les applications informatiques</span>
+  <span class="sep"></span>
+  <span class="count" id="count">pagination…</span>
+  <button type="button" id="print">Imprimer / PDF</button>
+</div>
+
+<div id="pages"></div>
+<div id="source"><div data-role="cover">
+  <div class="cover-rule"></div>
+  <p class="eyebrow">CESI &middot; Concepteur D&eacute;veloppeur d'Applications &middot; Bloc 3</p>
+  <h1>D&eacute;ployer et s&eacute;curiser les applications informatiques</h1>
+  <p class="subtitle">Plan de d&eacute;ploiement, plan de maintenance et plan de s&eacute;curisation du projet <strong>CesiZen</strong></p>
+  <p class="lede">CesiZen est une plateforme web de pr&eacute;vention en sant&eacute; mentale. Ce dossier
+  d&eacute;crit la cha&icirc;ne qui porte l'application en production &mdash; versionnement, int&eacute;gration
+  continue, d&eacute;ploiement &mdash; puis les dispositifs qui la maintiennent et la s&eacute;curisent dans
+  la dur&eacute;e. Chaque choix d'outillage y est justifi&eacute; face &agrave; ses alternatives, et ses limites
+  assum&eacute;es.</p>
+  <dl class="meta">
+    <div><dt>Auteur</dt><dd>Lucas Helloco</dd></div>
+    <div><dt>Formation</dt><dd>Concepteur D&eacute;veloppeur d'Applications &mdash; CESI</dd></div>
+    <div><dt>Version du produit</dt><dd>v1.0.0</dd></div>
+    <div><dt>Date</dt><dd>Ao&ucirc;t 2026</dd></div>
+    <div><dt>D&eacute;p&ocirc;t</dt><dd><a href="https://github.com/lucashelloco/cesiZEN">github.com/lucashelloco/cesiZEN</a></dd></div>
+    <div><dt>Production</dt><dd><a href="https://cesi-zen.vercel.app">cesi-zen.vercel.app</a></dd></div>
+  </dl>
+</div>
+<div data-role="toc"><h2 id="sommaire" data-short="Sommaire">Sommaire</h2><ul class="toc"><li class="lvl-1"><a data-target="1-introduction-et-contexte"><span class="num">1</span><span class="lbl">Introduction et contexte</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="11-presentation-du-projet"><span class="num">1.1</span><span class="lbl">Présentation du projet</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="12-perimetre-du-bloc-3"><span class="num">1.2</span><span class="lbl">Périmètre du Bloc 3</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="13-vue-densemble-de-la-chaine"><span class="num">1.3</span><span class="lbl">Vue d&#x27;ensemble de la chaîne</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="14-choix-doutillage-etude-comparative-et-justification"><span class="num">1.4</span><span class="lbl">Choix d&#x27;outillage : étude comparative et justification</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-1"><a data-target="2-plan-de-deploiement"><span class="num">2</span><span class="lbl">Plan de déploiement</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="21-architecture-cible"><span class="num">2.1</span><span class="lbl">Architecture cible</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="22-les-trois-environnements"><span class="num">2.2</span><span class="lbl">Les trois environnements</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="23-versioning-des-sources"><span class="num">2.3</span><span class="lbl">Versioning des sources</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="24-automatisation-et-integration-continue"><span class="num">2.4</span><span class="lbl">Automatisation et intégration continue</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="25-ressources-necessaires"><span class="num">2.5</span><span class="lbl">Ressources nécessaires</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="26-procedure-de-deploiement-et-rollback"><span class="num">2.6</span><span class="lbl">Procédure de déploiement et rollback</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-1"><a data-target="3-plan-de-maintenance"><span class="num">3</span><span class="lbl">Plan de maintenance</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="31-outil-de-gestion-des-anomalies-et-evolutions"><span class="num">3.1</span><span class="lbl">Outil de gestion des anomalies et évolutions</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="32-methodologie-de-traitement"><span class="num">3.2</span><span class="lbl">Méthodologie de traitement</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="33-veille-technologique-et-perennite"><span class="num">3.3</span><span class="lbl">Veille technologique et pérennité</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-1"><a data-target="4-plan-de-securisation"><span class="num">4</span><span class="lbl">Plan de sécurisation</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="41-analyse-des-vulnerabilites-des-risques-et-de-la-criticite"><span class="num">4.1</span><span class="lbl">Analyse des vulnérabilités, des risques et de la criticité</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="42-actions-preventives-et-correctives-mises-en-uvre"><span class="num">4.2</span><span class="lbl">Actions préventives et correctives mises en œuvre</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="43-solutions-de-chiffrement-et-de-cryptage"><span class="num">4.3</span><span class="lbl">Solutions de chiffrement et de cryptage</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="44-gestion-de-crise-et-des-incidents-de-securite"><span class="num">4.4</span><span class="lbl">Gestion de crise et des incidents de sécurité</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="45-donnees-personnelles-donnees-sensibles-et-rgpd"><span class="num">4.5</span><span class="lbl">Données personnelles, données sensibles et RGPD</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-2"><a data-target="46-bonnes-pratiques-de-developpement"><span class="num">4.6</span><span class="lbl">Bonnes pratiques de développement</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-1"><a data-target="5-conclusion"><span class="num">5</span><span class="lbl">Conclusion</span><span class="dots"></span><span class="pg"></span></a></li><li class="lvl-1"><a data-target="6-annexes"><span class="num">6</span><span class="lbl">Annexes</span><span class="dots"></span><span class="pg"></span></a></li></ul></div>
+<h2 id="1-introduction-et-contexte" data-short="Introduction et contexte">1. Introduction et contexte</h2>
+<h3 id="11-presentation-du-projet">1.1 Présentation du projet</h3>
+<p>CesiZen est une plateforme web grand public dédiée à la <strong>santé mentale</strong> et à la <strong>gestion du stress</strong>. Elle met à disposition des contenus de prévention (articles et documents) et des exercices de respiration guidés (cohérence cardiaque).</p>
+<p>Le périmètre fonctionnel livré couvre trois modules :</p>
+<table><thead><tr><th>Module</th><th>Type</th><th>Acteurs</th></tr></thead><tbody><tr><td>Comptes utilisateurs</td><td>Obligatoire</td><td>Visiteur, Utilisateur connecté, Administrateur</td></tr><tr><td>Informations</td><td>Obligatoire</td><td>Visiteur, Utilisateur connecté, Administrateur</td></tr><tr><td>Exercice de respiration (cohérence cardiaque)</td><td>Au choix</td><td>Visiteur, Utilisateur connecté</td></tr></tbody></table>
+<p>L&#x27;application repose sur la <strong>T3 Stack</strong> : Next.js 15 (React 19), TypeScript, tRPC, Prisma, PostgreSQL et Better Auth, le tout déployé sur Vercel.</p>
+<h3 id="12-perimetre-du-bloc-3">1.2 Périmètre du Bloc 3</h3>
+<p>Ce dossier traite de la mise en production et de la pérennité de l&#x27;application, autour de trois axes :</p>
+<ul><li><strong>Déployer</strong> — concevoir et mettre en place une chaîne de déploiement automatisée et reproductible (versioning, intégration continue, environnements) ;</li><li><strong>Maintenir</strong> — outiller le suivi des anomalies et des évolutions, et organiser la veille technologique ;</li><li><strong>Sécuriser</strong> — identifier les risques, appliquer des mesures préventives et correctives, garantir la conformité RGPD et organiser la réponse aux incidents.</li></ul>
+<h3 id="13-vue-densemble-de-la-chaine">1.3 Vue d&#x27;ensemble de la chaîne</h3>
+<pre><code>Développeur            GitHub                        Vercel               Neon
+┌──────────┐  push   ┌──────────────────────────┐  deploy   ┌──────────┐
+│  Poste   │ ──────► │  Dépôt Git + Pull Request│ ────────► │  Edge /  │
+│  local   │         │  ↳ CI (GitHub Actions)   │  auto     │ Serverless│
+│ npm dev  │ ◄────── │    lint · types · tests  │           │  Next.js │
+└──────────┘ branche │    · migrations · build  │           └────┬─────┘
+                     └──────────────────────────┘                │ Prisma
+                                                          ┌───────▼────────┐
+                                                          │ PostgreSQL Neon │
+                                                          └────────────────┘</code></pre>
+<p>Chaque modification suit le même trajet : développement local → branche Git → Pull Request déclenchant la CI → fusion sur <code>main</code> → déploiement automatique en production. Cette chaîne garantit qu&#x27;aucun code non validé n&#x27;atteint la production.</p>
+<h3 id="14-choix-doutillage-etude-comparative-et-justification">1.4 Choix d&#x27;outillage : étude comparative et justification</h3>
+<p>Les outils ont été sélectionnés selon des critères communs : <strong>adéquation au projet</strong> (application individuelle, grand public, charge variable), <strong>coût</strong> (tiers gratuits suffisants), <strong>intégration</strong> (cohérence de la chaîne), <strong>courbe d&#x27;apprentissage</strong> et <strong>sécurité</strong>. Le tableau ci-dessous résume chaque choix face à ses alternatives.</p>
+<table><thead><tr><th>Besoin</th><th>Outil retenu</th><th>Alternatives évaluées</th><th>Justification du choix</th></tr></thead><tbody><tr><td><strong>Hébergement / déploiement</strong></td><td><strong>Vercel</strong></td><td>Netlify, AWS (Amplify/EC2), VPS + Docker, Kubernetes</td><td>Vercel est l&#x27;éditeur de Next.js : intégration et optimisations natives (SSR, edge, PWA). Déploiement Git automatique, <em>preview</em> par PR, <em>rollback</em> instantané, scaling serverless sans administration. AWS/Kubernetes offrent plus de contrôle mais une complexité et un coût d&#x27;exploitation disproportionnés pour un projet individuel.</td></tr><tr><td><strong>Base de données</strong></td><td><strong>Neon</strong> (PostgreSQL)</td><td>Supabase, Railway, PlanetScale (MySQL), AWS RDS, Postgres auto-hébergé</td><td>PostgreSQL managé, <strong>serverless</strong> (scale-to-zero, adapté à la charge variable et au tiers gratuit), <em>connection pooling</em> indispensable au serverless, et <strong>branches de base de données</strong> pour les environnements de test. Compatible nativement avec Prisma. RDS impose une gestion d&#x27;infrastructure ; PlanetScale (MySQL) aurait changé de moteur.</td></tr><tr><td><strong>Versioning &amp; hébergement de code</strong></td><td><strong>GitHub</strong></td><td>GitLab, Bitbucket</td><td>Standard du marché, écosystème le plus riche, intégration directe avec Vercel et avec les outils ci-dessous (Actions, Issues, Dependabot) — une seule plateforme pour tout.</td></tr><tr><td><strong>Intégration continue (CI/CD)</strong></td><td><strong>GitHub Actions</strong></td><td>GitLab CI, CircleCI, Jenkins</td><td>Intégré au dépôt (pas d&#x27;outil tiers ni de serveur à maintenir comme Jenkins), gratuit pour le volume du projet, configuration en YAML versionnée, large catalogue d&#x27;actions.</td></tr><tr><td><strong>Ticketing / suivi</strong></td><td><strong>GitHub Issues + Projects</strong></td><td>Jira, Trello, Linear</td><td>Au plus près du code (liens issue ↔ PR ↔ commit), gratuit, sans contexte externe à synchroniser. Jira est puissant mais surdimensionné et payant pour un projet individuel.</td></tr><tr><td><strong>Veille des dépendances</strong></td><td><strong>Dependabot</strong></td><td>Renovate, Snyk</td><td>Natif GitHub (zéro configuration d&#x27;intégration), alertes de sécurité et PRs de mise à jour automatiques. Renovate est plus configurable mais plus complexe ; Snyk est surtout pertinent en version payante.</td></tr><tr><td><strong>Authentification</strong></td><td><strong>Better Auth</strong></td><td>Auth.js (NextAuth), Clerk, Auth0</td><td>Solution <em>self-hosted</em> (les données d&#x27;authentification restent dans notre base PostgreSQL, atout RGPD), gratuite et sans dépendance à un tiers facturé à l&#x27;utilisateur (Clerk/Auth0). Intégration TypeScript et OAuth (GitHub) directe.</td></tr></tbody></table>
+<blockquote><p>Ces choix forment un <strong>écosystème cohérent et majoritairement gratuit</strong>, centré sur GitHub et Vercel, qui réduit le nombre d&#x27;intégrations à maintenir et la surface d&#x27;administration — un facteur clé de pérennité pour un projet porté par une seule personne.</p></blockquote>
+<h2 id="2-plan-de-deploiement" data-short="Plan de déploiement">2. Plan de déploiement</h2>
+<h3 id="21-architecture-cible">2.1 Architecture cible</h3>
+<p>L&#x27;application adopte une architecture <strong>serverless</strong> : il n&#x27;y a pas de serveur applicatif permanent à administrer. Le code Next.js est exécuté à la demande par la plateforme Vercel, qui adapte automatiquement la capacité à la charge.</p>
+<p><strong>Composants :</strong></p>
+<table><thead><tr><th>Couche</th><th>Technologie</th><th>Hébergement</th><th>Rôle</th></tr></thead><tbody><tr><td>Client</td><td>Next.js / React 19 (PWA)</td><td>CDN Vercel (Edge)</td><td>Interface utilisateur, rendu et mise en cache statique</td></tr><tr><td>Application</td><td>Next.js Route Handlers + tRPC</td><td>Fonctions serverless Vercel</td><td>Logique métier, API typée, authentification</td></tr><tr><td>Données</td><td>PostgreSQL</td><td>Neon (base managée)</td><td>Persistance (utilisateurs, contenus, exercices)</td></tr><tr><td>Identité</td><td>Better Auth + OAuth GitHub</td><td>Intégré à l&#x27;application</td><td>Sessions, comptes, rôles</td></tr></tbody></table>
+<p><strong>Justification du dimensionnement.</strong> CesiZen vise le grand public, avec une fréquentation par nature <strong>variable et imprévisible</strong> (pics liés à la communication, usage diurne). Une architecture serverless répond précisément à ce besoin :</p>
+<ul><li><strong>Élasticité</strong> — la capacité monte et descend automatiquement, sans surcoût en période creuse ;</li><li><strong>Coût maîtrisé</strong> — facturation à l&#x27;usage, tiers gratuits suffisants en phase de lancement ;</li><li><strong>Exploitation simplifiée</strong> — pas de système d&#x27;exploitation ni de serveur à patcher, ce qui réduit la surface d&#x27;attaque et la charge de maintenance ;</li><li><strong>Distribution géographique</strong> — le CDN Vercel sert les ressources statiques au plus près de l&#x27;utilisateur (latence réduite).</li></ul>
+<p>La base PostgreSQL est confiée à <strong>Neon</strong>, qui sépare le stockage et le calcul, propose des branches de base de données (utiles pour les environnements de test) et un <em>connection pooler</em> adapté aux fonctions serverless.</p>
+<h3 id="22-les-trois-environnements">2.2 Les trois environnements</h3>
+<p>Le déploiement s&#x27;appuie sur trois environnements distincts, articulés autour des branches Git, ce qui rend le flux de promotion explicite et traçable :</p>
+<table><thead><tr><th></th><th>Développement</th><th>Test / Recette</th><th>Production</th></tr></thead><tbody><tr><td><strong>Branche Git</strong></td><td><code>develop</code> (+ <code>feature/*</code>)</td><td>Branche en revue (PR)</td><td><code>main</code></td></tr><tr><td><strong>Objectif</strong></td><td>Intégrer le travail en cours</td><td>Valider/recetter une évolution avant fusion</td><td>Servir les utilisateurs réels</td></tr><tr><td><strong>Hébergement</strong></td><td><code>localhost:3000</code> + Vercel Preview</td><td>Vercel Preview (URL automatique par PR)</td><td>Vercel Production</td></tr><tr><td><strong>Base de données</strong></td><td>PostgreSQL local (ou Docker)</td><td>Branche Neon de test</td><td>Base Neon de production</td></tr><tr><td><strong>Déclencheur</strong></td><td>Fusion d&#x27;une <code>feature/*</code> dans <code>develop</code></td><td>Ouverture / mise à jour d&#x27;une Pull Request</td><td>Fusion sur <code>main</code> (+ tag <code>vX.Y.Z</code>)</td></tr><tr><td><strong>Données</strong></td><td>Jeu de seed (<code>npm run db:seed</code>)</td><td>Données de test anonymisées</td><td>Données réelles</td></tr><tr><td><strong>Accès</strong></td><td>Développeur</td><td>Équipe / relecteur via lien</td><td>Public</td></tr></tbody></table>
+<p><strong>Flux de promotion</strong> (un changement « monte » d&#x27;un environnement au suivant) :</p>
+<pre><code>feature/*  ──►  develop  ──►  Pull Request  ──►  main  ──►  tag vX.Y.Z
+ (local)        (DEV)         (TEST/recette)      (PROD)     (release)</code></pre>
+<p>Chaque promotion vers <code>main</code> passe par une <strong>Pull Request validée par la CI</strong> (la branche est protégée). Une version livrée en production est <strong>figée par un tag de version sémantique</strong> (<code>v1.0.0</code>, <code>v1.1.0</code>…), ce qui permet d&#x27;identifier précisément ce qui tourne et de revenir à une version antérieure si besoin.</p>
+<p><strong>Environnement réellement mis en place et démontré : la production Vercel.</strong> À chaque fusion sur <code>main</code>, Vercel reconstruit et publie automatiquement l&#x27;application. Le déploiement comprend l&#x27;installation des dépendances, la génération du client Prisma, le build Next.js et la mise en ligne atomique (bascule instantanée, sans coupure). Les variables d&#x27;environnement de production (URL de base de données, secret d&#x27;authentification, identifiants OAuth) sont configurées de façon chiffrée dans le tableau de bord Vercel — jamais dans le code.</p>
+<blockquote><p><em>Annexe A — capture du tableau de bord Vercel (déploiement de production réussi).</em></p></blockquote>
+<h3 id="23-versioning-des-sources">2.3 Versioning des sources</h3>
+<p>Le code et la documentation sont versionnés avec <strong>Git</strong> et hébergés sur <strong>GitHub</strong>.</p>
+<p><strong>Modèle de branches (Git Flow simplifié).</strong> Trois niveaux de branches, alignés sur les environnements :</p>
+<ul><li><code>feature/*</code> — une branche par fonctionnalité ou correction. Le développement y est isolé, puis proposé à la fusion via une Pull Request relue. La PR génère un <strong>déploiement Preview</strong> servant d&#x27;environnement de recette.</li><li><code>develop</code> — branche d&#x27;intégration : reçoit les <code>feature/*</code> validées. Correspond à l&#x27;environnement de <strong>développement</strong>.</li><li><code>main</code> — branche de <strong>production</strong>, <strong>protégée</strong> : toute modification passe obligatoirement par une Pull Request, la CI doit être verte avant la fusion, et les pushs directs sont <strong>refusés</strong> (vérifié : un <code>git push</code> direct sur <code>main</code> est rejeté par le hook de protection).</li></ul>
+<p><strong>Versionnement sémantique (SemVer).</strong> Chaque mise en production est marquée par un <strong>tag</strong> <code>vMAJEUR.MINEUR.CORRECTIF</code> (ex. <code>v1.0.0</code>) et publiée comme <strong>Release GitHub</strong>. La règle : MAJEUR pour un changement incompatible, MINEUR pour une fonctionnalité rétrocompatible, CORRECTIF pour un correctif. Cela fournit un historique de versions lisible et un point de retour arrière fiable.</p>
+<p><strong>Pull Requests et revue.</strong> Chaque PR utilise un gabarit standardisé (<a href=".github/pull_request_template.md">.github/pull_request_template.md</a>) rappelant la check-list de validation (lint, tests, CI verte, absence de secret, ticket lié). La revue de code, même en projet individuel, sert de point de contrôle qualité et documente l&#x27;intention des changements.</p>
+<p><strong>Versionnement de la documentation.</strong> L&#x27;ensemble des livrables (cahier technique, cahier de tests, plans du Bloc 3) est versionné dans le dépôt au format Markdown, garantissant un historique complet et une cohérence avec le code.</p>
+<blockquote><p><em>Annexe B — capture de la règle de protection de branche <code>main</code>.</em>
+<em>Note : l&#x27;application effective de la protection sur un dépôt privé nécessite un plan GitHub Pro/Team ; la politique est définie et activable via le GitHub Student Pack.</em></p></blockquote>
+<h3 id="24-automatisation-et-integration-continue">2.4 Automatisation et intégration continue</h3>
+<p>L&#x27;intégration continue est assurée par <strong>GitHub Actions</strong> (<a href=".github/workflows/ci.yml">.github/workflows/ci.yml</a>). Le pipeline se déclenche à <strong>chaque push et chaque Pull Request</strong> vers <code>main</code>.</p>
+<p><strong>Étapes du pipeline :</strong></p>
+<pre><code>1. Checkout du code
+2. Installation de Node.js 20 (avec cache npm)
+3. Démarrage d&#x27;un service PostgreSQL 16 (conteneur jetable)
+4. npm ci                  → installation reproductible des dépendances
+5. prisma generate         → génération du client de base de données
+6. prisma migrate deploy   → application des migrations sur la base de test
+7. npm run lint            → qualité et conventions de code (ESLint)
+8. npm run typecheck       → vérification statique des types (TypeScript)
+9. npm run test:run        → tests unitaires et composants (Vitest, 34 tests)
+10. npm run build          → build de production Next.js</code></pre>
+<p>Si une seule étape échoue, le pipeline est rouge et la fusion est bloquée. Cela garantit que <strong>seul du code qui compile, respecte les conventions et passe les tests</strong> peut atteindre la production.</p>
+<p><strong>Déploiement continu (CD).</strong> Le déploiement est automatisé par l&#x27;intégration native <strong>GitHub ↔ Vercel</strong> :</p>
+<ul><li>toute Pull Request génère un <strong>déploiement Preview</strong> isolé, avec sa propre URL, permettant de valider visuellement l&#x27;évolution avant fusion ;</li><li>toute fusion sur <code>main</code> déclenche un <strong>déploiement de production</strong> automatique.</li></ul>
+<p>Cette séparation CI (valider) / CD (livrer) constitue une chaîne <strong>CI/CD complète et reproductible</strong>.</p>
+<blockquote><p><em>Annexe C — capture d&#x27;une exécution réussie du pipeline GitHub Actions.</em></p></blockquote>
+<h3 id="25-ressources-necessaires">2.5 Ressources nécessaires</h3>
+<table><thead><tr><th>Ressource</th><th>Service</th><th>Plan</th><th>Rôle</th></tr></thead><tbody><tr><td>Hébergement code &amp; CI</td><td>GitHub</td><td>Gratuit (Pro via Student Pack)</td><td>Versioning, Pull Requests, Actions</td></tr><tr><td>Hébergement application</td><td>Vercel</td><td>Hobby (gratuit)</td><td>Build, hébergement, CDN, Preview</td></tr><tr><td>Base de données</td><td>Neon</td><td>Free tier</td><td>PostgreSQL managé</td></tr><tr><td>Authentification tierce</td><td>GitHub OAuth</td><td>Gratuit</td><td>Connexion via GitHub</td></tr></tbody></table>
+<p><strong>Gestion des secrets.</strong> Aucun secret n&#x27;est stocké dans le dépôt (vérifié : aucun fichier <code>.env</code> n&#x27;a jamais été commité, aucune valeur sensible en dur dans le code). Les variables sensibles sont :</p>
+<ul><li>en <strong>local</strong> : dans un fichier <code>.env</code> ignoré par Git, dérivé de <code>.env.example</code> (qui ne contient que des valeurs vides) ;</li><li>en <strong>CI</strong> : dans des variables d&#x27;environnement de placeholder, sans valeur réelle ;</li><li>en <strong>production</strong> : dans les variables d&#x27;environnement chiffrées de Vercel.</li></ul>
+<h3 id="26-procedure-de-deploiement-et-rollback">2.6 Procédure de déploiement et rollback</h3>
+<p><strong>Déploiement d&#x27;une évolution (procédure nominale) :</strong></p>
+<ol><li>Créer une branche <code>feature/*</code> à partir de <code>main</code>.</li><li>Développer et tester localement (<code>npm run dev</code>, <code>npm run check</code>, <code>npm run test:run</code>).</li><li>En cas de changement de modèle de données, créer la migration Prisma (<code>npm run db:generate</code>).</li><li>Pousser la branche et ouvrir une Pull Request.</li><li>La CI s&#x27;exécute automatiquement ; un déploiement Preview est généré pour validation.</li><li>Après revue et CI verte, fusionner la PR sur <code>main</code>.</li><li>Vercel applique les migrations puis déploie automatiquement en production.</li><li><strong>Smoke test</strong> : vérifier les parcours critiques (connexion, affichage des contenus, lancement d&#x27;un exercice) sur l&#x27;URL de production.</li></ol>
+<p><strong>Rollback (retour arrière).</strong> En cas d&#x27;anomalie détectée en production, deux leviers complémentaires :</p>
+<ul><li><strong>Côté application</strong> — Vercel conserve l&#x27;historique des déploiements ; un <em>Instant Rollback</em> permet de re-promouvoir le déploiement précédent en un clic, sans rebuild.</li><li><strong>Côté code</strong> — <code>git revert</code> du commit fautif puis nouvelle PR, afin que l&#x27;historique reste cohérent et que le correctif passe par la CI.</li></ul>
+<p>Les migrations de base de données étant potentiellement non réversibles, elles sont conçues pour être <strong>additives</strong> autant que possible (ajout de colonnes plutôt que suppression), afin qu&#x27;un rollback applicatif reste compatible avec le schéma en place.</p>
+<h2 id="3-plan-de-maintenance" data-short="Plan de maintenance">3. Plan de maintenance</h2>
+<h3 id="31-outil-de-gestion-des-anomalies-et-evolutions">3.1 Outil de gestion des anomalies et évolutions</h3>
+<p>L&#x27;outil retenu est <strong>GitHub Issues</strong>, couplé à <strong>GitHub Projects</strong> (tableau Kanban). Ce choix est justifié par :</p>
+<ul><li><strong>L&#x27;intégration native</strong> au dépôt : une anomalie ou une évolution est tracée au même endroit que le code, et peut être liée directement à une branche, une Pull Request et un commit (<code>Closes #42</code>) ;</li><li><strong>La gratuité</strong> et l&#x27;absence d&#x27;outil tiers à administrer ;</li><li><strong>La traçabilité complète</strong> : historique, responsable, statut, étiquettes, discussions.</li></ul>
+<p><strong>Structuration mise en place :</strong></p>
+<ul><li><strong>Gabarits d&#x27;issue</strong> (<a href=".github/ISSUE_TEMPLATE/">.github/ISSUE_TEMPLATE/</a>) — deux formulaires guident la saisie :</li><li><em>Anomalie / Bug</em> : description, étapes de reproduction, comportement attendu, <strong>criticité</strong>, environnement concerné ;</li><li><em>Évolution / Fonctionnalité</em> : besoin, solution proposée, module, priorité, critères d&#x27;acceptation.</li><li><strong>Étiquettes</strong> : <code>bug</code>, <code>enhancement</code>, <code>à qualifier</code>, <code>priority:high/medium/low</code>, <code>dependencies</code>, <code>maintenance</code>.</li><li><strong>Renvoi sécurité</strong> : la création d&#x27;issue publique renvoie vers un <em>security advisory privé</em> pour les failles, afin de ne pas divulguer une vulnérabilité.</li><li><strong>Tableau de suivi</strong> (GitHub Projects) : colonnes <em>À qualifier → À faire → En cours → En revue → Terminé</em>.</li></ul>
+<h3 id="32-methodologie-de-traitement">3.2 Méthodologie de traitement</h3>
+<p>Chaque demande suit un <strong>cycle de vie standardisé</strong> :</p>
+<pre><code>Déclaration → Qualification → Priorisation → Développement → Revue → Déploiement → Clôture
+  (issue)      (criticité)     (backlog)     (branche+PR)    (CI+code) (Vercel)    (close)</code></pre>
+<ol><li><strong>Déclaration</strong> — une issue est ouverte via le gabarit adapté.</li><li><strong>Qualification</strong> — l&#x27;anomalie est reproduite et sa <strong>criticité</strong> évaluée selon la matrice ci-dessous.</li><li><strong>Priorisation</strong> — placement dans le backlog selon criticité × impact métier.</li><li><strong>Développement</strong> — sur une branche <code>feature/*</code> ou <code>fix/*</code>, avec ajout de tests.</li><li><strong>Revue</strong> — Pull Request : la <strong>CI doit être verte</strong> (lint, typecheck, tests, build) et la check-list du gabarit respectée. Rien n&#x27;est fusionné sur <code>main</code> sans validation.</li><li><strong>Déploiement</strong> — la fusion déclenche le déploiement automatique en production.</li><li><strong>Clôture</strong> — l&#x27;issue est fermée automatiquement par la PR liée.</li></ol>
+<p><strong>Matrice de criticité :</strong></p>
+<table><thead><tr><th>Criticité</th><th>Définition</th><th>Délai de prise en charge cible</th></tr></thead><tbody><tr><td>Bloquant</td><td>Service indisponible ou faille de sécurité</td><td>Immédiat (hotfix)</td></tr><tr><td>Majeur</td><td>Fonction principale dégradée</td><td>&lt; 48 h</td></tr><tr><td>Mineur</td><td>Gêne sans contournement</td><td>Prochain cycle</td></tr><tr><td>Cosmétique</td><td>Affichage / confort</td><td>Backlog</td></tr></tbody></table>
+<h3 id="33-veille-technologique-et-perennite">3.3 Veille technologique et pérennité</h3>
+<p>La pérennité de CesiZen dépend du suivi de l&#x27;écosystème JavaScript, qui évolue rapidement. La méthodologie de veille combine <strong>outils automatisés</strong> et <strong>sources humaines</strong> :</p>
+<p><strong>Veille automatisée :</strong></p>
+<ul><li><strong>Dependabot</strong> (<a href=".github/dependabot.yml">.github/dependabot.yml</a>) — analyse hebdomadaire des dépendances npm et des actions GitHub, avec ouverture automatique de Pull Requests de mise à jour. Les <strong>mises à jour mineures et correctives sont regroupées</strong> dans une seule PR ; les <strong>montées de version majeures sont volontairement ignorées</strong> (voir encadré ci-dessous).</li><li><strong>Alertes de sécurité GitHub</strong> — notification immédiate des vulnérabilités connues (CVE) touchant une dépendance.</li><li><strong><code>npm audit</code></strong> — vérification ponctuelle des vulnérabilités lors des développements.</li></ul>
+<p><strong>Veille humaine :</strong> suivi des CHANGELOG et blogs officiels (Next.js, Prisma, Better Auth), de l&#x27;OWASP, et des annonces de fin de support (EOL) de Node.js.</p>
+<blockquote><p><strong>Retour d&#x27;expérience — la gestion des montées de version majeures.</strong>
+Une mise à jour automatique de plusieurs dépendances <strong>majeures</strong> (Next.js 16, Prisma 7, Zod 4, ESLint 10) acceptée sans test a <strong>rompu le build et le déploiement</strong> : Prisma 7 supprime les propriétés <code>url</code>/<code>directUrl</code> du schéma, Zod 4 modifie son API, etc. Le retour à un état stable a nécessité un <em>revert</em> des dépendances. <strong>Conséquence concrète intégrée à la stratégie de veille</strong> : Dependabot est désormais configuré pour ne proposer que des mises à jour <strong>mineures/correctives</strong> (faible risque, mergeables après CI verte) ; les <strong>majeures sont traitées manuellement</strong>, une par une, testées sur une branche dédiée avant adoption. Cet incident illustre la frontière entre <em>veille</em> (être informé) et <em>adoption</em> (mettre à jour de façon maîtrisée).</p></blockquote>
+<h2 id="4-plan-de-securisation" data-short="Plan de sécurisation">4. Plan de sécurisation</h2>
+<h3 id="41-analyse-des-vulnerabilites-des-risques-et-de-la-criticite">4.1 Analyse des vulnérabilités, des risques et de la criticité</h3>
+<p>L&#x27;analyse s&#x27;appuie sur l&#x27;<strong>OWASP Top 10</strong> et sur les <strong>alertes Dependabot réelles</strong> du projet. Au moment de l&#x27;analyse, l&#x27;outil recensait <strong>41 vulnérabilités</strong> dans les dépendances (21 hautes, 18 moyennes, 2 basses).</p>
+<p><strong>Tableau des principaux risques :</strong></p>
+<table><thead><tr><th>Risque (OWASP)</th><th>Vulnérabilité concrète</th><th>Impact</th><th>Probabilité</th><th>Criticité</th><th>Mesure</th></tr></thead><tbody><tr><td>A06 – Composants vulnérables</td><td>Dépendances avec CVE (Next.js, etc.)</td><td>Élevé</td><td>Élevée</td><td><strong>Haute</strong></td><td>Dependabot + <code>npm audit fix</code></td></tr><tr><td>A01 – Contrôle d&#x27;accès</td><td>Accès à une ressource admin sans rôle</td><td>Élevé</td><td>Moyenne</td><td><strong>Haute</strong></td><td><code>adminProcedure</code>, middleware, rôles</td></tr><tr><td>A03 – Injection</td><td>Injection SQL via une saisie</td><td>Élevé</td><td>Faible</td><td>Moyenne</td><td>ORM Prisma (requêtes paramétrées) + Zod</td></tr><tr><td>A07 – Authentification</td><td>Vol de session, mot de passe faible</td><td>Élevé</td><td>Moyenne</td><td><strong>Haute</strong></td><td>Better Auth (hash), HTTPS, cookies sécurisés</td></tr><tr><td>A05 – Mauvaise configuration</td><td>En-têtes de sécurité absents</td><td>Moyen</td><td>Moyenne</td><td>Moyenne</td><td>En-têtes HSTS, X-Frame-Options…</td></tr><tr><td>A02 – Défaillances cryptographiques</td><td>Données en clair en transit/au repos</td><td>Élevé</td><td>Faible</td><td>Moyenne</td><td>TLS partout + chiffrement Neon</td></tr><tr><td>Spécifique Next.js</td><td>Contournement de middleware (CVE)</td><td>Élevé</td><td>Moyenne</td><td><strong>Haute</strong></td><td>Mise à jour Next.js + contrôle serveur (tRPC)</td></tr></tbody></table>
+<blockquote><p><strong>Point d&#x27;attention identifié.</strong> Plusieurs CVE concernent un <strong>contournement de middleware Next.js</strong>. Le projet utilisant le middleware pour rediriger les accès non authentifiés, la sécurité ne <strong>repose pas uniquement</strong> sur lui : chaque procédure sensible est <strong>revérifiée côté serveur</strong> dans tRPC (<code>protectedProcedure</code> / <code>adminProcedure</code>). C&#x27;est une application du principe de <strong>défense en profondeur</strong>.</p></blockquote>
+<h3 id="42-actions-preventives-et-correctives-mises-en-uvre">4.2 Actions préventives et correctives mises en œuvre</h3>
+<p><strong>Préventif (par conception) :</strong></p>
+<ul><li><strong>Authentification</strong> — Better Auth gère les sessions et le <strong>hachage des mots de passe</strong> (jamais stockés en clair) ; connexion possible via <strong>OAuth GitHub</strong>.</li><li><strong>Contrôle d&#x27;accès par rôle</strong> — deux rôles (<code>USER</code>, <code>ADMIN</code>) ; les procédures tRPC sont segmentées en <code>publicProcedure</code>, <code>protectedProcedure</code>, <code>adminProcedure</code>. Le <a href="src/middleware.ts">middleware</a> bloque l&#x27;accès aux routes <code>/admin</code> sans session, et un compte peut être désactivé (<code>isActive</code>).</li><li><strong>Validation des entrées</strong> — toutes les entrées d&#x27;API sont validées par des schémas <strong>Zod</strong> avant traitement.</li><li><strong>Anti-injection</strong> — l&#x27;ORM <strong>Prisma</strong> génère des requêtes paramétrées, éliminant l&#x27;injection SQL.</li><li><strong>En-têtes HTTP de sécurité</strong> — ajoutés dans <a href="next.config.js">next.config.js</a> : <code>Strict-Transport-Security</code> (force HTTPS), <code>X-Frame-Options</code> (anti-clickjacking), <code>X-Content-Type-Options</code> (anti-sniffing MIME), <code>Referrer-Policy</code>, <code>Permissions-Policy</code>.</li></ul>
+<p><strong>Correctif (mené durant ce projet) :</strong></p>
+<ul><li>Exécution de <code>npm audit fix</code> ayant réduit les vulnérabilités corrigibles de <strong>23 à 8</strong> (les 8 restantes nécessitant des montées de version majeures, planifiées et testées séparément).</li><li>Mise à jour de Prisma et régénération du client pour intégrer les correctifs de sécurité.</li></ul>
+<h3 id="43-solutions-de-chiffrement-et-de-cryptage">4.3 Solutions de chiffrement et de cryptage</h3>
+<table><thead><tr><th>Donnée</th><th>Protection</th></tr></thead><tbody><tr><td>Données en transit (client ↔ serveur ↔ BDD)</td><td><strong>TLS/HTTPS</strong> systématique (certificats gérés par Vercel ; <code>sslmode=require</code> côté Neon)</td></tr><tr><td>Données au repos (base de données)</td><td><strong>Chiffrement au repos</strong> assuré par Neon</td></tr><tr><td>Mots de passe utilisateurs</td><td><strong>Hachés</strong> par Better Auth (jamais réversibles)</td></tr><tr><td>Secrets applicatifs (clés, identifiants OAuth)</td><td><strong>Variables d&#x27;environnement chiffrées</strong> (Vercel) ; jamais commitées (vérifié : aucun secret dans l&#x27;historique Git)</td></tr></tbody></table>
+<h3 id="44-gestion-de-crise-et-des-incidents-de-securite">4.4 Gestion de crise et des incidents de sécurité</h3>
+<p>En cas d&#x27;attaque ou de risque avéré, une <strong>procédure en cinq étapes</strong> est définie :</p>
+<ol><li><strong>Détection</strong> — alerte (Dependabot, monitoring, signalement utilisateur via <em>security advisory</em>).</li><li><strong>Confinement</strong> — limiter l&#x27;impact : <em>rollback</em> du déploiement via Vercel, désactivation d&#x27;un compte compromis, révocation des secrets.</li><li><strong>Éradication</strong> — corriger la cause (patch de dépendance, correctif de code) sur une branche, validée par la CI.</li><li><strong>Restauration</strong> — redéploiement de la version saine et vérification (<em>smoke test</em>).</li><li><strong>Post-mortem</strong> — analyse de l&#x27;incident, mise à jour des bonnes pratiques.</li></ol>
+<p><strong>Communication et escalade :</strong> en cas de <strong>violation de données à caractère personnel</strong>, notification à la <strong>CNIL sous 72 heures</strong> (obligation RGPD) et information des utilisateurs concernés si le risque est élevé. La chaîne d&#x27;escalade définit qui est informé (responsable du projet → DPO → autorité), dans quels délais et par quels canaux.</p>
+<h3 id="45-donnees-personnelles-donnees-sensibles-et-rgpd">4.5 Données personnelles, données sensibles et RGPD</h3>
+<p><strong>Données collectées :</strong> nom, adresse e-mail, mot de passe (haché). Ces données relèvent du RGPD.</p>
+<table><thead><tr><th>Exigence RGPD</th><th>Mise en œuvre</th></tr></thead><tbody><tr><td>Information &amp; transparence</td><td>Pages <a href="src/app/(front">politique de confidentialité</a>/politique-de-confidentialite/) et <a href="src/app/(front">mentions légales</a>/mentions-legales/)</td></tr><tr><td>Minimisation</td><td>Seules les données nécessaires au compte sont collectées</td></tr><tr><td>Droit d&#x27;accès / rectification</td><td>Gestion du compte par l&#x27;utilisateur connecté</td></tr><tr><td>Droit à l&#x27;effacement</td><td>Fonction de <strong>désactivation / suppression de compte</strong> (administrateur)</td></tr><tr><td>Sécurité</td><td>Hachage, HTTPS, contrôle d&#x27;accès (cf. §4.2–4.3)</td></tr><tr><td>Conservation limitée</td><td>Suppression des données à la clôture du compte</td></tr></tbody></table>
+<blockquote><p><strong>Données de santé = données sensibles.</strong> Le module <em>Tracker d&#x27;émotions</em> manipulerait des <strong>données de santé</strong> (catégorie sensible au sens de l&#x27;art. 9 RGPD), exigeant des garanties renforcées (consentement explicite, chiffrement, accès strict). Ce module <strong>ne fait pas partie du périmètre livré</strong> ; cette vigilance est documentée en prévision d&#x27;une évolution future.</p></blockquote>
+<h3 id="46-bonnes-pratiques-de-developpement">4.6 Bonnes pratiques de développement</h3>
+<ul><li><strong>Type safety de bout en bout</strong> — TypeScript + tRPC + Zod : les erreurs de type sont détectées à la compilation, du client à la base.</li><li><strong>Qualité automatisée</strong> — ESLint + Prettier ; lint et typecheck bloquants en CI.</li><li><strong>Tests</strong> — Vitest (unitaires/composants) et Playwright (E2E), exécutés en CI.</li><li><strong>Revue de code</strong> — toute évolution passe par une Pull Request relue, avec check-list.</li><li><strong>Gestion des secrets</strong> — hors du dépôt, en variables d&#x27;environnement (vérifié).</li><li><strong>Moindre privilège</strong> — séparation stricte des rôles et des procédures d&#x27;accès.</li></ul>
+<h2 id="5-conclusion" data-short="Conclusion">5. Conclusion</h2>
+<p>Le projet CesiZen dispose d&#x27;une <strong>chaîne de livraison complète et automatisée</strong> (Git → CI → Vercel), d&#x27;un <strong>outillage de maintenance</strong> traçable (GitHub Issues, Dependabot configuré) et d&#x27;un <strong>dispositif de sécurité</strong> couvrant l&#x27;authentification, le contrôle d&#x27;accès, le chiffrement, la conformité RGPD et la réponse aux incidents.</p>
+<p>Au-delà de la théorie, ce travail a impliqué des actions <strong>concrètes et vérifiées</strong> : remise au vert de l&#x27;intégration continue, réduction des vulnérabilités (23 → 8), correction d&#x27;un blocage de déploiement réel et gestion d&#x27;un incident de montée de version majeure.</p>
+<p><strong>Pistes d&#x27;amélioration :</strong> mise en place d&#x27;un <strong>monitoring/alerting</strong> (logs, disponibilité), activation de l&#x27;analyse statique <strong>CodeQL</strong>, <strong>tests de charge</strong>, et adoption progressive et testée des montées de version majeures (Next.js 16, Prisma 7).</p>
+<h2 id="6-annexes" data-short="Annexes">6. Annexes</h2>
+<ul><li><strong>Annexe A</strong> — Tableau de bord Vercel : déploiement de production réussi.</li><li><strong>Annexe B</strong> — Règle de protection de la branche <code>main</code>.</li><li><strong>Annexe C</strong> — Exécution réussie du pipeline GitHub Actions (CI verte).</li><li><strong>Annexe D</strong> — Alertes Dependabot (vulnérabilités identifiées) et tableau de bord sécurité.</li><li><strong>Annexe E</strong> — Tableau de suivi GitHub Projects et gabarits d&#x27;issue.</li><li><strong>Annexe F</strong> — Branches <code>develop</code> / <code>main</code> et Release <code>v1.0.0</code> (versionnement sémantique).</li><li><strong>Liens</strong> — Dépôt : https://github.com/lucashelloco/cesiZEN · Production : https://cesi-zen-lucas-projects-0159bd0f.vercel.app</li></ul></div>
+
+<script>
+(function () {
+  var HEAD_LEFT  = 'CesiZen — Bloc 3';
+  var source = document.getElementById('source');
+  var out    = document.getElementById('pages');
+
+  function makePage(cls) {
+    var p = document.createElement('div');
+    p.className = 'page' + (cls ? ' ' + cls : '');
+    var flow = document.createElement('div');
+    flow.className = 'flow';
+    p.appendChild(flow);
+    out.appendChild(p);
+    return p;
+  }
+
+  function chrome(page, n, section) {
+    var h = document.createElement('div');
+    h.className = 'page-head';
+    h.innerHTML = '<span>' + HEAD_LEFT + '</span><span>' + (section || '') + '</span>';
+    var f = document.createElement('div');
+    f.className = 'page-foot';
+    f.innerHTML = '<span>Lucas Helloco — CESI · CDA</span><span class="no">' + n + '</span>';
+    page.appendChild(h);
+    page.appendChild(f);
+  }
+
+  // Hauteur utile d'une page = hauteur A4 moins marges haute et basse.
+  function limit() {
+    var cs = getComputedStyle(document.documentElement);
+    var h  = parseFloat(cs.getPropertyValue('--page-h'));
+    var t  = parseFloat(cs.getPropertyValue('--marg-t'));
+    var b  = parseFloat(cs.getPropertyValue('--marg-b'));
+    return h - t - b;
+  }
+
+  var MAX = limit();
+  var blocks = Array.prototype.slice.call(source.children);
+  var pages = [];          // pages de contenu
+  var sectionOfPage = [];  // titre courant par page
+  var anchorPage = {};     // id d'ancre -> numéro de page absolu
+  var COVER_AND_TOC = 2;   // page 1 = garde, page 2 = sommaire
+
+  // La page de garde et le sommaire sont posés d'abord, dans cet ordre.
+  var coverBlock = source.querySelector('[data-role="cover"]');
+  var tocBlock   = source.querySelector('[data-role="toc"]');
+
+  var coverPage = makePage('cover');
+  if (coverBlock) coverPage.firstChild.appendChild(coverBlock);
+
+  var tocPage = makePage();
+  chrome(tocPage, 2, 'Sommaire');
+  if (tocBlock) tocPage.firstChild.appendChild(tocBlock);
+
+  // Pagination du corps
+  var current = null, flow = null, currentSection = '';
+
+  function newPage() {
+    current = makePage();
+    flow = current.firstChild;
+    pages.push(current);
+    sectionOfPage.push(currentSection);
+  }
+  newPage();
+
+  function fits() { return flow.scrollHeight <= MAX; }
+
+  blocks = Array.prototype.slice.call(source.children); // recalcul après extraction
+  blocks.forEach(function (el) {
+    if (el.getAttribute('data-role') === 'cover' || el.getAttribute('data-role') === 'toc') return;
+
+    if (el.tagName === 'H2') {
+      currentSection = el.getAttribute('data-short') || el.textContent;
+      // Un titre de chapitre commence toujours en haut d'une page.
+      if (flow.children.length > 0) newPage();
+      sectionOfPage[sectionOfPage.length - 1] = currentSection;
+    }
+
+    flow.appendChild(el);
+
+    if (!fits()) {
+      // Le bloc déborde : il repart sur une page neuve.
+      flow.removeChild(el);
+      // Un H3 ne doit pas rester seul en bas de page : on l'emmène avec le bloc.
+      var trailing = flow.lastElementChild;
+      var carried = null;
+      if (trailing && (trailing.tagName === 'H3' || trailing.tagName === 'H4')) {
+        carried = trailing;
+        flow.removeChild(trailing);
+      }
+      newPage();
+      if (carried) flow.appendChild(carried);
+      flow.appendChild(el);
+      // Bloc plus haut qu'une page entière : on le laisse déborder (rare, tableaux longs).
+    }
+
+    if (el.id) anchorPage[el.id] = COVER_AND_TOC + pages.length;
+  });
+
+  // En-têtes et pieds de page du corps
+  pages.forEach(function (p, i) {
+    chrome(p, COVER_AND_TOC + i + 1, sectionOfPage[i]);
+  });
+
+  // Renseignement des numéros de page dans le sommaire
+  var entries = out.querySelectorAll('.toc a[data-target]');
+  Array.prototype.forEach.call(entries, function (a) {
+    var id = a.getAttribute('data-target');
+    var n = anchorPage[id];
+    var slot = a.querySelector('.pg');
+    if (slot) slot.textContent = n ? String(n) : '—';
+    a.setAttribute('href', '#' + id);
+  });
+
+  var total = COVER_AND_TOC + pages.length;
+  document.getElementById('count').textContent = total + ' pages';
+  document.getElementById('print').addEventListener('click', function () { window.print(); });
+})();
+</script>
+
+</body>
+</html>
